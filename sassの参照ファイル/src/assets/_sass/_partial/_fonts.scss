@@ -1,0 +1,21 @@
+@use "../setting" as *;
+/// Fonts Read
+@mixin ff-noto($value: "regular") {
+  font-family: var(--ff-root);
+  @if $value == 'black' {
+    font-weight: 900;
+  }
+  @if $value == 'bold' {
+    font-weight: 700;
+  }
+  @if $value == 'medium' {
+    font-weight: 500;
+  }
+  @else {
+    font-weight: 400;
+  }
+}
+
+@mixin ff-d7cbi() {
+  font-family: "D7CBI";
+}

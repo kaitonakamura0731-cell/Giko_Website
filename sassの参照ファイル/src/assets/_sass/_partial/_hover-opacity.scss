@@ -1,0 +1,14 @@
+@use "../setting" as *;
+/// hover-opacity
+/// 汎用的に使用するホバースタイル
+/// 引数なし : @include hover-opacity;
+/// 引数あり : @include hover-opacity(transition-duration, opacity);
+@mixin hover-opacity($duration: var(--hover-duration), $ratio: var(--hover-opacity-ratio)) {
+    @media (hover: hover) and (pointer: fine) {
+        transition: opacity $duration;
+
+        &:hover {
+            opacity: $ratio;
+        }
+    }
+}

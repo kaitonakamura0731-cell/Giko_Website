@@ -1,0 +1,10 @@
+/// clearfix
+/// クリアフィックスのスタイル
+/// @include clearfix;
+@mixin clearfix() {
+  &:after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+}

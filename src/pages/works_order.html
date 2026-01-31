@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORKS ORDER | 技巧 -Giko-</title>
+    <!-- OGP -->
+    <meta property="og:title" content="WORKS ORDER | 技巧 -Giko-">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://giko-artisan.jp/works_order.html">
+    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind_config.js"></script>
+    <script src="../assets/js/cart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-black text-white antialiased">
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
+        id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            </a>
+            <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
+                <a href="../index.html#concept"
+                    class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
+                <a href="../pages/works.php"
+                    class="hover:text-primary transition-colors font-en relative group">WORKS</a>
+                <a href="../store/purchase.html"
+                    class="hover:text-primary transition-colors font-en relative group">STORE</a>
+                <a href="../index.html#before-after"
+                    class="hover:text-primary transition-colors font-en relative group">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
+                <a href="../index.html#flow"
+                    class="hover:text-primary transition-colors font-en relative group">FLOW</a>
+                <a href="../index.html#company"
+                    class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
+            </nav>
+            <a href="../contact/index.php"
+                class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">CONTACT</a>
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+            <!-- Cart Icon Desktop -->
+            <a href="../store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <!-- Cart Badge Mobile -->
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="../store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../index.html#concept"
+                    class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="../store/purchase.html" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="../index.html#before-after"
+                    class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.html#company"
+                    class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <section class="relative pt-32 pb-12 bg-secondary">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold font-en tracking-widest mb-4">WORKS ORDER</h1>
+            <p class="text-gray-400 text-sm tracking-widest font-en uppercase">施工・オーダーメイドのご相談</p>
+        </div>
+    </section>
+
+    <!-- Order Form -->
+    <section class="py-20 bg-black">
+        <div class="container mx-auto px-6 max-w-4xl">
+
+            <form action="https://formsubmit.co/kaitonakamura0731@gmail.com" method="POST" class="space-y-8">
+                <div class="bg-secondary p-8 border border-white/10">
+                    <h2
+                        class="text-lg font-bold font-en tracking-widest mb-6 border-b border-white/10 pb-4 text-primary">
+                        REQUEST DETAILS</h2>
+
+                    <div class="mb-6">
+                        <label for="car_model"
+                            class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">CAR MODEL /
+                            TARGET <span class="text-red-500">*</span></label>
+                        <input type="text" id="car_model" name="car_model"
+                            class="w-full bg-black border border-white/20 text-white px-4 py-3 focus:outline-none focus:border-primary transition-colors"
+                            placeholder="対象車種 (例: NISSAN GT-R R32)" required>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="message"
+                            class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">INQUIRY / REQUEST
+                            <span class="text-red-500">*</span></label>
+                        <textarea id="message" name="message" rows="6"
+                            class="w-full bg-black border border-white/20 text-white px-4 py-3 focus:outline-none focus:border-primary transition-colors"
+                            placeholder="ご希望の施工内容、ご予算、ご質問などをご記入ください。" required></textarea>
+                    </div>
+                </div>
+
+                <div class="bg-secondary p-8 border border-white/10">
+                    <h2
+                        class="text-lg font-bold font-en tracking-widest mb-6 border-b border-white/10 pb-4 text-primary">
+                        CUSTOMER INFO</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                        <div>
+                            <label for="name"
+                                class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">NAME <span
+                                    class="text-red-500">*</span></label>
+                            <input type="text" id="name" name="name"
+                                class="w-full bg-black border border-white/20 text-white px-4 py-3 focus:outline-none focus:border-primary transition-colors"
+                                placeholder="お名前" required>
+                        </div>
+                        <div>
+                            <label for="phone"
+                                class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">PHONE <span
+                                    class="text-red-500">*</span></label>
+                            <input type="tel" id="phone" name="phone"
+                                class="w-full bg-black border border-white/20 text-white px-4 py-3 focus:outline-none focus:border-primary transition-colors"
+                                placeholder="電話番号" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="email"
+                            class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">EMAIL <span
+                                class="text-red-500">*</span></label>
+                        <input type="email" id="email" name="email"
+                            class="w-full bg-black border border-white/20 text-white px-4 py-3 focus:outline-none focus:border-primary transition-colors"
+                            placeholder="メールアドレス" required>
+                    </div>
+                </div>
+
+                <div class="text-center pt-8">
+                    <button type="submit"
+                        class="inline-block bg-primary text-white font-bold font-en tracking-widest px-16 py-4 hover:bg-white hover:text-black transition-all duration-300 w-full md:w-auto">
+                        SEND INQUIRY
+                    </button>
+                    <p class="text-xs text-gray-500 mt-4">
+                        ※内容確認後、担当者よりご連絡させていただきます。
+                    </p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-xs text-gray-600 font-en tracking-widest">&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+
+</body>
+
+</html>

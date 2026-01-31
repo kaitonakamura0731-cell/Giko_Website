@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>施工事例詳細 | 技巧 -Giko-</title>
+    <!-- <link href="./styles.css" rel="stylesheet"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<script src="../tailwind_config.js"></script>
+<script src="../assets/js/cart.js"></script>
+</head>
+
+<body class="bg-black text-white font-sans antialiased">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
+        id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            </a>
+            <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
+                <a href="../index.html#concept"
+                    class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
+                <a href="../pages/works.php"
+                    class="hover:text-primary transition-colors font-en relative group">WORKS</a>
+                <a href="../store/purchase.html"
+                    class="hover:text-primary transition-colors font-en relative group">STORE</a>
+                <a href="../index.html#before-after"
+                    class="hover:text-primary transition-colors font-en relative group">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
+                <a href="../index.html#flow"
+                    class="hover:text-primary transition-colors font-en relative group">FLOW</a>
+                <a href="../index.html#company"
+                    class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
+            </nav>
+            <a href="../contact/index.php"
+                class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">CONTACT</a>
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+            <!-- Cart Icon Desktop -->
+            <a href="../store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <!-- Cart Badge Mobile -->
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="../store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../index.html#concept"
+                    class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="../store/purchase.html" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="../index.html#before-after"
+                    class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.html#company"
+                    class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Product Hero Removed standard template uses Left Column Gallery instead -->
+    <div class="pt-32 container mx-auto px-6">
+        <a href="../store/purchase.html"
+            class="inline-flex items-center gap-2 text-gray-500 hover:text-primary transition-colors mb-8 text-sm font-en">
+            <i class="fas fa-arrow-left"></i> BACK TO STORE
+        </a>
+    </div>
+
+    <!-- Details & Gallery -->
+    <section class="py-20 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- Left Column: Gallery -->
+                <div class="lg:w-1/2 lg:sticky lg:top-32 lg:self-start">
+                    <!-- Main Image -->
+                    <div class="bg-white/5 rounded-sm p-4 border border-white/10 mb-4">
+                        <img id="mainImage" src="../assets/images/products/alphard.jpg" alt="Product Main"
+                            class="w-full h-auto object-cover rounded-sm transition-opacity duration-300">
+                    </div>
+
+                    <!-- Thumbnails -->
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="changeMainImage('./assets/images/products/alphard.jpg')"
+                            class="border border-white/10 hover:border-primary rounded-sm overflow-hidden transition-colors aspect-video">
+                            <img src="../assets/images/products/alphard.jpg" class="w-full h-full object-cover">
+                        </button>
+                        <!-- Add more thumbnails here -->
+                    </div>
+                </div>
+
+                <!-- Right Column: Product Details -->
+                <div class="lg:w-1/2">
+                    <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-relaxed">Product Name</h1>
+
+                    <div class="text-2xl font-en font-bold text-primary mb-2">¥000,000 <span
+                            class="text-sm text-gray-400 font-normal">税込</span></div>
+                    <div class="text-sm text-gray-400 mb-8">送料が別途かかります。</div>
+
+                    <div class="space-y-6 mb-10 text-sm md:text-base leading-relaxed text-gray-300">
+                        <!-- Product Overview -->
+                        <div>
+                            <h3 class="font-bold text-white mb-2 border-l-2 border-primary pl-3">商品概要</h3>
+                            <p class="mb-4">
+                                <span class="text-primary">☆特徴</span><br>
+                                商品の説明文がここに入ります。
+                            </p>
+                        </div>
+
+                        <!-- Notes -->
+                        <div>
+                            <h3 class="font-bold text-white mb-2 border-l-2 border-primary pl-3">注意事項</h3>
+                            <p class="text-xs text-gray-400 leading-relaxed">
+                                注意事項がここに入ります。
+                            </p>
+                        </div>
+
+                        <!-- Order Form -->
+                        <form class="space-y-6 border-t border-white/10 pt-8 mb-12" id="orderForm">
+                            <!-- Options go here -->
+                            <div class="flex items-end gap-4">
+                                <div class="flex-1">
+                                    <label
+                                        class="block text-xs font-bold font-en tracking-widest text-gray-500 mb-2">OPTION</label>
+                                    <select id="option1"
+                                        class="w-full bg-secondary border border-white/10 rounded-sm px-4 py-3 focus:outline-none focus:border-primary text-sm transition-colors">
+                                        <option value="default">Default</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="addToCartWrapper()"
+                                class="w-full bg-primary text-white font-bold py-4 rounded-sm hover:opacity-90 transition-opacity font-en tracking-widest mt-4">
+                                ADD TO CART
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Gallery Logic
+        function changeMainImage(src) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.style.opacity = '0';
+            setTimeout(() => {
+                mainImage.src = src;
+                mainImage.style.opacity = '1';
+            }, 150);
+        }
+
+        // Cart Logic Wrapper
+        function addToCartWrapper() {
+            // Implement product specific cart logic here
+            alert('Cart logic needs implementation for this template.');
+        }
+    </script>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-xs text-gray-600 font-en tracking-widest">&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

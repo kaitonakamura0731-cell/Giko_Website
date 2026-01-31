@@ -1,0 +1,8 @@
+@use "../setting" as *;
+/// pxtovw
+/// pxのフォントサイズをvw単位に変換する関数
+/// @param {number} $value  - vw単位に変換するpx単位の値
+/// @return {string} vw単位の値
+@function pxtovw($value) {
+    @return calc(#{$value} / var(--design-width) * 100vw);
+}

@@ -1,0 +1,24 @@
+/// hover-underline
+/// 汎用的に使用するホバースタイル
+/// ホバー時に下線を表示する
+/// @include hover-underline;
+@mixin hover-underline() {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+/// hover-underline-none
+/// 汎用的に使用するホバースタイル
+/// 通常時、下線を表示し、ホバー時に下線を非表示にする
+/// @include hover-underline-none;
+@mixin hover-underline-none() {
+    text-decoration: underline;
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

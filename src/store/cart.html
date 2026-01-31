@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カート | 技巧 -Giko-</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../assets/js/cart.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-black text-white antialiased">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
+        id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            </a>
+            <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
+                <a href="../index.html#concept"
+                    class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
+                <a href="../pages/works.php"
+                    class="hover:text-primary transition-colors font-en relative group">WORKS</a>
+                <a href="../store/purchase.html"
+                    class="hover:text-primary transition-colors font-en relative group">STORE</a>
+                <a href="../index.html#before-after"
+                    class="hover:text-primary transition-colors font-en relative group">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
+                <a href="../index.html#flow"
+                    class="hover:text-primary transition-colors font-en relative group">FLOW</a>
+                <a href="../index.html#company"
+                    class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
+            </nav>
+            <a href="../contact/index.php"
+                class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">CONTACT</a>
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+            <!-- Cart Icon Desktop -->
+            <a href="../store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <!-- Cart Badge Mobile -->
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="../store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../index.html#concept"
+                    class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="../store/purchase.html" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="../index.html#before-after"
+                    class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.html#company"
+                    class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-20 max-w-4xl">
+        <h1 class="text-3xl font-bold mb-10 tracking-widest">SHOPPING CART</h1>
+
+        <div id="cart-items" class="space-y-6">
+            <!-- Items will be injected here -->
+            <p class="text-gray-500">カートは空です。</p>
+        </div>
+
+        <div id="cart-summary" class="hidden mt-12 border-t border-white/10 pt-8 text-right">
+            <div class="text-xl mb-6">
+                合計: <span id="cart-total" class="text-3xl font-bold text-primary">¥0</span>
+            </div>
+            <a href="../store/purchase.html"
+                class="inline-block bg-transparent text-gray-400 font-bold px-8 py-4 hover:text-white transition-colors rounded-sm tracking-widest mr-4">
+                買い物を続ける
+            </a>
+            <a href="checkout.php"
+                class="inline-block bg-primary text-white font-bold px-12 py-4 hover:bg-white hover:text-black transition-colors rounded-sm tracking-widest">
+                レジに進む
+            </a>
+        </div>
+    </main>
+
+    <script>
+        function renderCart() {
+            const items = Cart.getItems();
+            const container = document.getElementById('cart-items');
+            const summary = document.getElementById('cart-summary');
+            const totalEl = document.getElementById('cart-total');
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20">
+                        <p class="text-gray-500 mb-8">カートは空です。</p>
+                        <a href="../store/purchase.html" class="inline-block border border-white/20 text-white font-bold px-8 py-3 hover:bg-white hover:text-black transition-colors rounded-sm tracking-widest text-sm">
+                            買い物を続ける
+                        </a>
+                    </div>
+                `;
+                summary.classList.add('hidden');
+                return;
+            }
+
+            let html = '';
+            items.forEach(item => {
+                html += `
+                    <div class="flex flex-col md:flex-row gap-6 items-center bg-white/5 p-6 rounded-sm border border-white/5">
+                        <div class="w-24 h-24 bg-white/10 flex-shrink-0">
+                            <!-- Image placeholder if no image -->
+                            ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : ''}
+                        </div>
+                        <div class="flex-grow text-center md:text-left">
+                            <h3 class="font-bold text-lg mb-1">${item.name}</h3>
+                            <div class="text-sm text-gray-400 mb-2">
+                                ${Object.keys(item.options || {}).map(k => `<span class="mr-3">${k}: ${item.options[k]}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="text-xl font-bold font-en">¥${item.price.toLocaleString()}</div>
+                        <button onclick="Cart.removeItem('${item.cartId}')" class="text-red-500 hover:text-red-400 text-sm underline">
+                            削除
+                        </button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            totalEl.innerText = '¥' + Cart.getTotal().toLocaleString();
+            summary.classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+</body>
+
+</html>
