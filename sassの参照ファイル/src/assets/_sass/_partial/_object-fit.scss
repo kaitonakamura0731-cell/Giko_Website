@@ -1,0 +1,10 @@
+/// object-fit
+@mixin object-fit($fit: cover, $position: null){
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: $fit;
+  @if $position {
+    object-position: $position;
+  }
+}

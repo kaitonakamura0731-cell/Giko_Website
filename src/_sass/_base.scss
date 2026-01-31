@@ -1,0 +1,47 @@
+// Base styles (Body, Fonts, Animations)
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+
+.font-en {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.fade-in {
+    /* opacity: 0; Remove this to be visible by default */
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Only hide if JS is active */
+.js-loading .fade-in {
+    opacity: 0;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Custom Scrollbar for Works Tabs if needed */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

@@ -1,0 +1,13 @@
+@use "../setting" as *;
+@use "pxtorem" as *;
+/// place-holder-color
+@mixin place-holder-color($color: var(--color-base-1),$spacing: 0) {
+  &::placeholder {
+    font-size: pxtorem(var(--root-fz));
+    letter-spacing: #{$spacing}em;
+    color: $color;
+  }
+  &::-moz-placeholder {
+    opacity: 1;
+  }
+}

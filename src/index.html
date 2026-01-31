@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技巧 -Giko- | Automotive Interior Specialist</title>
+    <meta name="description" content="職人の手による最高級本革シート張り替え。愛車に感動と喜びを。">
+    <!-- OGP -->
+    <meta property="og:title" content="技巧 -Giko- | Automotive Interior Specialist">
+    <meta property="og:description" content="職人の手による最高級本革シート張り替え。愛車に感動と喜びを。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://giko-artisan.jp/">
+    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <link rel="icon" href="./assets/images/favicon.ico"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./tailwind_config.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>document.documentElement.classList.add('js-loading');</script>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body class="bg-black text-white antialiased selection:bg-primary selection:text-white">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
+        id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            </a>
+
+            <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
+                <a href="#concept" class="hover:text-primary transition-colors font-en relative group">
+                    CONCEPT
+                    <span
+                        class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                </a>
+                <a href="pages/works.php" class="hover:text-primary transition-colors font-en relative group">
+                    WORKS
+                    <span
+                        class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                </a>
+                <a href="store/purchase.html" class="hover:text-primary transition-colors font-en relative group">
+                    STORE
+                    <span
+                        class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                </a>
+                <a href="pages/before_after.html" class="hover:text-primary transition-colors font-en relative group">
+                    BEFORE & AFTER
+                    <span
+                        class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#material" class="hover:text-primary transition-colors font-en relative group">
+                    MATERIAL
+                    <span
+                        class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#flow" class="hover:text-primary transition-colors font-en relative group">
+                    FLOW
+                    <span
+                        class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#company" class="hover:text-primary transition-colors font-en relative group">
+                    COMPANY
+                    <span
+                        class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <a href="contact/index.php"
+                class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">
+                CONTACT
+            </a>
+
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+
+            <!-- Cart Icon Desktop -->
+            <a href="store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <!-- Cart Badge Mobile -->
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="pages/concept.html" class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="store/purchase.html" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="index.html#before-after" class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="index.html#material" class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="index.html#company" class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Load Cart JS to update badge -->
+        <script src="./assets/js/cart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                Cart.updateBadge(); // Initial update
+            });
+        </script>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden group">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <img src="./assets/images/hero.png" alt="Hero"
+                class="w-full h-full object-cover opacity-60 scale-100 group-hover:scale-110 transition-transform duration-[10s] ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            <div
+                class="inline-block mb-8 px-4 py-1 border border-white/30 text-[10px] tracking-[0.4em] font-en uppercase fade-in bg-black/20 backdrop-blur-sm">
+                The Art of Automotive Interior
+            </div>
+            <h1 class="text-6xl md:text-9xl font-bold mb-10 tracking-tighter font-en leading-none fade-in drop-shadow-2xl"
+                style="transition-delay: 0.1s;">
+                CRAFTED<br><span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500">PERFECTION</span>
+            </h1>
+            <p class="text-sm md:text-lg text-gray-200 tracking-[0.2em] mb-16 font-light fade-in uppercase"
+                style="transition-delay: 0.2s;" data-i18n="hero_sub">
+                Beyond the Genuine Quality
+            </p>
+            <div class="fade-in flex flex-col items-center gap-6" style="transition-delay: 0.3s;">
+                <a href="contact/index.php"
+                    class="relative px-12 py-4 border border-white/20 overflow-hidden group/btn">
+                    <span
+                        class="absolute inset-0 w-full h-full bg-white/5 group-hover/btn:bg-primary/80 transition-all duration-500 ease-out transform translate-y-full group-hover/btn:translate-y-0"></span>
+                    <span class="relative text-sm font-bold tracking-widest font-en z-10">CONTACT US</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-2 animate-bounce opacity-50">
+            <span class="text-[10px] tracking-widest font-en">SCROLL</span>
+            <div class="w-px h-12 bg-white"></div>
+        </div>
+    </section>
+
+    <!-- Concept -->
+    <section id="concept" class="py-32 bg-black relative">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-end gap-20">
+                <div class="lg:w-1/2 fade-in">
+                    <h2
+                        class="text-6xl md:text-9xl font-bold text-white/5 font-en absolute -top-20 -left-10 select-none">
+                        CONCEPT</h2>
+                    <div class="relative">
+                        <div class="text-primary font-bold tracking-widest font-en mb-4 text-xs">PHILOSOPHY</div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-8 leading-relaxed font-serif"
+                            data-i18n="concept_main">
+                            「純正超え」の<br>感動品質を。
+                        </h2>
+                        <p class="text-gray-400 leading-loose mb-8 text-justify" data-i18n="concept_text">
+                            量産車にはない「あなただけ」の特別感。<br>
+                            私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を具現化します。<br>
+                            最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>
+                            それが、技巧 -Giko- の流儀です。
+                        </p>
+                        <a href="pages/concept.html"
+                            class="inline-block border-b border-primary pb-1 text-sm tracking-widest hover:text-primary transition-colors">READ
+                            MORE</a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 relative lg:-mb-20 fade-in" style="transition-delay: 0.2s;">
+                    <img src="./assets/images/alphard.jpg" alt="Craftsmanship"
+                        class="w-full h-auto rounded-sm shadow-2xl filter brightness-75 hover:brightness-100 transition-all duration-700">
+                    <div
+                        class="absolute -bottom-10 -right-10 w-40 h-40 border border-primary/30 z-[-1] hidden lg:block">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Works -->
+    <section id="works" class="py-32 bg-secondary">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">WORKS</h2>
+                <p class="text-xs text-textLight tracking-wider">施工実績</p>
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="works-grid">
+                <!-- Case 1: Interior/Seat, Import -->
+                <article class="group fade-in work-item" data-category="interior seat import">
+                    <a href="products/alphard.html" class="block bg-black overflow-hidden relative">
+                        <div class="overflow-hidden aspect-[4/3]">
+                            <img src="./assets/images/alphard/Alphard_TOP.jpg" alt="Alphard"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                        </div>
+                        <div class="p-6">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">INTERIOR / SEAT
+                            </div>
+                            <h3 class="text-lg font-bold font-en mb-1">TOYOTA ALPHARD</h3>
+                            <p class="text-xs text-gray-500">Luxury White Leather Interior</p>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Case 2: Interior, Repair -->
+                <article class="group fade-in work-item" data-category="interior repair">
+                    <a href="products/gtr32.html" class="block bg-black overflow-hidden relative">
+                        <div class="overflow-hidden aspect-[4/3]">
+                            <img src="./assets/images/gtr32/GTR32_TOP.jpg" alt="GT-R"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                        </div>
+                        <div class="p-6">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">RESTORATION
+                            </div>
+                            <h3 class="text-lg font-bold font-en mb-1">NISSAN GT-R R32</h3>
+                            <p class="text-xs text-gray-500">Original Black Leather Restore</p>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Case 3: Interior, Seat -->
+                <article class="group fade-in work-item" data-category="interior seat">
+                    <a href="products/mrs.html" class="block bg-black overflow-hidden relative">
+                        <div class="overflow-hidden aspect-[4/3]">
+                            <img src="./assets/images/mrs/MRS_TOP.jpg" alt="MR-S"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                        </div>
+                        <div class="p-6">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">SEAT CUSTOM
+                            </div>
+                            <h3 class="text-lg font-bold font-en mb-1">TOYOTA MR-S</h3>
+                            <p class="text-xs text-gray-500">Red & Black Sport Custom</p>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Case 4: Audio, Import -->
+                <article class="group fade-in work-item" data-category="audio import interior">
+                    <a href="products/sl55.html" class="block bg-black overflow-hidden relative">
+                        <div class="overflow-hidden aspect-[4/3]">
+                            <img src="./assets/images/sl55/SL55_TOP.png" alt="SL55"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                        </div>
+                        <div class="p-6">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">AUDIO /
+                                INTERIOR</div>
+                            <h3 class="text-lg font-bold font-en mb-1">MERCEDES SL55</h3>
+                            <p class="text-xs text-gray-500">Premium Audio & Leather</p>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Case 5: Import, Seat, Interior -->
+                <article class="group fade-in work-item" data-category="interior seat import">
+                    <a href="products/vclass.html" class="block bg-black overflow-hidden relative">
+                        <div class="overflow-hidden aspect-[4/3]">
+                            <img src="./assets/images/vclass/VClass_Interior_TOP.jpg" alt="V Class"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                        </div>
+                        <div class="p-6">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">EXECUTIVE SEAT
+                            </div>
+                            <h3 class="text-lg font-bold font-en mb-1">MERCEDES V-CLASS</h3>
+                            <p class="text-xs text-gray-500">Executive Lounge Specification</p>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Case 6: Repair, Seat -->
+                <article class="group fade-in work-item" data-category="repair seat">
+                    <a href="products/avensis.html" class="block bg-black overflow-hidden relative">
+                        <div class="overflow-hidden aspect-[4/3]">
+                            <img src="./assets/images/avensis/avensis_TOP.PNG" alt="Avensis"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                        </div>
+                        <div class="p-6">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">REPAIR</div>
+                            <h3 class="text-lg font-bold font-en mb-1">TOYOTA AVENSIS</h3>
+                            <p class="text-xs text-gray-500">Seat Repair & Refresh</p>
+                        </div>
+                    </a>
+                </article>
+            </div>
+
+            <div class="text-center mt-16">
+                <a href="pages/works.php"
+                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-white hover:text-black transition-all duration-300 font-en">
+                    VIEW MORE WORKS <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store (New) -->
+    <section id="store" class="py-32 bg-black border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">ONLINE STORE</h2>
+                <p class="text-xs text-textLight tracking-wider">公式オンラインストア</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product 1: Steering -->
+                <article class="group fade-in">
+                    <a href="products/item_steering.html"
+                        class="block bg-secondary overflow-hidden relative border border-white/5 hover:border-primary/50 transition-colors duration-300">
+                        <div class="overflow-hidden aspect-square">
+                            <img src="./assets/images/items/steering_main.png" alt="Steering Wheel"
+                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="p-8">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-3 font-en">STEERING WHEEL
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">【40系アルファード/ヴェルファイア専用】<br>ステアリング</h3>
+                            <p class="text-xs text-gray-400 mb-4 line-clamp-2">純正交換タイプ。最高級本革またはウルトラスエードから選択可能。</p>
+                            <div class="flex justify-between items-center border-t border-white/10 pt-4">
+                                <span class="font-en font-bold text-lg">¥66,000 <span
+                                        class="text-xs font-normal text-gray-500">~</span></span>
+                                <span
+                                    class="text-xs font-bold font-en tracking-widest group-hover:text-primary transition-colors">VIEW
+                                    DETAILS <i class="fas fa-arrow-right ml-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Product 2: Navi Cover -->
+                <article class="group fade-in" style="animation-delay: 0.1s;">
+                    <a href="products/item_navicover.html"
+                        class="block bg-secondary overflow-hidden relative border border-white/5 hover:border-primary/50 transition-colors duration-300">
+                        <div class="overflow-hidden aspect-square">
+                            <img src="./assets/images/items/navicover_main.png" alt="Navi Cover"
+                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <div class="p-8">
+                            <div class="text-primary text-[10px] font-bold tracking-widest mb-3 font-en">INTERIOR
+                                ACCESSORY</div>
+                            <h3 class="text-lg font-bold mb-2">【40系アルファード/ヴェルファイア専用】<br>ナビカバー</h3>
+                            <p class="text-xs text-gray-400 mb-4 line-clamp-2">インテリアの質感を高める専用設計ナビカバー。上質な空間を演出。</p>
+                            <div class="flex justify-between items-center border-t border-white/10 pt-4">
+                                <span class="font-en font-bold text-lg">¥38,500 <span
+                                        class="text-xs font-normal text-gray-500">~</span></span>
+                                <span
+                                    class="text-xs font-bold font-en tracking-widest group-hover:text-primary transition-colors">VIEW
+                                    DETAILS <i class="fas fa-arrow-right ml-1"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+
+            <div class="text-center mt-16 fade-in">
+                <a href="store/purchase.html"
+                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 font-en">
+                    VIEW ONLINE STORE <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before & After Section (New) -->
+    <section id="before-after" class="py-32 bg-secondary border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">BEFORE & AFTER</h2>
+                <p class="text-xs text-textLight tracking-wider">劇的な変化</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto mb-16 text-center fade-in">
+                <p class="text-gray-400 leading-relaxed text-sm" data-i18n="ba_desc">
+                    長年の使用で劣化したシートも、技巧-Giko-の手にかかれば新品以上の輝きを取り戻します。<br>
+                    スライダーを動かして、その変化をご覧ください。
+                </p>
+            </div>
+
+            <!-- Comparison Slider -->
+            <div class="max-w-4xl mx-auto relative group fade-in">
+                <div class="comparison-container aspect-video rounded-sm overflow-hidden border border-white/10 shadow-2xl relative"
+                    id="slider-container">
+                    <!-- Before Image (Background) -->
+                    <img src="./assets/images/details/before.png" alt="Before"
+                        class="comparison-image object-cover w-full h-full select-none" draggable="false">
+
+                    <!-- After Image (Overlay) -->
+                    <div class="after-image-wrapper" id="after-wrapper"></div>
+
+                    <!-- Handle -->
+                    <div class="slider-handle" id="slider-handle">
+                        <i class="fas fa-arrows-alt-h text-white text-xs"></i>
+                    </div>
+
+                    <!-- Labels -->
+                    <div
+                        class="absolute bottom-4 left-4 bg-black/50 px-3 py-1 text-xs font-bold font-en tracking-widest text-gray-300 z-20 pointer-events-none">
+                        BEFORE</div>
+                    <div
+                        class="absolute bottom-4 right-4 bg-primary/80 px-3 py-1 text-xs font-bold font-en tracking-widest text-white z-20 pointer-events-none">
+                        AFTER</div>
+                </div>
+            </div>
+
+            <div
+                class="max-w-4xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 bg-black/50 p-8 border border-white/5 fade-in">
+                <div>
+                    <h3 class="text-lg font-bold font-en mb-4 text-gray-500" data-i18n="ba_before_title">BEFORE STATE
+                    </h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ba_before_text">
+                        経年劣化によるひび割れ、色褪せ、ウレタンのへたりが見られる状態。
+                        革本来のツヤは失われ、表面のコーティングも剥がれています。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold font-en mb-4 text-primary" data-i18n="ba_after_title">AFTER FINISH</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ba_after_text">
+                        最高級ナッパレザーを使用し、純正同様のステッチラインで張り替え。
+                        ウレタンの補修も行い、新車時のような座り心地と、芳醇な革の香りが復活しました。
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 fade-in">
+                <a href="contact/index.php"
+                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-primary bg-primary/10 text-primary px-10 py-4 hover:bg-primary hover:text-white transition-all duration-300 font-en">
+                    Restoration Request <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Material Section (New) -->
+    <section id="material" class="py-32 bg-black relative border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col-reverse lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2 relative fade-in">
+                    <img src="./assets/images/gtr32.jpg" alt="Leather Detail"
+                        class="w-full h-[500px] object-cover rounded-sm filter brightness-90">
+                    <div
+                        class="absolute bottom-10 -left-10 bg-secondary p-8 border-l-4 border-primary shadow-2xl hidden lg:block">
+                        <div class="text-4xl font-bold font-en mb-2">NAPPA</div>
+                        <p class="text-sm text-gray-400 tracking-widest">PREMIUM LEATHER</p>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 fade-in">
+                    <div class="text-primary font-bold tracking-widest font-en mb-4 text-xs">MATERIAL</div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 font-serif leading-tight" data-i18n="material_main">
+                        手に触れる全てに、<br>最高級の悦びを。
+                    </h2>
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" data-i18n="material_sub1_title">厳選された本革</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed" data-i18n="material_sub1_text">
+                                欧州の高級車にも採用されるナッパレザーをはじめ、耐久性と質感に優れた最高ランクの原皮のみを厳選。
+                                時を経るごとに馴染み、深みを増す本物の質感をお楽しみください。
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2" data-i18n="material_sub2_title">多種多様なマテリアル</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed" data-i18n="material_sub2_text">
+                                アルカンターラ、パンチングレザー、カーボンレザーなど、デザイン性と機能性を両立する多彩な素材をご用意。
+                                ステッチの糸一本の色に至るまで、数千通りの組み合わせが可能です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flow (Visual Update) -->
+    <section id="flow" class="py-32 bg-surface">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 fade-in">
+                <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">FLOW</h2>
+                <p class="text-xs text-textLight tracking-wider" data-i18n="flow_sub">ご納車までの流れ</p>
+            </div>
+
+            <!-- Flow Grid with Images -->
+            <div class="relative">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+                    <!-- Step 1 -->
+                    <div class="group fade-in">
+                        <div
+                            class="relative overflow-hidden aspect-square mb-6 border border-white/10 hover:border-primary/50 transition-colors">
+                            <img src="./assets/images/flow_inquiry.png" alt="Inquiry"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                            <div class="absolute top-0 left-0 bg-black/50 p-4">
+                                <div class="text-4xl font-bold font-en text-primary">01</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 tracking-wider" data-i18n="flow_step1_title">お問い合わせ</h3>
+                        <p class="text-gray-500 text-xs leading-relaxed" data-i18n="flow_step1_text">
+                            まずはお電話かメールにてご連絡ください。車種やご希望のイメージをお伺いします。
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="group fade-in" style="transition-delay: 0.1s;">
+                        <div
+                            class="relative overflow-hidden aspect-square mb-6 border border-white/10 hover:border-primary/50 transition-colors">
+                            <img src="./assets/images/flow_planning.png" alt="Planning"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                            <div class="absolute top-0 left-0 bg-black/50 p-4">
+                                <div class="text-4xl font-bold font-en text-primary">02</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 tracking-wider" data-i18n="flow_step2_title">プランニング</h3>
+                        <p class="text-gray-500 text-xs leading-relaxed" data-i18n="flow_step2_text">
+                            サンプルをご覧いただきながら、詳細なデザインや素材を決定します。
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="group fade-in" style="transition-delay: 0.2s;">
+                        <div
+                            class="relative overflow-hidden aspect-square mb-6 border border-white/10 hover:border-primary/50 transition-colors">
+                            <img src="./assets/images/flow_construction.png" alt="Construction"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                            <div class="absolute top-0 left-0 bg-black/50 p-4">
+                                <div class="text-4xl font-bold font-en text-primary">03</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 tracking-wider" data-i18n="flow_step3_title">施工・製作</h3>
+                        <p class="text-gray-500 text-xs leading-relaxed" data-i18n="flow_step3_text">
+                            熟練の職人が一針一針、丁寧に仕上げていきます。進捗のご報告も可能です。
+                        </p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="group fade-in" style="transition-delay: 0.3s;">
+                        <div
+                            class="relative overflow-hidden aspect-square mb-6 border border-white/10 hover:border-primary/50 transition-colors">
+                            <img src="./assets/images/flow_delivery.png" alt="Delivery"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                            <div class="absolute top-0 left-0 bg-black/50 p-4">
+                                <div class="text-4xl font-bold font-en text-primary">04</div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2 tracking-wider" data-i18n="flow_step4_title">ご納車</h3>
+                        <p class="text-gray-500 text-xs leading-relaxed" data-i18n="flow_step4_text">
+                            仕上がりをご確認いただき、納車となります。アフターフォローもお任せください。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company/Info Section (New) -->
+    <section id="company" class="py-32 bg-black border-t border-white/5">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">COMPANY</h2>
+                <p class="text-xs text-textLight tracking-wider">会社概要</p>
+            </div>
+            <div class="border-t border-white/10 fade-in">
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">COMPANY NAME</div>
+                    <div class="md:w-2/3 py-2">GIKO307合同会社</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BRAND</div>
+                    <div class="md:w-2/3 py-2">技巧 -Giko- (Giko Artisan)</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">ADDRESS</div>
+                    <div class="md:w-2/3 py-2">〒483-8013 愛知県江南市般若町南山307</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BUSINESS</div>
+                    <div class="md:w-2/3 py-2">
+                        自動車内装のカスタム・リペア<br>
+                        レザーシート張り替え<br>
+                        インテリアパーツ販売
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">REPRESENTATIVE</div>
+                    <div class="md:w-2/3 py-2">渡邉修司</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">TEL</div>
+                    <div class="md:w-2/3 py-2">080-8887-2116</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">OPEN</div>
+                    <div class="md:w-2/3 py-2">
+                        10:00 - 20:00<br>
+                        定休日：木曜日
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <!-- Col 1 -->
+                <div>
+                    <div class="text-3xl font-bold font-en tracking-widest mb-6">GIKO</div>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">
+                        最高級の素材と技術で、<br>
+                        あなたのカーライフに彩りを。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2 -->
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="pages/works.php" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="pages/before_after.html" class="hover:text-white transition-colors">BEFORE &
+                                AFTER</a>
+                        </li>
+                        <li><a href="index.html#material" class="hover:text-white transition-colors">MATERIAL</a></li>
+                        <li><a href="index.html#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="index.html#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Contact Info -->
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        CONTACT</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li class="flex items-start gap-4">
+                            <a href="contact/index.php" class="hover:text-white transition-colors"><i
+                                    class="fas fa-envelope mr-2 text-primary"></i> お問い合わせフォーム</a>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-phone mt-1 text-primary"></i>
+                            <div>
+                                <div class="text-white font-bold text-lg font-en">03-1234-5678</div>
+                                <span class="text-[10px]">10:00 - 19:00 (Wed Closed)</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-at mt-1 text-primary"></i>
+                            <div>info@giko-artisan.jp</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Legal -->
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a></li>
+                        <li><a href="legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+                        </li>
+                        <li><a href="legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+                <div class="mt-4 md:mt-0">DESIGNED BY ATLASSHIFT</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 hover:bg-white hover:text-black">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

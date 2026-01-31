@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONCEPT | 技巧 -Giko-</title>
+    <meta name="description" content="技巧 -Giko- のコンセプトと哲学。純正を超える品質と感動をお届けします。">
+    <!-- OGP -->
+    <meta property="og:title" content="CONCEPT | 技巧 -Giko-">
+    <meta property="og:description" content="技巧 -Giko- のコンセプトと哲学。純正を超える品質と感動をお届けします。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://giko-artisan.jp/concept.html">
+    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind_config.js"></script>
+    <script src="../assets/js/cart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>document.documentElement.classList.add('js-loading');</script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-black text-white antialiased selection:bg-primary selection:text-white">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
+        id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            </a>
+
+            <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
+                <a href="../index.html#concept" class="text-primary font-en relative group">
+                    CONCEPT
+                    <span class="absolute -bottom-2 left-0 w-full h-0.5 bg-primary"></span>
+                </a>
+                <a href="../pages/works.php" class="hover:text-primary transition-colors font-en relative group">
+                    WORKS
+                </a>
+                <a href="../store/purchase.html" class="hover:text-primary transition-colors font-en relative group">
+                    STORE
+                </a>
+                <a href="../index.html#before-after"
+                    class="hover:text-primary transition-colors font-en relative group">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
+                <a href="../index.html#flow" class="hover:text-primary transition-colors font-en relative group">
+                    FLOW
+                </a>
+                <a href="../index.html#company" class="hover:text-primary transition-colors font-en relative group">
+                    COMPANY
+                </a>
+            </nav>
+
+            <a href="../contact/index.php"
+                class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">
+                CONTACT
+            </a>
+
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+
+            <!-- Cart Icon Desktop -->
+            <a href="../store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <!-- Cart Badge Mobile -->
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="../store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../pages/concept.html" class="text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="../store/purchase.html" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="../index.html#before-after"
+                    class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.html#company"
+                    class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative py-40 bg-secondary overflow-hidden">
+        <div class="absolute inset-0 bg-[url('./assets/images/hero.png')] bg-cover bg-center opacity-20"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold font-en tracking-widest mb-6">PHILOSOPHY</h1>
+            <p class="text-sm md:text-base text-gray-400 tracking-[0.2em] font-light">OUR CORE CONCEPT</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-24 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-20 fade-in">
+                    <div class="text-primary font-bold tracking-widest font-en mb-6 text-sm">CONCEPT</div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-10 leading-relaxed font-serif">
+                        「純正超え」の<br>感動品質を。
+                    </h2>
+                    <div class="space-y-8 text-gray-400 leading-loose text-justify text-lg">
+                        <p>
+                            量産車にはない「あなただけ」の特別感。<br>
+                            私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を具現化します。
+                        </p>
+                        <p>
+                            最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>
+                            それが、技巧 -Giko- の流儀です。
+                        </p>
+                        <p>
+                            自動車の内装は、単なる移動空間ではありません。<br>
+                            それは、オーナー様の美意識を映し出す鏡であり、心地よい時間を過ごすためのプライベートラウンジです。<br>
+                            私たちは、その空間を最高の一着を仕立てるように、丁寧に、そして大胆に彩ります。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Material Preview Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-24 fade-in" style="animation-delay: 0.2s;">
+                    <div class="relative group overflow-hidden border border-white/10">
+                        <img src="../assets/images/items/steering_main.png" alt="Craftsmanship"
+                            class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <span
+                                class="text-xl font-bold font-en tracking-widest border-b border-white/50 pb-2">CRAFTSMANSHIP</span>
+                        </div>
+                    </div>
+                    <div class="relative group overflow-hidden border border-white/10">
+                        <img src="../assets/images/items/navicover_main.png" alt="Materials"
+                            class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <span
+                                class="text-xl font-bold font-en tracking-widest border-b border-white/50 pb-2">MATERIALS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-24 fade-in">
+                    <a href="../contact/index.php"
+                        class="inline-block bg-primary text-black font-bold font-en tracking-widest px-12 py-4 hover:bg-white transition-colors duration-300">
+                        CONTACT US
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-white/10 pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-20">
+                <div>
+                    <a href="../index.html" class="flex items-center gap-3 mb-6 group">
+                        <div
+                            class="w-10 h-10 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-xl">
+                            G</div>
+                        <span class="text-2xl font-bold tracking-widest font-en">GIKO</span>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                        Automotive Interior Specialist<br>
+                        Restoration & Custom Overlays
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-20">
+                    <div>
+                        <h4 class="font-bold font-en tracking-widest mb-6 text-gray-500 text-xs">PAGES</h4>
+                        <ul class="space-y-4 text-sm font-en">
+                            <li><a href="../index.html" class="hover:text-primary transition-colors">HOME</a></li>
+                            <li><a href="../pages/works.php" class="hover:text-primary transition-colors">WORKS</a>
+                            </li>
+                            <li><a href="../store/purchase.html" class="hover:text-primary transition-colors">STORE</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold font-en tracking-widest mb-6 text-gray-500 text-xs">LEGAL</h4>
+                        <ul class="space-y-4 text-sm font-en">
+                            <li><a href="../legal/terms.html" class="hover:text-primary transition-colors">TERMS OF
+                                    SERVICE</a>
+                            </li>
+                            <li><a href="../legal/privacy.html" class="hover:text-primary transition-colors">PRIVACY
+                                    POLICY</a>
+                            </li>
+                            <li><a href="../legal/tokusho.html" class="hover:text-primary transition-colors">TOKUSHO
+                                    LAW</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-xs text-gray-600 font-en">© 2025 GIKO. All Rights Reserved.</p>
+                <p class="text-xs text-gray-600 font-en">Designed by AtlasShift</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Mobile menu toggle logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+
+</html>

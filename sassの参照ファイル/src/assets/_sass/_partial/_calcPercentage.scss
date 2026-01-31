@@ -1,0 +1,6 @@
+/// calcPercentage
+/// パーセンテージを計算
+///
+@function calcPercentage($value1, $value2) {
+    @return calc(#{$value1} / #{$value2} * 100%);
+}

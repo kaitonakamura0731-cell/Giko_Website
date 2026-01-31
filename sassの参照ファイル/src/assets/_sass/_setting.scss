@@ -1,0 +1,74 @@
+// ==========================================================
+// Name:
+//     _config.scss
+//
+// Description:
+//     サイト全体に共通するデザインとスタイルの設定を記述する
+//     このファイルに記述するコメントは、１行コメントの「//」を使用する
+//     「/* ~~ */」の複数行コメントは、CSSとして出力されるため使用しない
+//
+// Contents:
+//     design config
+//     media query
+// ==========================================================
+
+// ---------------------------------------------
+//   design config
+//----------------------------------------------
+
+//   breakpoints
+//----------------------------------------------
+$breakpoint-pc: 1024;
+$breakpoint-sp: 750;
+
+//   color
+//----------------------------------------------
+$scheme-colors: (
+    "base": (#000),
+    "black": (#000,#111),
+    "white": (#fff,#fefefe),
+    "sample": (#9b2019, #223a70), //使用箇所のメモ（例: XXXの背景）
+);
+//   font-family
+//----------------------------------------------
+$scheme-ff: (
+  "root": '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "meiryo", sans-serif', // シングルクォーテーション「''」で囲うこと
+  "noto": '"Noto Sans JP", sans-serif',
+);
+
+@function hexToRGB($hex) {
+    @return red($hex), green($hex), blue($hex);
+}
+@mixin custom-properties() {
+    --design-width: 1920; // アートボードの横幅
+    --contents-width: 1200; // コンテンツ幅から contents side padding を除いた部分の幅
+    --contents-side-padding: 10;
+    --minwidth: calc(var(--contents-width) + var(--contents-side-padding) * 2);
+    --fixed-header-height: 80; // ヘッダーの高さ
+    --root-fz: 16;
+    --line-height: 1.5;
+
+    @media screen and (max-width: #{$breakpoint-sp}px) {
+        --design-width: 750; // アートボードの横幅
+        --contents-width:  730; // コンテンツ幅から contents side padding を除いた部分の幅
+        --contents-side-padding: 10;
+        --minwidth: 320;
+        --fixed-header-height: 60; // ヘッダーの高さ
+        --root-fz: 32; // デザイン幅が375の場合は16に変更すること
+        --line-height: 1.5;
+    }
+
+    --hover-opacity-ratio: 0.8;
+    --hover-duration: .3s;
+
+    @each $name, $colors in $scheme-colors {
+        @each $color in $colors {
+        $num: index($colors, $color);
+        --color-#{$name}-#{$num}: #{$color};
+        --color-#{$name}-#{$num}-rgb: #{hexToRGB($color)};
+        }
+    }
+    @each $name, $ff in $scheme-ff {
+        --ff-#{$name}: #{$ff};
+    }
+}
