@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORDER MADE | 技巧 -Giko-</title>
+    <meta name="description" content="技巧 -Giko- オーダーメイドサービス。世界に一つだけのインテリアを。">
+    <!-- OGP -->
+    <meta property="og:title" content="ORDER MADE | 技巧 -Giko-">
+    <meta property="og:description" content="技巧 -Giko- オーダーメイドサービス。世界に一つだけのインテリアを。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://giko-artisan.jp/ordermade.html">
+    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind_config.js"></script>
+    <script src="../assets/js/cart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .font-en {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white antialiased">
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
+        id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            </a>
+            <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
+                <a href="../index.html#concept"
+                    class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
+                <a href="../pages/works.html"
+                    class="hover:text-primary transition-colors font-en relative group">WORKS</a>
+                <a href="../store/purchase.html"
+                    class="hover:text-primary transition-colors font-en relative group">STORE</a>
+                <a href="../index.html#before-after"
+                    class="hover:text-primary transition-colors font-en relative group">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
+                <a href="../index.html#flow"
+                    class="hover:text-primary transition-colors font-en relative group">FLOW</a>
+                <a href="../index.html#company"
+                    class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
+            </nav>
+            <a href="../contact/index.php"
+                class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">CONTACT</a>
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+            <!-- Cart Icon Desktop -->
+            <a href="../store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <!-- Cart Badge Mobile -->
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="../store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../index.html#concept"
+                    class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.html" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="../store/purchase.html" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="../index.html#before-after"
+                    class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.html#company"
+                    class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-[50vh] min-h-[400px] flex items-center justify-center bg-secondary overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-secondary"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
+            <!-- Decorative elements -->
+            <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/10 blur-[120px] rounded-full"></div>
+            <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-blue-900/10 blur-[120px] rounded-full">
+            </div>
+        </div>
+        <div class="relative z-10 text-center px-6">
+            <h1 class="text-4xl md:text-7xl font-bold font-en tracking-tighter mb-6">ORDER MADE</h1>
+            <p
+                class="text-gray-400 text-sm md:text-base tracking-widest font-en uppercase max-w-2xl mx-auto leading-loose">
+                Bespoke Customization Service<br>
+                <span class="text-xs text-gray-500 mt-2 block">あなたの理想を形にする、フルオーダーメイドサービス</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="py-24 bg-black">
+        <div class="container mx-auto px-6 max-w-4xl text-center">
+            <h2 class="text-2xl font-bold font-en tracking-widest mb-12 text-white">ABOUT SERVICE</h2>
+            <p class="text-gray-400 leading-loose text-justify md:text-center mb-16">
+                技巧 -Giko- では、既製品の取り付けだけでなく、お客様のご要望に合わせた完全オーダーメイドの内装製作を承っております。<br>
+                素材選びから、ステッチの色、デザインパターンに至るまで、細部にわたってこだわり抜いた一台を製作いたします。<br>
+                「世界に一つだけの空間を作りたい」「廃盤になったパーツを復刻させたい」など、どのようなご相談もお待ちしております。
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div class="bg-secondary p-8 border border-white/5 group hover:border-primary/50 transition-colors">
+                    <i
+                        class="fas fa-pencil-ruler text-primary text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"></i>
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">DESIGN</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">
+                        お客様のイメージをヒアリングし、プロの視点から最適なデザインをご提案。スケッチやサンプルを用いて具体化します。
+                    </p>
+                </div>
+                <div class="bg-secondary p-8 border border-white/5 group hover:border-primary/50 transition-colors">
+                    <i
+                        class="fas fa-layer-group text-primary text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"></i>
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">MATERIAL</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">
+                        本革、アルカンターラ、カーボンなど、世界中から厳選した最高級素材をご用意。質感や耐久性も考慮して選定します。
+                    </p>
+                </div>
+                <div class="bg-secondary p-8 border border-white/5 group hover:border-primary/50 transition-colors">
+                    <i
+                        class="fas fa-tools text-primary text-3xl mb-6 group-hover:scale-110 transition-transform duration-300"></i>
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">CRAFT</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">
+                        熟練の職人が手作業で丁寧に製作。ミシンのピッチ一つにもこだわり、純正以上のクオリティを実現します。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flow -->
+    <section class="py-24 bg-secondary border-y border-white/5">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="text-2xl font-bold font-en tracking-widest mb-16 text-center text-white">ORDER FLOW</h2>
+
+            <div class="space-y-12 relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-8 top-0 bottom-0 w-px bg-white/10 hidden md:block"></div>
+
+                <!-- Step 1 -->
+                <div class="flex flex-col md:flex-row gap-8 relative">
+                    <div
+                        class="md:w-16 md:h-16 flex-shrink-0 bg-primary text-white rounded-full flex items-center justify-center font-bold font-en text-xl z-10 border-4 border-secondary">
+                        01</div>
+                    <div class="flex-1 pt-2">
+                        <h3 class="text-xl font-bold font-en tracking-widest mb-2">INQUIRY</h3>
+                        <p class="text-sm text-gray-500 mb-2">お問い合わせ</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            まずは下記のお問い合わせフォームより、ご希望の内容をお知らせください。<br>
+                            車種、施工箇所、イメージなど、現時点でお決まりの範囲で構いません。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex flex-col md:flex-row gap-8 relative">
+                    <div
+                        class="md:w-16 md:h-16 flex-shrink-0 bg-secondary text-primary border border-primary rounded-full flex items-center justify-center font-bold font-en text-xl z-10">
+                        02</div>
+                    <div class="flex-1 pt-2">
+                        <h3 class="text-xl font-bold font-en tracking-widest mb-2">CONSULTATION</h3>
+                        <p class="text-sm text-gray-500 mb-2">お打ち合わせ</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            メールまたはご来店にて、詳細なお打ち合わせを行います。<br>
+                            素材サンプルをご覧いただきながら、デザインや仕様を決定していきます。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex flex-col md:flex-row gap-8 relative">
+                    <div
+                        class="md:w-16 md:h-16 flex-shrink-0 bg-secondary text-primary border border-primary rounded-full flex items-center justify-center font-bold font-en text-xl z-10">
+                        03</div>
+                    <div class="flex-1 pt-2">
+                        <h3 class="text-xl font-bold font-en tracking-widest mb-2">QUOTATION</h3>
+                        <p class="text-sm text-gray-500 mb-2">お見積もり</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            仕様決定後、正式なお見積もりをご提示いたします。<br>
+                            内容にご納得いただけましたら、ご成約・スケジュール調整となります。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex flex-col md:flex-row gap-8 relative">
+                    <div
+                        class="md:w-16 md:h-16 flex-shrink-0 bg-secondary text-primary border border-primary rounded-full flex items-center justify-center font-bold font-en text-xl z-10">
+                        04</div>
+                    <div class="flex-1 pt-2">
+                        <h3 class="text-xl font-bold font-en tracking-widest mb-2">PRODUCTION</h3>
+                        <p class="text-sm text-gray-500 mb-2">製作・施工</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            熟練の職人が、一つひとつ丁寧に製作いたします。<br>
+                            製作期間は内容により異なりますが、通常2週間〜2ヶ月程度となります。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="flex flex-col md:flex-row gap-8 relative">
+                    <div
+                        class="md:w-16 md:h-16 flex-shrink-0 bg-secondary text-primary border border-primary rounded-full flex items-center justify-center font-bold font-en text-xl z-10">
+                        05</div>
+                    <div class="flex-1 pt-2">
+                        <h3 class="text-xl font-bold font-en tracking-widest mb-2">DELIVERY</h3>
+                        <p class="text-sm text-gray-500 mb-2">お引き渡し</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            仕上がりをご確認いただき、お引き渡しとなります。<br>
+                            アフターフォローについてもご説明させていただきます。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-20 text-center">
+                <p class="text-white mb-8 font-bold text-lg">まずはあなたのご要望をお聞かせください</p>
+                <a href="order.html?model=Order%20Made"
+                    class="inline-block px-12 py-4 bg-primary text-white font-bold font-en tracking-widest hover:bg-white hover:text-black transition-all duration-300 text-sm">
+                    START CONSULTATION
+                </a>
+                <p class="text-xs text-gray-500 mt-4">※お問い合わせフォームへ移動します</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div>
+                    <div class="text-3xl font-bold font-en tracking-widest mb-6">GIKO</div>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
+                                class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../index.html#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="../pages/works.html" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="../pages/before_after.html" class="hover:text-white transition-colors">BEFORE &
+                                AFTER</a>
+                        </li>
+                        <li><a href="../index.html#material" class="hover:text-white transition-colors">MATERIAL</a>
+                        </li>
+                        <li><a href="../index.html#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="../index.html#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        CONTACT</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li class="flex items-start gap-4">
+                            <a href="../contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a>
+                        </li>
+                        <li><a href="../legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+                        </li>
+                        <li><a href="../legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+                <div>DESIGNED BY ATLASSHIFT</div>
+            </div>
+        </div>
+    </footer>
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 hover:bg-white hover:text-black">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

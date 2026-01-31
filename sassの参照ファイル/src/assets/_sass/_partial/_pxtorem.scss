@@ -1,8 +1,0 @@
-@use "../setting" as *;
-/// pxtorem
-/// pxのフォントサイズをrem単位に変換する関数
-/// @param {number} $value  - rem単位に変換するpx単位の値
-/// @return {string} rem単位のフォントサイズ
-@function pxtorem($value) {
-    @return calc(#{$value} / var(--root-fz) * 1rem);
-}

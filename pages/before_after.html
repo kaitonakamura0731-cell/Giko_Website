@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEFORE & AFTER | 技巧 -Giko-</title>
+    <meta name="description" content="施工前と施工後の劇的な変化をご覧ください。職人の技術による蘇り。">
+    <!-- OGP -->
+    <meta property="og:title" content="BEFORE & AFTER | 技巧 -Giko-">
+    <meta property="og:description" content="施工前と施工後の劇的な変化をご覧ください。職人の技術による蘇り。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://giko-artisan.jp/before_after.html">
+    <meta property="og:image" content="https://giko-artisan.jp/assets/images/details/after.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../tailwind_config.js"></script>
+    <script src="../assets/js/cart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .font-en {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Comparison Slider Styles */
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+
+        .comparison-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .after-image-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-image: url('./assets/images/details/after.png');
+            background-size: cover;
+            background-position: center;
+            width: 50%;
+            /* Initial split */
+            border-right: 2px solid #0055FF;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background-color: #0055FF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: ew-resize;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white antialiased">
+
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
+        id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            </a>
+            <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
+                <a href="../index.html#concept"
+                    class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
+                <a href="../pages/works.html"
+                    class="hover:text-primary transition-colors font-en relative group">WORKS</a>
+                <a href="../store/purchase.html"
+                    class="hover:text-primary transition-colors font-en relative group">STORE</a>
+                <a href="before_after.html" class="text-primary font-en relative group">BEFORE & AFTER</a>
+                <a href="../index.html#material"
+                    class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
+                <a href="../index.html#flow"
+                    class="hover:text-primary transition-colors font-en relative group">FLOW</a>
+                <a href="../index.html#company"
+                    class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
+            </nav>
+            <a href="../contact/index.php"
+                class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">CONTACT</a>
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+            <!-- Cart Icon Desktop -->
+            <a href="../store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <!-- Cart Badge Mobile -->
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="../store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../index.html#concept"
+                    class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.html" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="../store/purchase.html" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="before_after.html" class="text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.html#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.html#company"
+                    class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative h-[50vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- Using before image for hero background blurred -->
+            <img src="../assets/images/details/before.png" alt="Hero"
+                class="w-full h-full object-cover opacity-30 blur-sm">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50"></div>
+        </div>
+        <div class="relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold font-en tracking-widest mb-4">BEFORE & AFTER</h1>
+            <p class="text-sm text-gray-400 tracking-[0.2em] font-en uppercase">Transformation Showcase</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-24 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto mb-16 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold mb-6" data-i18n="ba_page_main_title">劇的な変化を、その目で。</h2>
+                <p class="text-gray-400 leading-relaxed text-sm" data-i18n="ba_page_main_desc">
+                    長年の使用で劣化したシートも、技巧-Giko-の手にかかれば新品以上の輝きを取り戻します。<br>
+                    スライダーを動かして、その変化をご覧ください。
+                </p>
+            </div>
+
+            <!-- Comparison Slider -->
+            <div class="max-w-4xl mx-auto relative group">
+                <div class="comparison-container aspect-video rounded-sm overflow-hidden border border-white/10 shadow-2xl relative"
+                    id="slider-container">
+                    <!-- Before Image (Background) -->
+                    <img src="../assets/images/details/before.png" alt="Before"
+                        class="comparison-image object-cover w-full h-full select-none" draggable="false">
+
+                    <!-- After Image (Overlay) -->
+                    <div class="after-image-wrapper" id="after-wrapper"></div>
+
+                    <!-- Handle -->
+                    <div class="slider-handle" id="slider-handle">
+                        <i class="fas fa-arrows-alt-h text-white text-xs"></i>
+                    </div>
+
+                    <!-- Labels -->
+                    <div
+                        class="absolute bottom-4 left-4 bg-black/50 px-3 py-1 text-xs font-bold font-en tracking-widest text-gray-300 z-20 pointer-events-none">
+                        BEFORE</div>
+                    <div
+                        class="absolute bottom-4 right-4 bg-primary/80 px-3 py-1 text-xs font-bold font-en tracking-widest text-white z-20 pointer-events-none">
+                        AFTER</div>
+                </div>
+            </div>
+
+            <div
+                class="max-w-4xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 bg-secondary p-8 border border-white/5">
+                <div>
+                    <h3 class="text-lg font-bold font-en mb-4 text-gray-500">BEFORE STATE</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ba_page_before_desc">
+                        経年劣化によるひび割れ、色褪せ、ウレタンのへたりが見られる状態。
+                        革本来のツヤは失われ、表面のコーティングも剥がれています。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold font-en mb-4 text-primary">AFTER FINISH</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ba_page_after_desc">
+                        最高級ナッパレザーを使用し、純正同様のステッチラインで張り替え。
+                        ウレタンの補修も行い、新車時のような座り心地と、芳醇な革の香りが復活しました。
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-20">
+                <a href="../contact/index.php"
+                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-primary bg-primary/10 text-primary px-10 py-4 hover:bg-primary hover:text-white transition-all duration-300 font-en">
+                    Request for Custom <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <!-- Reusing Footer consistent with other pages -->
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div>
+                    <div class="text-3xl font-bold font-en tracking-widest mb-6">GIKO</div>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
+                                class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../index.html#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="../pages/works.html" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="before_after.html" class="hover:text-white transition-colors">BEFORE & AFTER</a>
+                        </li>
+                        <li><a href="../index.html#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="../index.html#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        CONTACT</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li class="flex items-start gap-4">
+                            <a href="../contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a>
+                        </li>
+                        <li><a href="../legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+                        </li>
+                        <li><a href="../legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+                <div>DESIGNED BY ATLASSHIFT</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 hover:bg-white hover:text-black">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Slider Logic
+        const container = document.getElementById('slider-container');
+        const afterWrapper = document.getElementById('after-wrapper');
+        const handle = document.getElementById('slider-handle');
+
+        if (container && afterWrapper && handle) {
+            let active = false;
+
+            const move = (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const width = rect.width;
+
+                // Clamp 0 to width
+                const xClamped = Math.max(0, Math.min(x, width));
+                const percent = (xClamped / width) * 100;
+
+                afterWrapper.style.width = percent + '%';
+                handle.style.left = percent + '%';
+            };
+
+            container.addEventListener('mousedown', () => active = true);
+            container.addEventListener('touchstart', () => active = true);
+
+            window.addEventListener('mouseup', () => active = false);
+            window.addEventListener('touchend', () => active = false);
+
+            container.addEventListener('mousemove', (e) => {
+                if (!active) return;
+                move(e);
+            });
+            container.addEventListener('touchmove', (e) => {
+                if (!active) return;
+                move(e);
+            });
+
+            // Hover effect for desktop (optional, uncomment if desired replacement for drag)
+            container.addEventListener('mousemove', (e) => {
+                move(e);
+            });
+        }
+    </script>
+</body>
+
+</html>

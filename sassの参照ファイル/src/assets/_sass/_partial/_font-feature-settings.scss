@@ -1,6 +1,0 @@
-/// font-feature-settings
-/// OpenTypeフォントのプロポーショナルメトリクス情報を設定する
-/// @include font-feature-settings;
-@mixin font-feature-settings() {
-  font-feature-settings: "palt" 1;
-}
