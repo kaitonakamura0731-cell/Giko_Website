@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once '../admin/includes/db.php';
 
 try {
@@ -54,7 +54,7 @@ function getFirstImage($json)
             </a>
 
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
-                <a href="../index.html#concept"
+                <a href="../index.php#concept"
                     class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
                 <a href="../pages/works.php"
                     class="hover:text-primary transition-colors font-en relative group">WORKS</a>
@@ -62,9 +62,13 @@ function getFirstImage($json)
                     STORE
                     <span class="absolute -bottom-2 left-0 w-full h-0.5 bg-primary"></span>
                 </a>
-                <a href="../index.html#flow"
+                <a href="../pages/before_after.html"
+                    class="hover:text-primary transition-colors font-en relative group">BEFORE & AFTER</a>
+                <a href="../index.php#material"
+                    class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
+                <a href="../index.php#flow"
                     class="hover:text-primary transition-colors font-en relative group">FLOW</a>
-                <a href="../index.html#company"
+                <a href="../index.php#company"
                     class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
             </nav>
 
@@ -172,4 +176,5 @@ function getFirstImage($json)
 </body>
 
 </html>
+
 

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once '../admin/includes/db.php';
 
 $id = $_GET['id'] ?? null;
@@ -69,19 +69,19 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                 <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
             </a>
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
-                <a href="../index.html#concept"
+                <a href="../index.php#concept"
                     class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
                 <a href="../pages/works.php" class="text-primary font-en relative group">WORKS</a>
                 <a href="../store/purchase.html"
                     class="hover:text-primary transition-colors font-en relative group">STORE</a>
-                <a href="../index.html#before-after"
+                <a href="../pages/before_after.html"
                     class="hover:text-primary transition-colors font-en relative group">BEFORE &
                     AFTER</a>
-                <a href="../index.html#material"
+                <a href="../index.php#material"
                     class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
-                <a href="../index.html#flow"
+                <a href="../index.php#flow"
                     class="hover:text-primary transition-colors font-en relative group">FLOW</a>
-                <a href="../index.html#company"
+                <a href="../index.php#company"
                     class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
             </nav>
             <a href="../contact/index.php"
@@ -267,4 +267,5 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
 </body>
 
 </html>
+
 

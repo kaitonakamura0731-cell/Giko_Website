@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
 
 <head>
@@ -34,18 +34,17 @@
                 <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
             </a>
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
-                <a href="../index.html#concept"
+                <a href="../index.php#concept"
                     class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
                 <a href="../pages/works.php"
                     class="hover:text-primary transition-colors font-en relative group">WORKS</a>
                 <a href="../pages/before_after.html"
                     class="hover:text-primary transition-colors font-en relative group">BEFORE &
                     AFTER</a>
-                <a href="../index.html#material"
+                <a href="../index.php#material"
                     class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
-                <a href="../index.html#flow"
-                    class="hover:text-primary transition-colors font-en relative group">FLOW</a>
-                <a href="../index.html#company"
+                <a href="../index.php#flow" class="hover:text-primary transition-colors font-en relative group">FLOW</a>
+                <a href="../index.php#company"
                     class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
             </nav>
             <a href="../contact/index.php"
@@ -84,17 +83,15 @@
                     <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
                         class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
                 </a>
-                <a href="../index.html#concept"
-                    class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../index.php#concept" class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
                 <a href="../pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
                 <a href="../pages/before_after.html"
                     class="text-white hover:text-primary font-en tracking-widest">BEFORE &
                     AFTER</a>
-                <a href="../index.html#material"
+                <a href="../index.php#material"
                     class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
-                <a href="../index.html#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
-                <a href="../index.html#company"
-                    class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../index.php#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.php#company" class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
                 <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
                 <!-- Language Switcher Mobile -->
                 <button id="lang-toggle-mobile"
@@ -128,17 +125,17 @@
 
                     <!-- Thumbnails -->
                     <div class="grid grid-cols-4 gap-2">
-                        <button onclick="changeMainImage('./assets/images/items/steering_main.png')"
+                        <button onclick="changeMainImage('../assets/images/items/steering_main.png')"
                             class="border border-white/10 hover:border-primary rounded-sm overflow-hidden transition-colors aspect-video">
                             <img src="../assets/images/items/steering_main.png" class="w-full h-full object-cover">
                         </button>
                         <!-- Using swatch images as placeholders for other angles for now, or just duplicate main if no others properly fit 'gallery' context yet -->
-                        <button onclick="changeMainImage('./assets/images/items/steering_explanation.png')"
+                        <button onclick="changeMainImage('../assets/images/items/steering_explanation.png')"
                             class="border border-white/10 hover:border-primary rounded-sm overflow-hidden transition-colors aspect-video">
                             <img src="../assets/images/items/steering_explanation.png"
                                 class="w-full h-full object-cover">
                         </button>
-                        <button onclick="changeMainImage('./assets/images/items/steering_sub1.png')"
+                        <button onclick="changeMainImage('../assets/images/items/steering_sub1.png')"
                             class="border border-white/10 hover:border-primary rounded-sm overflow-hidden transition-colors aspect-video">
                             <img src="../assets/images/items/steering_sub1.png" class="w-full h-full object-cover">
                         </button>
@@ -324,9 +321,9 @@
                             // Swatch Image Logic
                             // Swatch Image Logic
                             const swatches = {
-                                'sunset_brown': './assets/images/items/swatch_sunset_brown.png',
-                                'black_shibo': './assets/images/items/swatch_black_shibo.png',
-                                'black_smooth': './assets/images/items/swatch_black_smooth.png'
+                                'sunset_brown': '../assets/images/items/swatch_sunset_brown.png',
+                                'black_shibo': '../assets/images/items/swatch_black_shibo.png',
+                                'black_smooth': '../assets/images/items/swatch_black_smooth.png'
                                 // 'other' removed to use fallback
                             };
 
@@ -339,14 +336,14 @@
                                     img.src = swatches[value];
                                 } else {
                                     // Default fallback
-                                    img.src = './assets/images/items/swatch_sunset_brown.png';
+                                    img.src = '../assets/images/items/swatch_sunset_brown.png';
                                 }
                             }
 
                             function addToCart() {
                                 const productName = "【40系アルファード/ヴェルファイア専用】ステアリング";
                                 const price = 66000;
-                                const image = "./assets/images/items/steering_main.png";
+                                const image = "../assets/images/items/steering_main.png";
 
                                 const colorA = document.getElementById('colorA').value;
                                 const colorB = document.getElementById('colorB').value;
@@ -453,14 +450,14 @@
                             <h4 class="font-bold font-en tracking-widest mb-6 text-gray-500 text-xs">PAGES</h4>
                             <ul class="space-y-4 text-sm font-en">
                                 <li><a href="../index.php" class="hover:text-primary transition-colors">HOME</a></li>
-                                <li><a href="../index.html#concept"
+                                <li><a href="../index.php#concept"
                                         class="hover:text-primary transition-colors">CONCEPT</a>
                                 </li>
                                 <li><a href="../pages/works.php" class="hover:text-primary transition-colors">WORKS</a>
                                 </li>
-                                <li><a href="../index.html#flow" class="hover:text-primary transition-colors">FLOW</a>
+                                <li><a href="../index.php#flow" class="hover:text-primary transition-colors">FLOW</a>
                                 </li>
-                                <li><a href="../index.html#company"
+                                <li><a href="../index.php#company"
                                         class="hover:text-primary transition-colors">COMPANY</a></li>
                             </ul>
                         </div>
@@ -491,4 +488,3 @@
 </body>
 
 </html>
-

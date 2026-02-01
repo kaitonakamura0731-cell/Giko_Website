@@ -112,10 +112,30 @@ $user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 mb_language("Japanese");
 mb_internal_encoding("UTF-8");
 
-$mail_admin = mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
+// Encode subjects for proper Japanese display
+$admin_subject_encoded = '=?UTF-8?B?' . base64_encode($admin_subject) . '?=';
+$user_subject_encoded = '=?UTF-8?B?' . base64_encode($user_subject) . '?=';
+
+// Update headers with proper encoding
+$admin_headers = "From: {$NOREPLY_EMAIL}\r\n";
+$admin_headers .= "Reply-To: {$email}\r\n";
+$admin_headers .= "MIME-Version: 1.0\r\n";
+$admin_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$admin_headers .= "Content-Transfer-Encoding: base64\r\n";
+
+$user_headers = "From: {$ADMIN_EMAIL}\r\n";
+$user_headers .= "MIME-Version: 1.0\r\n";
+$user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$user_headers .= "Content-Transfer-Encoding: base64\r\n";
+
+// Encode body as base64
+$admin_body_encoded = base64_encode($admin_body);
+$user_body_encoded = base64_encode($user_body);
+
+$mail_admin = mail($ADMIN_EMAIL, $admin_subject_encoded, $admin_body_encoded, $admin_headers, "-f{$NOREPLY_EMAIL}");
 
 // Send to User
-$mail_user = mb_send_mail($email, $user_subject, $user_body, $user_headers, "-f{$ADMIN_EMAIL}");
+$mail_user = mail($email, $user_subject_encoded, $user_body_encoded, $user_headers, "-f{$ADMIN_EMAIL}");
 
 if ($mail_admin && $mail_user) {
     sendJson(true, 'Mail Sent');

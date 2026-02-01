@@ -78,7 +78,7 @@ try {
                     <span
                         class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
                 </a>
-                <a href="pages/before_after.php" class="hover:text-primary transition-colors font-en relative group">
+                <a href="pages/before_after.html" class="hover:text-primary transition-colors font-en relative group">
                     BEFORE & AFTER
                     <span
                         class="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>

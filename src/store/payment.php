@@ -11,7 +11,7 @@
 // PAY.JP Dashboard -> Settings -> API Keys -> Secret Key
 // Start with 'sk_...'
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-$PAYJP_SECRET_KEY = 'sk_test_1a1ce5f8922f49b299eb99d4'; // Test Secret Key
+$PAYJP_SECRET_KEY = 'sk_test_5c5ca00f36f35253ead4d39d'; // ユーザーの正しいテスト秘密鍵
 
 // ---------------------------------------------------------
 // HELPERS

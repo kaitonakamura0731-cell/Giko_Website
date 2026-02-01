@@ -24,7 +24,7 @@ $adminEmail = 'info@giko-artisan.jp'; // Change to actual admin email
 $emailFrom = 'noreply@giko-artisan.jp';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../index.html');
+    header('Location: ../index.php');
     exit;
 }
 
@@ -148,3 +148,4 @@ $adminBody = "新規注文がありました。\n\n" . $body;
 header('Location: ../order_complete.html?tid=' . $paymentId);
 exit;
 ?>
+

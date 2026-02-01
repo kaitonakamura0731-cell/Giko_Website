@@ -234,17 +234,14 @@ $csrf_token = $_SESSION['csrf_token'];
                             <!-- Card Payment -->
                             <div id="payment-card" class="block space-y-6">
                                 <div class="bg-white/5 border border-white/10 p-4 rounded-sm">
-                                    <label
-                                        class="block text-xs font-bold font-en tracking-widest mb-3 text-gray-400">CARD
-                                        INFORMATION <span class="text-primary">*</span></label>
-                                    <div id="v2-card-element"
-                                        class="bg-black/50 border border-white/10 p-3 rounded-sm min-h-[48px]">
-                                    </div>
+                                    <p class="text-sm text-gray-300">
+                                        「決済へ進む」をクリック後、クレジットカード入力画面へ移動します。
+                                    </p>
                                 </div>
 
                                 <button type="button" onclick="handleCardPayment()"
                                     class="w-full bg-[#C0A062] text-black font-bold py-4 rounded-sm hover:bg-white transition-all duration-300 tracking-widest font-en shadow-xl uppercase">
-                                    COMPLETE ORDER
+                                    PROCEED TO PAYMENT
                                 </button>
                                 <p class="text-[10px] text-gray-500 text-center">
                                     <i class="fas fa-lock mr-1"></i> SSL通信と3Dセキュア認証で安全に保護されます
@@ -355,7 +352,8 @@ $csrf_token = $_SESSION['csrf_token'];
     </div>
 
     <!-- <script src="../assets/js/email_handler.js"></script> -->
-    <script src="https://js.pay.jp/v2/payjp.js"></script>
+    <!-- <script src="../assets/js/email_handler.js"></script> -->
+    <!-- PAY.JP V2 is not needed here anymore, moved to card_entry.php -->
     <script>
         // Init total amount
         let payjp, elements, cardElement;
@@ -432,38 +430,10 @@ $csrf_token = $_SESSION['csrf_token'];
         }
 
         function initPayjpV2() {
-            if (typeof Payjp === 'undefined') {
-                console.error("PAY.JP SDK not loaded. Check internet connection.");
-                showError("決済システムの読み込みに失敗しました。ページを再読み込みしてください。");
-                return;
-            }
-            try {
-                payjp = Payjp(PUBLIC_KEY);
-                elements = payjp.elements();
-
-                // Style for the embedded card input
-                const style = {
-                    base: {
-                        color: '#ffffff',
-                        fontFamily: '"Montserrat", "Noto Sans JP", sans-serif',
-                        fontSize: '16px',
-                        lineHeight: '1.5',
-                        '::placeholder': {
-                            color: '#6b7280', // gray-500
-                        }
-                    },
-                    invalid: {
-                        color: '#fca5a5', // red-300
-                        iconColor: '#fca5a5'
-                    }
-                };
-
-                cardElement = elements.create('card', { style: style, hideCardIcons: false });
-                cardElement.mount('#v2-card-element');
-            } catch (e) {
-                console.error("PAY.JP Init Error:", e);
-                showError("カード入力フォームの表示に失敗しました。");
-            }
+            // No initialization needed on this page anymore
+            /* 
+            if (typeof Payjp === 'undefined') { ... } 
+            */
         }
 
         function showError(msg) {
@@ -560,53 +530,12 @@ $csrf_token = $_SESSION['csrf_token'];
 
         async function processCardPayment() {
             const form = document.getElementById('checkout-form');
-            const formData = new FormData(form);
-
-            // 1. Create Token (Client-side 3DS)
-            const result = await payjp.createToken(cardElement, {
-                three_d_secure: true,
-                card: {
-                    name: formData.get('name'),
-                    email: formData.get('email'),
-                    phone: formData.get('phone')
-                }
-            });
-
-            if (result.error) {
-                throw new Error(result.error.message);
-            }
-
-            // 2. Send to Backend (payment.php)
-            // Note: Creating ID for idempotency key
-            const uniqueId = 'req_' + Date.now() + Math.random().toString(36).substring(2, 9);
-
-            const response = await fetch('./payment.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Idempotency-Key': uniqueId
-                },
-                body: JSON.stringify({
-                    token: result.id,
-                    amount: formData.get('amount')
-                })
-            });
-
-            // Handle non-JSON or error responses gracefully
-            let data;
-            try {
-                data = await response.json();
-            } catch (e) {
-                throw new Error('サーバーからの応答が無効です。');
-            }
-
-            if (!response.ok || !data.success) {
-                throw new Error(data.error || '決済処理に失敗しました。');
-            }
-
-            // 3. Success -> Send Email & Redirect
-            // Pass the order ID from server if available
-            await finalizeOrder('CREDIT CARD', { orderId: data.id || uniqueId });
+            // Change Action to card_entry.php
+            form.action = "card_entry.php";
+            form.method = "POST";
+            
+            // Submit form to go to next page
+            form.submit();
         }
 
         async function processBankTransfer() {
@@ -649,6 +578,33 @@ $csrf_token = $_SESSION['csrf_token'];
             Cart.clear();
             const pmParam = paymentMethod === 'CREDIT CARD' ? 'card' : 'transfer';
             window.location.href = `order_complete.html?order_id=${orderId}&payment_method=${pmParam}`;
+        }
+
+        // Helper: Format phone to E.164 (Japan +81)
+        function formatPhoneNumberToE164(phone) {
+            if (!phone) return '';
+            // 1. Remove hyphens, spaces, parentheses
+            let cleaned = phone.replace(/[-()\s]/g, '');
+            
+            // 2. Remove leading zero if present and prepend +81
+            if (cleaned.startsWith('0')) {
+                cleaned = cleaned.substring(1);
+                return '+81' + cleaned;
+            }
+            
+            // 3. If already starts with 81 (without +), prepend +
+            if (cleaned.startsWith('81')) {
+                return '+' + cleaned;
+            }
+            
+            // 4. Default fallback: if it looks like just numbers, assume JP and add +81?
+            // Or if user entered +81..., leave it.
+            if (cleaned.startsWith('+')) {
+                return cleaned;
+            }
+
+            // Fallback for non-standard inputs, try +81
+            return '+81' + cleaned;
         }
     </script>
 </body>
