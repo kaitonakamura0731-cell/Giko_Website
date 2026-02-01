@@ -7,8 +7,8 @@
  */
 
 // PAY.JP API Keys
-// テスト環境: sk_test_xxx / pk_test_xxx
-// 本番環境: sk_live_xxx / pk_live_xxx
+// テスト環境: PAY.JPダッシュボードから取得した sk_test_... / pk_test_... を設定
+// 本番環境: PAY.JPダッシュボードから取得した sk_live_... / pk_live_... を設定
 
-define('PAYJP_SECRET_KEY', 'sk_test_xxxxxxxxxxxxxxxxxxxxxxxx');
-define('PAYJP_PUBLIC_KEY', 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx');
+define('PAYJP_SECRET_KEY', 'YOUR_PAYJP_SECRET_KEY_HERE');
+define('PAYJP_PUBLIC_KEY', 'YOUR_PAYJP_PUBLIC_KEY_HERE');
