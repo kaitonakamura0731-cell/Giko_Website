@@ -9,6 +9,17 @@ $csrf_token = $_SESSION['csrf_token'];
 
 // Check for errors (e.g. from complete page if mail failed)
 $error = isset($_GET['error']) ? htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8') : '';
+
+require_once '../admin/includes/db.php';
+require_once '../admin/includes/settings_helper.php';
+
+// Fetch Settings
+$company_name = get_setting('company_name', 'GIKO307合同会社');
+$company_address = get_setting('company_address', '〒483-8013 愛知県江南市般若町南山307');
+$company_tel = get_setting('company_tel', '080-8887-2116');
+$company_email = get_setting('company_email', 'info@giko-artisan.jp');
+$instagram_url = get_setting('instagram_url', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
+$twitter_url = get_setting('twitter_url', '#');
 ?>
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
@@ -213,7 +224,7 @@ $error = isset($_GET['error']) ? htmlspecialchars($_GET['error'], ENT_QUOTES, 'U
                     <div class="text-3xl font-bold font-en tracking-widest mb-6">GIKO</div>
                     <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
                     <div class="flex space-x-4">
-                        <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank"
                             class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
                                 class="fab fa-instagram"></i></a>
                     </div>
@@ -242,6 +253,13 @@ $error = isset($_GET['error']) ? htmlspecialchars($_GET['error'], ENT_QUOTES, 'U
                         <li class="flex items-start gap-4">
                             <a href="../contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
                         </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-phone mt-1 text-primary"></i>
+                            <div>
+                                <div class="text-white font-bold text-lg font-en">
+                                    <?php echo htmlspecialchars($company_tel); ?></div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div>
@@ -259,7 +277,7 @@ $error = isset($_GET['error']) ? htmlspecialchars($_GET['error'], ENT_QUOTES, 'U
             </div>
             <div
                 class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
-                <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+                <p>&copy; 2025 <?php echo htmlspecialchars($company_name); ?>. ALL RIGHTS RESERVED.</p>
                 <div>DESIGNED BY ATLASSHIFT</div>
             </div>
         </div>

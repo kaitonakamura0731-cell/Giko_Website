@@ -24,13 +24,9 @@ $images = json_decode($product['images'] ?? '[]', true);
 $options = json_decode($product['options'] ?? '[]', true);
 $main_image = $images[0] ?? '../assets/images/no_image.png';
 
-// Swatch Config (Hardcoded for now as it relies on specific file naming convetions)
-$swatches = [
-    'sunset_brown' => '../assets/images/items/swatch_sunset_brown.png',
-    'black_shibo' => '../assets/images/items/swatch_black_shibo.png',
-    'black_smooth' => '../assets/images/items/swatch_black_smooth.png',
-    'black' => '../assets/images/items/swatch_black_shibo.png' // Default black
-];
+// Swatches are now embedded in option choices, no need for hardcoded array
+// but we might want a fallback default?
+$default_swatch = '../assets/images/no_image.png';
 
 ?>
 <!DOCTYPE html>
@@ -80,9 +76,10 @@ $swatches = [
             <div class="flex flex-col lg:flex-row gap-12">
                 <!-- Image Section -->
                 <div class="lg:w-1/2 lg:sticky lg:top-32 lg:self-start">
-                    <div class="bg-white/5 rounded-sm p-4 border border-white/10 mb-4">
+                    <div
+                        class="bg-white/5 rounded-sm p-4 border border-white/10 mb-4 h-[60vh] flex items-center justify-center">
                         <img id="mainImage" src="<?php echo htmlspecialchars($main_image); ?>"
-                            class="w-full h-auto object-cover rounded-sm transition-opacity duration-300">
+                            class="w-full h-full object-contain rounded-sm transition-opacity duration-300">
                     </div>
                     <div class="grid grid-cols-4 gap-2">
                         <?php foreach ($images as $img): ?>
@@ -129,33 +126,44 @@ $swatches = [
                                         class="block text-xs font-bold font-en tracking-widest text-gray-500 mb-2"><?php echo htmlspecialchars($opt['label']); ?></label>
                                     <div class="flex items-end gap-4">
                                         <div class="flex-1">
-                                            <?php if ($opt['type'] === 'select'): ?>
-                                                <select name="option_<?php echo $idx; ?>"
-                                                    data-label="<?php echo htmlspecialchars($opt['label']); ?>"
-                                                    class="w-full bg-secondary border border-white/10 rounded-sm px-4 py-3 focus:outline-none focus:border-primary text-sm transition-colors"
-                                                    <?php if (strpos($opt['label'], 'カラー') !== false): ?>
-                                                        onchange="updateSwatch(this)" <?php endif; ?>>
-                                                    <?php foreach ($opt['choices'] as $val => $txt):
-                                                        // Handle array choices (value=index or value=text) vs assoc array
-                                                        // Our migration uses assoc for colors, indexed for others.
-                                                        $optVal = is_string($val) ? $val : $txt;
-                                                        $optTxt = $txt;
-                                                        ?>
-                                                        <option value="<?php echo htmlspecialchars($optVal); ?>">
-                                                            <?php echo htmlspecialchars($optTxt); ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            <?php endif; ?>
+                                            <select name="option_<?php echo $idx; ?>"
+                                                data-label="<?php echo htmlspecialchars($opt['label']); ?>"
+                                                data-group-index="<?php echo $idx; ?>"
+                                                class="option-select w-full bg-secondary border border-white/10 rounded-sm px-4 py-3 focus:outline-none focus:border-primary text-sm transition-colors"
+                                                onchange="onOptionChange(this)">
+                                                <?php
+                                                $choices = $opt['choices'] ?? [];
+                                                // Normalize choices for display
+                                                foreach ($choices as $cIdx => $choice):
+                                                    // New structure: $choice is array {value, label, image}
+                                                    // Old structure support not strictly needed but good for safety
+                                                    $val = '';
+                                                    $txt = '';
+                                                    $img = '';
+                                                    if (is_array($choice)) {
+                                                        $val = $choice['value'];
+                                                        $txt = $choice['label'];
+                                                        $img = $choice['image'] ?? '';
+                                                    } else {
+                                                        // Fallback
+                                                        $val = $choice;
+                                                        $txt = $choice;
+                                                    }
+                                                    ?>
+                                                    <option value="<?php echo htmlspecialchars($val); ?>"
+                                                        data-image="<?php echo htmlspecialchars($img); ?>">
+                                                        <?php echo htmlspecialchars($txt); ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
-                                        <!-- Swatch placeholder if needed -->
-                                        <?php if (strpos($opt['label'], 'カラー') !== false): ?>
-                                            <div
-                                                class="w-32 h-24 bg-white/5 rounded-sm border border-white/10 overflow-hidden mb-1 flex-shrink-0">
-                                                <img src="../assets/images/items/swatch_sunset_brown.png"
-                                                    class="w-full h-full object-cover swatch-img">
-                                            </div>
-                                        <?php endif; ?>
+                                        <!-- Dynamic Image Display Area for this Option -->
+                                        <!-- Only show if there IS an image associated with the selected option -->
+                                        <!-- We generate a unique ID for the image container -->
+                                        <div id="option-image-<?php echo $idx; ?>"
+                                            class="w-24 h-24 bg-white/5 rounded-sm border border-white/10 overflow-hidden mb-1 flex-shrink-0 hidden">
+                                            <img src="" class="w-full h-full object-cover">
+                                        </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -187,20 +195,31 @@ $swatches = [
             }, 150);
         }
 
-        const swatches = <?php echo json_encode($swatches); ?>;
+        // Initialize options on load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.option-select').forEach(select => {
+                onOptionChange(select);
+            });
+        });
 
-        function updateSwatch(selectEl) {
-            // Find sibling swatch img
-            const container = selectEl.closest('.flex');
-            if (!container) return;
-            const img = container.querySelector('.swatch-img');
-            if (!img) return;
+        function onOptionChange(selectEl) {
+            const idx = selectEl.getAttribute('data-group-index');
+            const selectedOption = selectEl.options[selectEl.selectedIndex];
+            const imgSrc = selectedOption.getAttribute('data-image');
 
-            const val = selectEl.value;
-            if (swatches[val]) {
-                img.src = swatches[val];
+            // 1. Update Option Review Image (next to select box)
+            const imgContainer = document.getElementById(`option-image-${idx}`);
+            const imgEl = imgContainer.querySelector('img');
+
+            if (imgSrc) {
+                imgEl.src = imgSrc;
+                imgContainer.classList.remove('hidden');
+
+                // 2. Also update Main Image? 
+                // Requirement: "色の名前と画像を紐づける為に画像フィールド追加して画像も動的に出力させたい"
+                // Usually this means updating the main product view too.
             } else {
-                img.src = '../assets/images/items/swatch_sunset_brown.png'; // Fallback
+                imgContainer.classList.add('hidden');
             }
         }
 

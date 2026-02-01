@@ -1,6 +1,6 @@
--- Database Creation
-CREATE DATABASE IF NOT EXISTS giko_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE giko_db;
+-- Database Creation (Commented out for shared hosting compatibility)
+-- CREATE DATABASE IF NOT EXISTS giko_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE giko_db;
 
 -- Admin Users Table
 CREATE TABLE IF NOT EXISTS admin_users (

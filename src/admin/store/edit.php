@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $compatible_models = $_POST['compatible_models'];
     $model_code = $_POST['model_code'];
-    $stock_status = (int) $_POST['stock_status'];
+    $stock_status = (int) ($_POST['stock_status'] ?? 1);
 
     // Images (Lines to JSON)
     $images_raw = $_POST['images'] ?? '';
@@ -71,40 +71,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $images_json = json_encode($images_clean, JSON_UNESCAPED_UNICODE);
 
-    // Options Builder Logic
-    // Input format: $_POST['opt_label'][], $_POST['opt_choices'][]
-    // choices are newline separated strings.
+    // Options Builder Logic (New Structure)
+    // Structure: $_POST['options'][index] => {label, type, choices: [{label, value, image_current, ...}]}
+    // Files: $_FILES['options']['name'][index]['choices'][cIndex]['image_file'] ...
+
     $options_arr = [];
-    if (isset($_POST['opt_label']) && is_array($_POST['opt_label'])) {
-        foreach ($_POST['opt_label'] as $i => $label) {
-            $label = trim($label);
+    $posted_options = $_POST['options'] ?? [];
+
+    if (is_array($posted_options)) {
+        foreach ($posted_options as $i => $opt) {
+            $label = trim($opt['label'] ?? '');
             if (!$label)
                 continue;
 
-            $choices_raw = $_POST['opt_choices'][$i] ?? '';
-            $type = $_POST['opt_type'][$i] ?? 'select';
+            $type = $opt['type'] ?? 'select';
+            $choices = [];
 
-            // Parse choices
-            $choices_lines = preg_split('/\r\n|\r|\n/', $choices_raw);
-            $choices_arr = [];
-            foreach ($choices_lines as $cline) {
-                $cline = trim($cline);
-                if (!$cline)
-                    continue;
+            if (isset($opt['choices']) && is_array($opt['choices'])) {
+                foreach ($opt['choices'] as $j => $choice) {
+                    $c_label = trim($choice['label'] ?? '');
+                    $c_value = trim($choice['value'] ?? '');
+                    // If value is empty, use label
+                    if ($c_value === '')
+                        $c_value = $c_label;
 
-                // Support "value:Label" format, otherwise value=Label
-                if (strpos($cline, ':') !== false) {
-                    list($val, $txt) = explode(':', $cline, 2);
-                    $choices_arr[trim($val)] = trim($txt);
-                } else {
-                    $choices_arr[$cline] = $cline; // Indexed or value=label
+                    if ($c_label === '' && $c_value === '')
+                        continue;
+
+                    $image_path = $choice['image_current'] ?? '';
+
+                    // Handle File Upload for this choice
+                    // $_FILES['options'] is structured weirdly: ['name'][i]['choices'][j]['image_file']
+                    if (
+                        isset($_FILES['options']['name'][$i]['choices'][$j]['image_file']) &&
+                        $_FILES['options']['error'][$i]['choices'][$j]['image_file'] === UPLOAD_ERR_OK
+                    ) {
+
+                        $tmp_name = $_FILES['options']['tmp_name'][$i]['choices'][$j]['image_file'];
+                        $name = $_FILES['options']['name'][$i]['choices'][$j]['image_file'];
+                        $upload_dir = '../../assets/images/uploads/';
+
+                        // Ensure dir exists
+                        if (!file_exists($upload_dir)) {
+                            mkdir($upload_dir, 0777, true);
+                        }
+
+                        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+                        $new_filename = uniqid('opt_') . '.' . $ext;
+                        $dest = $upload_dir . $new_filename;
+
+                        if (move_uploaded_file($tmp_name, $dest)) {
+                            $image_path = '../assets/images/uploads/' . $new_filename;
+                        }
+                    }
+
+                    $choices[] = [
+                        'label' => $c_label,
+                        'value' => $c_value,
+                        'image' => $image_path
+                    ];
                 }
             }
 
             $options_arr[] = [
                 'label' => $label,
                 'type' => $type,
-                'choices' => $choices_arr
+                'choices' => $choices
             ];
         }
     }
@@ -281,7 +313,7 @@ require_once '../includes/header.php';
                                 div.className = 'relative group bg-gray-900 rounded border border-gray-700 p-2 flex flex-col items-center';
                                 div.innerHTML = `
                                     <div class="w-full aspect-video overflow-hidden rounded bg-black mb-2 relative">
-                                        <img src="${img}" class="w-full h-full object-cover">
+                                        <img src="${(img.startsWith('../assets') ? '../' + img : img)}" class="w-full h-full object-cover">
                                     </div>
                                     <p class="text-[10px] text-gray-500 truncate w-full mb-2">${img}</p>
                                     <div class="flex gap-2 w-full justify-center">
@@ -346,101 +378,332 @@ require_once '../includes/header.php';
                 <div class="form-group bg-gray-900 p-4 rounded border border-gray-700">
                     <div class="flex justify-between items-center mb-4">
                         <label class="form-label mb-0">オプション設定 (Options)</label>
-                        <button type="button" onclick="addOptionRow()"
+                        <button type="button" onclick="addOptionGroup()"
                             class="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1 rounded">
-                            <i class="fas fa-plus mr-1"></i> オプション追加
+                            <i class="fas fa-plus mr-1"></i> オプショングループ追加
                         </button>
                     </div>
 
-                    <div id="options-container" class="space-y-4">
-                        <?php
-                        $opts = json_decode($product['options'] ?? '[]', true);
-                        if (!is_array($opts))
-                            $opts = [];
-                        foreach ($opts as $idx => $opt):
-                            // Convert choices array for display (value:label or just value)
-                            $choices_text = '';
-                            $choices = $opt['choices'] ?? [];
-                            foreach ($choices as $k => $v) {
-                                if (is_string($k) && $k !== $v && $k !== (string) $idx) {
-                                    // Assoc array logic is tricky if keys are numeric indices in PHP arrays.
-                                    // migration used assoc for color codes.
-                                    $choices_text .= "$k:$v\n";
-                                } else {
-                                    $choices_text .= "$v\n";
-                                }
-                            }
-                            ?>
-                            <div class="option-row bg-black/30 p-3 rounded border border-gray-700 relative">
-                                <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-300"
-                                    onclick="this.parentElement.remove()">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="text-xs text-gray-400 block mb-1">項目名 (Label)</label>
-                                        <input type="text" name="opt_label[]" class="form-input text-sm py-1"
-                                            value="<?php echo htmlspecialchars($opt['label'] ?? ''); ?>" required
-                                            placeholder="例: カラー">
-                                    </div>
-                                    <div>
-                                        <label class="text-xs text-gray-400 block mb-1">タイプ (Type)</label>
-                                        <select name="opt_type[]" class="form-input text-sm py-1">
-                                            <option value="select">Select Box</option>
-                                        </select>
-                                    </div>
-                                    <div class="md:col-span-2">
-                                        <label class="text-xs text-gray-400 block mb-1">選択肢 (Choices) ※1行に1つ / "値:表示名"
-                                            も可</label>
-                                        <textarea name="opt_choices[]"
-                                            class="form-input h-24 text-sm font-mono leading-tight"
-                                            placeholder="Choice 1&#10;Choice 2&#10;val:Label"><?php echo htmlspecialchars(trim($choices_text)); ?></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                    <div id="options-container" class="space-y-6">
+                        <!-- JS renders groups here -->
                     </div>
+                </div>
 
-                    <script>
-                        function addOptionRow() {
-                            const container = document.getElementById('options-container');
-                            const div = document.createElement('div');
-                            div.className = 'option-row bg-black/30 p-3 rounded border border-gray-700 relative fade-in';
-                            div.innerHTML = `
-                            <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-300" onclick="this.parentElement.remove()">
+                <!-- Template for JS -->
+                <textarea id="options-data"
+                    class="hidden"><?php echo htmlspecialchars($product['options'] ?? '[]'); ?></textarea>
+
+                <script>
+                    const optionsContainer = document.getElementById('options-container');
+                    let optionsData = [];
+                    try {
+                        optionsData = JSON.parse(document.getElementById('options-data').value);
+                    } catch (e) {
+                        optionsData = [];
+                    }
+
+                    // Initial Render
+                    function renderOptions() {
+                        optionsContainer.innerHTML = '';
+                        optionsData.forEach((opt, idx) => {
+                            renderOptionGroup(opt, idx);
+                        });
+                    }
+
+                    function renderOptionGroup(opt, idx) {
+                        const groupDiv = document.createElement('div');
+                        groupDiv.className = 'option-group bg-black/40 p-4 rounded border border-gray-600 relative';
+                        groupDiv.dataset.index = idx;
+
+                        // Identify choices: could be old format or new
+                        // Old: {"key":"val", ...}
+                        // New: [{"label":"l","value":"v","image":"..."}, ...]
+                        let choicesHtml = '';
+                        const choices = opt.choices || [];
+
+                        // Helper to normalize choices to array
+                        let normalizedChoices = [];
+                        if (Array.isArray(choices)) {
+                            normalizedChoices = choices;
+                        } else if (typeof choices === 'object') {
+                            // Convert old Obj to Array
+                            for (const [val, label] of Object.entries(choices)) {
+                                normalizedChoices.push({ value: val, label: label, image: '' });
+                            }
+                        }
+
+                        groupDiv.innerHTML = `
+                            <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-300" onclick="removeOptionGroup(${idx})">
                                 <i class="fas fa-times"></i>
                             </button>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="text-xs text-gray-400 block mb-1">項目名 (Label)</label>
-                                    <input type="text" name="opt_label[]" class="form-input text-sm py-1" required placeholder="例: カラー">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div class="md:col-span-2">
+                                    <label class="text-xs text-gray-400 block mb-1">オプション名 (Label)</label>
+                                    <input type="text" name="options[${idx}][label]" class="form-input text-sm py-1" 
+                                           value="${escapeHtml(opt.label || '')}" required placeholder="例: カラー">
                                 </div>
                                 <div>
                                     <label class="text-xs text-gray-400 block mb-1">タイプ (Type)</label>
-                                    <select name="opt_type[]" class="form-input text-sm py-1">
-                                        <option value="select">Select Box</option>
+                                    <select name="options[${idx}][type]" class="form-input text-sm py-1">
+                                        <option value="select" ${opt.type === 'select' ? 'selected' : ''}>Select Box</option>
                                     </select>
                                 </div>
-                                <div class="md:col-span-2">
-                                    <label class="text-xs text-gray-400 block mb-1">選択肢 (Choices)</label>
-                                    <textarea name="opt_choices[]" class="form-input h-24 text-sm font-mono leading-tight" placeholder="Choice 1&#10;Choice 2&#10;value:Label"></textarea>
+                            </div>
+                            
+                            <div class="choices-section bg-gray-800/50 p-3 rounded">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-xs text-gray-400">選択肢 (Choices)</label>
+                                    <button type="button" class="text-primary text-xs hover:text-yellow-300" onclick="addChoice(${idx})">
+                                        <i class="fas fa-plus"></i> 追加
+                                    </button>
+                                </div>
+                                <div id="choices-container-${idx}" class="space-y-2">
+                                    <!-- Choices render here -->
                                 </div>
                             </div>
                         `;
-                            container.appendChild(div);
-                        }
-                    </script>
-                </div>
-            </div>
+                        optionsContainer.appendChild(groupDiv);
 
-            <div class="pt-6 border-t border-gray-700">
-                <button type="submit"
-                    class="bg-primary hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded transition-colors w-full md:w-auto tracking-widest font-en">
-                    SAVE PRODUCT
-                </button>
+                        const choicesContainer = groupDiv.querySelector(`#choices-container-${idx}`);
+                        normalizedChoices.forEach((choice, cIdx) => {
+                            renderChoiceRow(choicesContainer, idx, cIdx, choice);
+                        });
+                    }
+
+                    function renderChoiceRow(container, groupIdx, choiceIdx, choice) {
+                        const row = document.createElement('div');
+                        row.className = 'grid grid-cols-12 gap-2 items-center bg-black/20 p-2 rounded border border-gray-700';
+                        row.innerHTML = `
+                            <div class="col-span-3">
+                                <label class="text-[10px] text-gray-500 block">表示名 (Label)</label>
+                                <input type="text" name="options[${groupIdx}][choices][${choiceIdx}][label]" 
+                                       class="form-input text-xs py-1" value="${escapeHtml(choice.label || '')}" placeholder="表示名">
+                            </div>
+                            <div class="col-span-3">
+                                <label class="text-[10px] text-gray-500 block">値 (Value)</label>
+                                <input type="text" name="options[${groupIdx}][choices][${choiceIdx}][value]" 
+                                       class="form-input text-xs py-1" value="${escapeHtml(choice.value || '')}" placeholder="値 (空白なら表示名)">
+                            </div>
+                            <div class="col-span-5">
+                                <label class="text-[10px] text-gray-500 block">画像 (Image)</label>
+                                <div class="flex items-center gap-2">
+                                    ${choice.image ? `<img src="${(choice.image.startsWith('../assets') ? '../' + choice.image : choice.image)}" class="h-8 w-8 object-cover rounded border border-gray-600">` : ''}
+                                    <input type="hidden" name="options[${groupIdx}][choices][${choiceIdx}][image_current]" value="${escapeHtml(choice.image || '')}">
+                                    <input type="file" name="options[${groupIdx}][choices][${choiceIdx}][image_file]" class="text-gray-400 text-[10px] w-full file:py-0 file:px-2 file:rounded file:bg-gray-700 file:text-gray-200">
+                                </div>
+                            </div>
+                            <div class="col-span-1 text-right">
+                                <button type="button" class="text-red-500 hover:text-red-300" onclick="this.closest('.grid').remove()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(row);
+                    }
+
+                    function addOptionGroup() {
+                        const idx = document.querySelectorAll('.option-group').length;
+                        // Just append a new empty group (simplification: re-rendering everything is safer actually for indices, but let's try direct append for performance)
+                        // Actually, if we delete groups, indices might get messed up in PHP if we rely on sequential keys?
+                        // PHP $_POST arrays will have gaps if we remove elements. `array_values` or `foreach` handles it.
+                        // But my JS `addChoice` relies on `idx`.
+                        // Easier strategy: Just push to `optionsData` and re-render all.
+                        optionsData.push({ label: '', type: 'select', choices: [] });
+                        renderOptions();
+                    }
+
+                    function removeOptionGroup(idx) {
+                        if (confirm('このオプショングループを削除しますか？')) {
+                            optionsData.splice(idx, 1);
+                            renderOptions();
+                        }
+                    }
+
+                    // Since inputs are dynamic, we need a way to add choices without full re-render or carefully manage state.
+                    // Full re-render clears inputs...
+                    // Let's attach event to Add Button to just append HTML with correct Index.
+                    // IMPORTANT: If I delete a group in the middle, indices shift. 
+                    // So "removeOptionGroup" MUST Re-render.
+                    // "addChoice" can just append.
+                    // BUT: We need to sync Input values back to `optionsData` before re-render if we mix strategies.
+
+                    // Revised Strategy:
+                    // 1. Render all from `optionsData`.
+                    // 2. When interacting (typing), we rely on default form behavior.
+                    // 3. When Adding/Removing Groups, we need to SAVE current form state to `optionsData` then Re-render.
+                    // 4. When Adding components, we can just Append HTML because indices for THAT group don't change if we just append.
+
+                    window.addChoice = function (groupIdx) {
+                        const container = document.getElementById(`choices-container-${groupIdx}`);
+                        const cIdx = container.children.length; // rough index
+                        // We need to find a unique index or just use length? 
+                        // If we delete choices, we might want to re-index choices too?
+                        // For simplicity, let's just append. PHP handles `choices` array even if indices are non-sequential or gaps?
+                        // Actually PHP `choices` index in `name` doesn't strictly matter for `foreach` if we don't assume continuous.
+                        // But for `javascript`, standardizing is cleaner.
+
+                        renderChoiceRow(container, groupIdx, cIdx + Date.now(), {}); // use timestamp to avoid collision if simple length fails
+                    };
+
+                    function escapeHtml(text) {
+                        if (!text) return '';
+                        return text
+                            .replace(/&/g, "&amp;")
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;")
+                            .replace(/"/g, "&quot;")
+                            .replace(/'/g, "&#039;");
+                    }
+
+                    // On Load
+                    document.addEventListener('DOMContentLoaded', renderOptions);
+
+                    // Sync before Add/Remove Group to persist text inputs
+                    function syncState() {
+                        const groups = document.querySelectorAll('.option-group');
+                        const newData = [];
+                        groups.forEach((g, i) => {
+                            const label = g.querySelector(`input[name^="options[${g.dataset.index}][label]"]`).value;
+                            const choices = [];
+                            // This is getting complex to grab all deep inputs.
+                            // Maybe just Re-rendering is heavy-handed but ensures indices align?
+                            // Actually, simply relying on Form Submission is enough for PHP.
+                            // The only issue is UI management (Adding/Removing).
+
+                            // Let's start simple: 
+                            // For Add Group -> Re-render (indices update). BUT we lose text unless we sync.
+                            // Maybe just append the group at the bottom and don't re-render existing?
+                        });
+                    }
+
+                    // Override `renderOptions` to NOT clear everything if we can help it?
+                    // No, let's stick to "Append Group" only appends. "Remove" removes element. 
+                    // Indices in `name` attributes: `options[${idx}]` -- if we remove options[0], we have options[1]. PHP receives array index 1. `foreach` works fine.
+                    // So we don't need to re-index!
+
+                    // Redefine functions to be simpler DOM manipulations
+
+                    window.renderOptions = function () {
+                        optionsContainer.innerHTML = '';
+                        optionsData.forEach((opt, idx) => {
+                            // Use a unique ID for the group to avoid index collisions if we were to delete/add
+                            // But here we are rendering initial state.
+                            appendOptionGroupHtml(opt, idx);
+                        });
+                    };
+
+                    let groupCounter = 0;
+
+                    function appendOptionGroupHtml(opt, idx) {
+                        // idx is used for initial uniqueness. Subsequent adds use increments.
+                        const currentId = groupCounter++;
+
+                        const groupDiv = document.createElement('div');
+                        groupDiv.className = 'option-group bg-black/40 p-4 rounded border border-gray-600 relative';
+
+                        // Parse choices
+                        let normalizedChoices = [];
+                        const choices = opt.choices || [];
+                        if (Array.isArray(choices)) {
+                            normalizedChoices = choices;
+                        } else if (typeof choices === 'object') {
+                            for (const [val, label] of Object.entries(choices)) {
+                                normalizedChoices.push({ value: val, label: label, image: '' });
+                            }
+                        }
+
+                        groupDiv.innerHTML = `
+                            <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-300" onclick="this.parentElement.remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div class="md:col-span-2">
+                                    <label class="text-xs text-gray-400 block mb-1">オプション名 (Label)</label>
+                                    <input type="text" name="options[${currentId}][label]" class="form-input text-sm py-1" 
+                                           value="${escapeHtml(opt.label || '')}" required placeholder="例: カラー">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-400 block mb-1">タイプ (Type)</label>
+                                    <select name="options[${currentId}][type]" class="form-input text-sm py-1">
+                                        <option value="select" ${opt.type === 'select' ? 'selected' : ''}>Select Box</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="choices-section bg-gray-800/50 p-3 rounded">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-xs text-gray-400">選択肢 (Choices)</label>
+                                    <button type="button" class="text-primary text-xs hover:text-yellow-300" onclick="addChoice(${currentId})">
+                                        <i class="fas fa-plus"></i> 追加
+                                    </button>
+                                </div>
+                                <div id="choices-container-${currentId}" class="space-y-2">
+                                    <!-- Choices render here -->
+                                </div>
+                            </div>
+                        `;
+                        optionsContainer.appendChild(groupDiv);
+
+                        const choicesContainer = groupDiv.querySelector(`#choices-container-${currentId}`);
+                        normalizedChoices.forEach((choice) => {
+                            // Use timestamp/random for choice Index to avoid collision in same group
+                            appendChoiceHtml(choicesContainer, currentId, choice);
+                        });
+                    }
+
+                    function appendChoiceHtml(container, groupParamsId, choice) {
+                        const cId = Date.now() + Math.floor(Math.random() * 1000);
+                        const row = document.createElement('div');
+                        row.className = 'grid grid-cols-12 gap-2 items-center bg-black/20 p-2 rounded border border-gray-700';
+                        row.innerHTML = `
+                            <div class="col-span-3">
+                                <label class="text-[10px] text-gray-500 block">表示名 (Label)</label>
+                                <input type="text" name="options[${groupParamsId}][choices][${cId}][label]" 
+                                       class="form-input text-xs py-1" value="${escapeHtml(choice.label || '')}" placeholder="表示名">
+                            </div>
+                            <div class="col-span-3">
+                                <label class="text-[10px] text-gray-500 block">値 (Value)</label>
+                                <input type="text" name="options[${groupParamsId}][choices][${cId}][value]" 
+                                       class="form-input text-xs py-1" value="${escapeHtml(choice.value || '')}" placeholder="値 (空白なら表示名)">
+                            </div>
+                            <div class="col-span-5">
+                                <label class="text-[10px] text-gray-500 block">画像 (Image)</label>
+                                <div class="flex items-center gap-2">
+                                    ${choice.image ? `<img src="${(choice.image.startsWith('../assets') ? '../' + choice.image : choice.image)}" class="h-8 w-8 object-cover rounded border border-gray-600">` : ''}
+                                    <input type="hidden" name="options[${groupParamsId}][choices][${cId}][image_current]" value="${escapeHtml(choice.image || '')}">
+                                    <input type="file" name="options[${groupParamsId}][choices][${cId}][image_file]" class="text-gray-400 text-[10px] w-full file:py-0 file:px-2 file:rounded file:bg-gray-700 file:text-gray-200">
+                                </div>
+                            </div>
+                            <div class="col-span-1 text-right">
+                                <button type="button" class="text-red-500 hover:text-red-300" onclick="this.closest('.grid').remove()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(row);
+                    }
+
+                    window.addOptionGroup = function () {
+                        appendOptionGroupHtml({ label: '', type: 'select', choices: [] });
+                    };
+
+                    window.addChoice = function (groupId) {
+                        const container = document.getElementById(`choices-container-${groupId}`);
+                        appendChoiceHtml(container, groupId, {});
+                    };
+
+                </script>
             </div>
         </div>
-    </form>
+
+        <div class="pt-6 border-t border-gray-700">
+            <button type="submit"
+                class="bg-primary hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded transition-colors w-full md:w-auto tracking-widest font-en">
+                SAVE PRODUCT
+            </button>
+        </div>
+</div>
+</form>
 </div>
 
 <?php require_once '../includes/footer.php'; ?>
