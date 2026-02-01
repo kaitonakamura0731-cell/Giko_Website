@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 
 // ---------------------------------------------------------
@@ -177,7 +177,7 @@ EOT;
             ご入力いただいたメールアドレスへ<br>自動返信メールを送信しました。
         </p>
 
-        <a href="../index.html"
+        <a href="../index.php"
             class="inline-block border border-white/20 px-10 py-4 hover:bg-white hover:text-black transition-colors rounded-sm text-sm tracking-widest font-en">
             TOPに戻る
         </a>

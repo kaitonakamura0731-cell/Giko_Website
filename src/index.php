@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once 'admin/includes/db.php';
 require_once 'admin/includes/settings_helper.php';
 
@@ -59,11 +59,7 @@ try {
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <a href="#" class="flex items-center gap-3 group">
-                <div
-                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
-                    G</div>
-                <span
-                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+                <img src="assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
             </a>
 
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">

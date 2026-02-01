@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once '../admin/includes/db.php';
 
 $id = $_GET['id'] ?? null;
@@ -48,14 +48,11 @@ $default_swatch = '../assets/images/no_image.png';
     <!-- Header (Simplified) -->
     <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="../index.html" class="flex items-center gap-3">
-                <div
-                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
-                    G</div>
-                <span class="text-xl font-bold tracking-widest font-en">GIKO</span>
+            <a href="../index.php" class="flex items-center gap-3">
+                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
             </a>
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
-                <a href="../index.html" class="hover:text-primary transition-colors font-en">HOME</a>
+                <a href="../index.php" class="hover:text-primary transition-colors font-en">HOME</a>
                 <a href="index.php" class="text-primary font-en">STORE</a>
             </nav>
             <a href="cart.html" class="flex ml-6 relative group">
@@ -253,3 +250,4 @@ $default_swatch = '../assets/images/no_image.png';
 </body>
 
 </html>
+

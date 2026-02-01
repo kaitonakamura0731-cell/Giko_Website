@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 
 // Generate CSRF Token for future use or validation
@@ -32,12 +32,8 @@ $csrf_token = $_SESSION['csrf_token'];
     <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="../index.html" class="flex items-center gap-3 group">
-                <div
-                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
-                    G</div>
-                <span
-                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            <a href="../index.php" class="flex items-center gap-3 group">
+                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
             </a>
 
             <div class="flex items-center gap-6">
@@ -367,6 +363,13 @@ $csrf_token = $_SESSION['csrf_token'];
         let currentPaymentMethod = 'card';
 
         document.addEventListener('DOMContentLoaded', () => {
+             // 1. Sync Payment Method state with UI
+            const checkedRadio = document.querySelector('input[name="payment_method"]:checked');
+            if (checkedRadio) {
+                currentPaymentMethod = checkedRadio.value;
+                togglePayment(currentPaymentMethod);
+            }
+
             const total = Cart.getTotal();
             if (total === 0) {
                 alert('カートが空です');
@@ -405,7 +408,7 @@ $csrf_token = $_SESSION['csrf_token'];
                          </div>
                          <div class="flex-1 min-w-0">
                              <h4 class="font-bold text-sm truncate pr-4">${item.name}</h4>
-                             <p class="text-[10px] text-gray-400 mt-1 font-en">${Object.values(item.options || {}).join(' / ')}</p>
+                             <p class="text-xs text-gray-400 mt-1 font-en">${Object.values(item.options || {}).join(' / ')}</p>
                          </div>
                          <div class="font-en font-bold text-sm">¥${item.price.toLocaleString()}</div>
                      </div>
@@ -429,34 +432,45 @@ $csrf_token = $_SESSION['csrf_token'];
         }
 
         function initPayjpV2() {
-            payjp = Payjp(PUBLIC_KEY);
-            elements = payjp.elements();
+            if (typeof Payjp === 'undefined') {
+                console.error("PAY.JP SDK not loaded. Check internet connection.");
+                showError("決済システムの読み込みに失敗しました。ページを再読み込みしてください。");
+                return;
+            }
+            try {
+                payjp = Payjp(PUBLIC_KEY);
+                elements = payjp.elements();
 
-            // Style for the embedded card input
-            const style = {
-                base: {
-                    color: '#ffffff',
-                    fontFamily: '"Montserrat", "Noto Sans JP", sans-serif',
-                    fontSize: '16px',
-                    lineHeight: '1.5',
-                    '::placeholder': {
-                        color: '#6b7280', // gray-500
+                // Style for the embedded card input
+                const style = {
+                    base: {
+                        color: '#ffffff',
+                        fontFamily: '"Montserrat", "Noto Sans JP", sans-serif',
+                        fontSize: '16px',
+                        lineHeight: '1.5',
+                        '::placeholder': {
+                            color: '#6b7280', // gray-500
+                        }
+                    },
+                    invalid: {
+                        color: '#fca5a5', // red-300
+                        iconColor: '#fca5a5'
                     }
-                },
-                invalid: {
-                    color: '#fca5a5', // red-300
-                    iconColor: '#fca5a5'
-                }
-            };
+                };
 
-            cardElement = elements.create('card', { style: style, hideCardIcons: false });
-            cardElement.mount('#v2-card-element');
+                cardElement = elements.create('card', { style: style, hideCardIcons: false });
+                cardElement.mount('#v2-card-element');
+            } catch (e) {
+                console.error("PAY.JP Init Error:", e);
+                showError("カード入力フォームの表示に失敗しました。");
+            }
         }
 
         function showError(msg) {
             const errDiv = document.getElementById('error-message');
-            document.getElementById('error-text').innerText = msg;
-            errDiv.classList.remove('hidden');
+            const errText = document.getElementById('error-text');
+            if (errText) errText.innerText = msg;
+            if (errDiv) errDiv.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -529,8 +543,8 @@ $csrf_token = $_SESSION['csrf_token'];
             const loadingOverlay = document.getElementById('loading-overlay');
             const errDiv = document.getElementById('error-message');
 
-            errDiv.classList.add('hidden');
-            loadingOverlay.classList.remove('hidden');
+            if(errDiv) errDiv.classList.add('hidden');
+            if(loadingOverlay) loadingOverlay.classList.remove('hidden');
 
             try {
                 if (currentPaymentMethod === 'card') {
@@ -539,7 +553,7 @@ $csrf_token = $_SESSION['csrf_token'];
                     await processBankTransfer();
                 }
             } catch (err) {
-                loadingOverlay.classList.add('hidden');
+                if(loadingOverlay) loadingOverlay.classList.add('hidden');
                 showError(err.message || '決済処理中にエラーが発生しました。');
             }
         }
@@ -575,10 +589,6 @@ $csrf_token = $_SESSION['csrf_token'];
                 body: JSON.stringify({
                     token: result.id,
                     amount: formData.get('amount')
-                    // Currently we are not validating CSRF token for the payment API call 
-                    // because payment.php is an API point often called from fetch.
-                    // However, we could add 'X-CSRF-Token': '...' if payment.php checked for it.
-                    // For now, payment.php only checks for token presence.
                 })
             });
 
@@ -644,3 +654,4 @@ $csrf_token = $_SESSION['csrf_token'];
 </body>
 
 </html>
+
