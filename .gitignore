@@ -8,3 +8,7 @@ assets/images/40ヴェルファイア_ステアリング/40ヴェルファイア
 assets/images/40ヴェルファイア_ステアリング/40ヴェルファイア_ステアリング_⑥ - 自動車内装専門店-GIKO-.jpg
 assets/images/40ヴェルファイア_ステアリング/40ヴェルファイア_ステアリング_⑦ - 自動車内装専門店-GIKO-.jpg
 assets/images/40ヴェルファイア_ステアリング/40ヴェルファイア_ステアリング_⑧ - 自動車内装専門店-GIKO-.jpeg
+
+# Config files with secrets (Do not commit)
+src/config/api_keys.php
+src/db_config.php

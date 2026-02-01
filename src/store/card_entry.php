@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/../config/api_keys.php';
 
 // 1. Receive POST data from checkout.php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -120,7 +121,7 @@ if (empty($_SESSION['csrf_token'])) {
 
     <script src="https://js.pay.jp/v2/pay.js"></script>
     <script>
-        const PUBLIC_KEY = 'pk_test_9deadd0cb5a5d94b4cd785dc'; // ユーザーの正しいテスト公開鍵
+        const PUBLIC_KEY = '<?php echo PAYJP_PUBLIC_KEY; ?>';
         let payjp, elements, cardElement;
 
         document.addEventListener('DOMContentLoaded', () => {

@@ -6,12 +6,9 @@
 // CONFIGURATION
 // ---------------------------------------------------------
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// IMPORTANT: Replace this with your actual Secret Key
-// PAY.JP Dashboard -> Settings -> API Keys -> Secret Key
-// Start with 'sk_...'
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-$PAYJP_SECRET_KEY = 'sk_test_5c5ca00f36f35253ead4d39d'; // ユーザーの正しいテスト秘密鍵
+// Load API keys from config file (not tracked in git)
+require_once __DIR__ . '/../config/api_keys.php';
+$PAYJP_SECRET_KEY = PAYJP_SECRET_KEY;
 
 // ---------------------------------------------------------
 // HELPERS
