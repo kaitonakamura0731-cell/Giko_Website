@@ -33,7 +33,11 @@ $csrf_token = $_SESSION['csrf_token'];
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <a href="../index.php" class="flex items-center gap-3 group">
-                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
             </a>
 
             <div class="flex items-center gap-6">
@@ -361,7 +365,7 @@ $csrf_token = $_SESSION['csrf_token'];
         let currentPaymentMethod = 'card';
 
         document.addEventListener('DOMContentLoaded', () => {
-             // 1. Sync Payment Method state with UI
+            // 1. Sync Payment Method state with UI
             const checkedRadio = document.querySelector('input[name="payment_method"]:checked');
             if (checkedRadio) {
                 currentPaymentMethod = checkedRadio.value;
@@ -513,8 +517,8 @@ $csrf_token = $_SESSION['csrf_token'];
             const loadingOverlay = document.getElementById('loading-overlay');
             const errDiv = document.getElementById('error-message');
 
-            if(errDiv) errDiv.classList.add('hidden');
-            if(loadingOverlay) loadingOverlay.classList.remove('hidden');
+            if (errDiv) errDiv.classList.add('hidden');
+            if (loadingOverlay) loadingOverlay.classList.remove('hidden');
 
             try {
                 if (currentPaymentMethod === 'card') {
@@ -523,7 +527,7 @@ $csrf_token = $_SESSION['csrf_token'];
                     await processBankTransfer();
                 }
             } catch (err) {
-                if(loadingOverlay) loadingOverlay.classList.add('hidden');
+                if (loadingOverlay) loadingOverlay.classList.add('hidden');
                 showError(err.message || '決済処理中にエラーが発生しました。');
             }
         }
@@ -533,7 +537,7 @@ $csrf_token = $_SESSION['csrf_token'];
             // Change Action to card_entry.php
             form.action = "card_entry.php";
             form.method = "POST";
-            
+
             // Submit form to go to next page
             form.submit();
         }
@@ -585,18 +589,18 @@ $csrf_token = $_SESSION['csrf_token'];
             if (!phone) return '';
             // 1. Remove hyphens, spaces, parentheses
             let cleaned = phone.replace(/[-()\s]/g, '');
-            
+
             // 2. Remove leading zero if present and prepend +81
             if (cleaned.startsWith('0')) {
                 cleaned = cleaned.substring(1);
                 return '+81' + cleaned;
             }
-            
+
             // 3. If already starts with 81 (without +), prepend +
             if (cleaned.startsWith('81')) {
                 return '+' + cleaned;
             }
-            
+
             // 4. Default fallback: if it looks like just numbers, assume JP and add +81?
             // Or if user entered +81..., leave it.
             if (cleaned.startsWith('+')) {
@@ -610,4 +614,3 @@ $csrf_token = $_SESSION['csrf_token'];
 </body>
 
 </html>
-

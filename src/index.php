@@ -19,6 +19,15 @@ try {
 } catch (PDOException $e) {
     $news_items = [];
 }
+
+// Fetch Works
+try {
+    $works_stmt = $pdo->prepare("SELECT * FROM works ORDER BY created_at DESC LIMIT 3");
+    $works_stmt->execute();
+    $latest_works = $works_stmt->fetchAll();
+} catch (PDOException $e) {
+    $latest_works = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
@@ -58,8 +67,12 @@ try {
     <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-3 group">
-                <img src="assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
+            <a href="../index.php" class="flex items-center gap-3 group">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
             </a>
 
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
@@ -284,27 +297,36 @@ try {
                 <p class="text-xs text-textLight tracking-wider">施工実績</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="works-grid">
-                <!-- Case 1 -->
-                <article class="group fade-in work-item" data-category="interior seat import">
-                    <a href="pages/work_detail.php?id=1" class="block bg-black overflow-hidden relative">
-                        <!-- (Assuming converted links) -->
-                        <div class="overflow-hidden aspect-[4/3]">
-                            <img src="./assets/images/alphard/Alphard_TOP.jpg" alt="Alphard"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
-                        </div>
-                        <div class="p-6">
-                            <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">INTERIOR / SEAT
-                            </div>
-                            <h3 class="text-lg font-bold font-en mb-1">TOYOTA ALPHARD</h3>
-                            <p class="text-xs text-gray-500">Luxury White Leather Interior</p>
-                        </div>
-                    </a>
-                </article>
-                <!-- (Simplifying redundant items for this write call, assuming user wants full content, I will strictly copy but update links) -->
-                <!-- Wait, I cannot strictly copy all lines in this `write_to_file` call without being excessively long. 
-                      I will use the original `index.html` content + modifications. 
-                      Actually, `write_to_file` overwrites. I must provide FULL content.
-                      I'll try to be faithful. -->
+                <?php if (!empty($latest_works)): ?>
+                    <?php foreach ($latest_works as $work): ?>
+                        <article class="group fade-in work-item"
+                            data-category="<?php echo htmlspecialchars($work['category']); ?>">
+                            <a href="pages/work_detail.php?id=<?php echo $work['id']; ?>"
+                                class="block bg-black overflow-hidden relative">
+                                <div class="overflow-hidden aspect-[4/3]">
+                                    <?php if ($work['main_image']): ?>
+                                        <img src="<?php echo htmlspecialchars($work['main_image']); ?>"
+                                            alt="<?php echo htmlspecialchars($work['title']); ?>"
+                                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
+                                    <?php else: ?>
+                                        <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">No
+                                            Image</div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="p-6">
+                                    <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en uppercase">
+                                        <?php echo htmlspecialchars($work['category']); ?>
+                                    </div>
+                                    <h3 class="text-lg font-bold font-en mb-1"><?php echo htmlspecialchars($work['title']); ?>
+                                    </h3>
+                                    <p class="text-xs text-gray-500"><?php echo htmlspecialchars($work['subtitle']); ?></p>
+                                </div>
+                            </a>
+                        </article>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="col-span-3 text-center text-gray-500">No works found.</p>
+                <?php endif; ?>
             </div>
             <div class="text-center mt-16">
                 <a href="pages/works.php"
@@ -327,6 +349,119 @@ try {
                     class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 font-en">
                     VIEW ONLINE STORE <i class="fas fa-arrow-right text-xs"></i>
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Material -->
+    <section id="material" class="py-32 bg-secondary relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2 fade-in">
+                    <div class="relative">
+                        <img src="./assets/images/details/material.jpg"
+                            class="w-full h-auto rounded-sm shadow-2xl relative z-10">
+                        <img src="./assets/images/details/bespoke.jpg"
+                            class="absolute -bottom-10 -right-10 w-2/3 h-auto rounded-sm shadow-2xl z-20 border-4 border-secondary">
+                    </div>
+                </div>
+                <div class="lg:w-1/2 fade-in">
+                    <h2
+                        class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-8 text-white/10 absolute -right-0 -top-20 select-none">
+                        MATERIAL</h2>
+                    <h2 class="text-3xl font-bold mb-8 leading-relaxed font-serif" data-i18n="material_main">
+                        手に触れる全てに、<br>最高級の悦びを。
+                    </h2>
+
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-primary font-bold tracking-widest font-en mb-2 text-sm"
+                                data-i18n="material_sub1_title">厳選された本革</h3>
+                            <p class="text-sm text-gray-400 leading-loose" data-i18n="material_sub1_text">
+                                欧州の高級車にも採用されるナッパレザーをはじめ、耐久性と質感に優れた最高ランクの原皮のみを厳選。<br>
+                                時を経るごとに馴染み、深みを増す本物の質感をお楽しみください。
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-primary font-bold tracking-widest font-en mb-2 text-sm"
+                                data-i18n="material_sub2_title">多種多様なマテリアル</h3>
+                            <p class="text-sm text-gray-400 leading-loose" data-i18n="material_sub2_text">
+                                アルカンターラ、パンチングレザー、カーボンレザーなど、デザイン性と機能性を両立する多彩な素材をご用意。<br>
+                                ステッチの糸一本の色に至るまで、数千通りの組み合わせが可能です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flow -->
+    <section id="flow" class="py-32 bg-black border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">FLOW</h2>
+                <p class="text-xs text-textLight tracking-wider" data-i18n="flow_sub">ご納車までの流れ</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div
+                    class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in">
+                    <div
+                        class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
+                        01</div>
+                    <div class="mb-6 h-40 flex items-center justify-center">
+                        <img src="./assets/images/flow_inquiry.png"
+                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step1_title">INQUIRY</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step1_text">まずはお電話かメールにてご連絡ください。
+                    </p>
+                </div>
+                <!-- Step 2 -->
+                <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
+                    style="transition-delay: 0.1s;">
+                    <div
+                        class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
+                        02</div>
+                    <div class="mb-6 h-40 flex items-center justify-center">
+                        <img src="./assets/images/flow_planning.png"
+                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step2_title">PLANNING
+                    </h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step2_text">詳細なデザインや素材を決定します。</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
+                    style="transition-delay: 0.2s;">
+                    <div
+                        class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
+                        03</div>
+                    <div class="mb-6 h-40 flex items-center justify-center">
+                        <img src="./assets/images/flow_construction.png"
+                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step3_title">CONSTRUCTION
+                    </h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step3_text">熟練の職人が丁寧に仕上げます。</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
+                    style="transition-delay: 0.3s;">
+                    <div
+                        class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
+                        04</div>
+                    <div class="mb-6 h-40 flex items-center justify-center">
+                        <img src="./assets/images/flow_delivery.png"
+                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step4_title">DELIVERY
+                    </h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step4_text">仕上がりをご確認いただき納車となります。
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -391,7 +526,8 @@ try {
                             <i class="fas fa-phone mt-1 text-primary"></i>
                             <div>
                                 <div class="text-white font-bold text-lg font-en">
-                                    <?php echo htmlspecialchars($company_tel); ?></div>
+                                    <?php echo htmlspecialchars($company_tel); ?>
+                                </div>
                             </div>
                         </li>
                     </ul>

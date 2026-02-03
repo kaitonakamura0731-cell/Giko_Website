@@ -42,7 +42,7 @@ require_once '../includes/header.php';
                             <td class="p-4 text-gray-300">#<?php echo $work['id']; ?></td>
                             <td class="p-4">
                                 <?php if ($work['main_image']): ?>
-                                    <img src="<?php echo htmlspecialchars($work['main_image']); ?>" alt="img"
+                                    <img src="<?php echo '../../' . htmlspecialchars($work['main_image']); ?>" alt="img"
                                         class="w-12 h-8 object-cover rounded border border-gray-600">
                                 <?php else: ?>
                                     <div

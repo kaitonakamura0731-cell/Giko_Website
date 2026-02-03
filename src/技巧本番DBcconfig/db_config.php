@@ -5,19 +5,19 @@
  */
 
 // ホスト名 (ConoHaサーバーの接続先ホスト)
-$host = 'localhost';
+$host = 'mysql1007.conoha.ne.jp';
 
 // データベース名
-$db = 'giko_db';
+$db = '1lq8c_detabase';
 
 // データベースユーザー名 (ConoHaで作成したユーザー名を入力してください)
-$user = 'root';
+$user = '1lq8c_admin';
 
 // データベースパスワード (ConoHaで設定したパスワードを入力してください)
-$pass = 'root';
+$pass = 'password123!';
 
 // ポート番号 (ConoHa/本番環境は3306)
-$port = '8889';
+$port = '3306';
 
 // 文字コード
 $charset = 'utf8mb4';

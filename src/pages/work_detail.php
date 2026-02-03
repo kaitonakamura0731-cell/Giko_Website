@@ -51,7 +51,7 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
     <meta property="og:description" content="<?php echo htmlspecialchars($work['description']); ?>">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://giko-artisan.jp/pages/work_detail.php?id=<?php echo $id; ?>">
-    <meta property="og:image" content="<?php echo htmlspecialchars($work['main_image']); ?>">
+    <meta property="og:image" content="<?php echo '../' . htmlspecialchars($work['main_image']); ?>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
@@ -66,21 +66,24 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <a href="../index.php" class="flex items-center gap-3 group">
-                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 w-auto object-contain">
+                <div
+                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
+                    G</div>
+                <span
+                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
             </a>
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
                 <a href="../index.php#concept"
                     class="hover:text-primary transition-colors font-en relative group">CONCEPT</a>
                 <a href="../pages/works.php" class="text-primary font-en relative group">WORKS</a>
-                <a href="../store/purchase.html"
+                <a href="../store/index.php"
                     class="hover:text-primary transition-colors font-en relative group">STORE</a>
                 <a href="../pages/before_after.html"
                     class="hover:text-primary transition-colors font-en relative group">BEFORE &
                     AFTER</a>
                 <a href="../index.php#material"
                     class="hover:text-primary transition-colors font-en relative group">MATERIAL</a>
-                <a href="../index.php#flow"
-                    class="hover:text-primary transition-colors font-en relative group">FLOW</a>
+                <a href="../index.php#flow" class="hover:text-primary transition-colors font-en relative group">FLOW</a>
                 <a href="../index.php#company"
                     class="hover:text-primary transition-colors font-en relative group">COMPANY</a>
             </nav>
@@ -93,7 +96,7 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
     <section class="relative h-[60vh] min-h-[500px] flex items-end justify-start overflow-hidden">
         <div class="absolute inset-0 z-0">
             <?php if ($hero_image): ?>
-                <img src="<?php echo htmlspecialchars($hero_image); ?>" alt="Hero"
+                <img src="<?php echo '../' . htmlspecialchars($hero_image); ?>" alt="Hero"
                     class="w-full h-full object-cover opacity-60">
             <?php else: ?>
                 <div class="w-full h-full bg-gray-800 opacity-60"></div>
@@ -110,9 +113,11 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                 <?php echo htmlspecialchars($work['category']); ?>
             </div>
             <h1 class="text-4xl md:text-7xl font-bold font-en tracking-tighter mb-4">
-                <?php echo htmlspecialchars($work['title']); ?></h1>
+                <?php echo htmlspecialchars($work['title']); ?>
+            </h1>
             <p class="text-gray-400 text-sm md:text-base tracking-widest font-en uppercase">
-                <?php echo htmlspecialchars($work['description']); ?></p>
+                <?php echo htmlspecialchars($work['description']); ?>
+            </p>
         </div>
     </section>
 
@@ -130,25 +135,29 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                             <i class="fas fa-couch text-primary text-2xl mb-2"></i>
                             <div class="text-[10px] text-gray-500 font-en tracking-widest">SEAT</div>
                             <div class="font-bold text-sm">
-                                <?php echo htmlspecialchars(getJson($work['specs'], 'seat')); ?></div>
+                                <?php echo htmlspecialchars(getJson($work['specs'], 'seat')); ?>
+                            </div>
                         </div>
                         <div class="bg-secondary p-4 border border-white/5 text-center">
                             <i class="fas fa-layer-group text-primary text-2xl mb-2"></i>
                             <div class="text-[10px] text-gray-500 font-en tracking-widest">MATERIAL</div>
                             <div class="font-bold text-sm">
-                                <?php echo htmlspecialchars(getJson($work['specs'], 'material')); ?></div>
+                                <?php echo htmlspecialchars(getJson($work['specs'], 'material')); ?>
+                            </div>
                         </div>
                         <div class="bg-secondary p-4 border border-white/5 text-center">
                             <i class="fas fa-palette text-primary text-2xl mb-2"></i>
                             <div class="text-[10px] text-gray-500 font-en tracking-widest">COLOR</div>
                             <div class="font-bold text-sm">
-                                <?php echo htmlspecialchars(getJson($work['specs'], 'color')); ?></div>
+                                <?php echo htmlspecialchars(getJson($work['specs'], 'color')); ?>
+                            </div>
                         </div>
                         <div class="bg-secondary p-4 border border-white/5 text-center">
                             <i class="far fa-clock text-primary text-2xl mb-2"></i>
                             <div class="text-[10px] text-gray-500 font-en tracking-widest">PERIOD</div>
                             <div class="font-bold text-sm">
-                                <?php echo htmlspecialchars(getJson($work['specs'], 'period')); ?></div>
+                                <?php echo htmlspecialchars(getJson($work['specs'], 'period')); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,7 +169,8 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                         <div>
                             <dt class="text-[10px] text-primary font-en tracking-widest mb-1">CAR MODEL</dt>
                             <dd class="font-medium">
-                                <?php echo htmlspecialchars(getJson($work['data_info'], 'model')); ?></dd>
+                                <?php echo htmlspecialchars(getJson($work['data_info'], 'model')); ?>
+                            </dd>
                         </div>
                         <div>
                             <dt class="text-[10px] text-primary font-en tracking-widest mb-1">MENU</dt>
@@ -170,7 +180,8 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                         <div>
                             <dt class="text-[10px] text-primary font-en tracking-widest mb-1">MATERIAL</dt>
                             <dd class="font-medium">
-                                <?php echo htmlspecialchars(getJson($work['data_info'], 'material')); ?></dd>
+                                <?php echo htmlspecialchars(getJson($work['data_info'], 'material')); ?>
+                            </dd>
                         </div>
                         <div>
                             <dt class="text-[10px] text-primary font-en tracking-widest mb-1">CONTENT</dt>
@@ -181,7 +192,8 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                         <div>
                             <dt class="text-[10px] text-primary font-en tracking-widest mb-1">PRICE</dt>
                             <dd class="font-medium text-xl font-en">
-                                <?php echo htmlspecialchars(getJson($work['data_info'], 'price')); ?></dd>
+                                <?php echo htmlspecialchars(getJson($work['data_info'], 'price')); ?>
+                            </dd>
                             <dd class="text-[10px] text-gray-600 mt-1">※参考価格</dd>
                         </div>
                     </dl>
@@ -203,7 +215,7 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <?php foreach ($gallery as $img): ?>
                         <div class="aspect-square bg-black overflow-hidden relative group">
-                            <img src="<?php echo htmlspecialchars($img); ?>" alt="Gallery"
+                            <img src="<?php echo '../' . htmlspecialchars($img); ?>" alt="Gallery"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                         </div>
                     <?php endforeach; ?>
@@ -267,5 +279,3 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
 </body>
 
 </html>
-
-

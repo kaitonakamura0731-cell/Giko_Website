@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Remove loading class
+    document.documentElement.classList.remove('js-loading');
+
     // --- Language Switcher Logic ---
 
     const translations = {

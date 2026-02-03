@@ -46,10 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Image Upload Logic
     $main_image = $_POST['main_image']; // Default to text input
+
+    // 1. Main Image Upload
     $uploaded_main = handleUpload('main_image_file', '../../assets/images/uploads/');
     if ($uploaded_main) {
-        // Convert to frontend-friendly path (../../assets -> ../assets)
-        $main_image = str_replace('../../assets', '../assets', $uploaded_main);
+        // Store as "assets/..." (Relative to src root)
+        $main_image = str_replace('../../', '', $uploaded_main);
     }
 
     $description = $_POST['description'];
@@ -71,7 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'price' => $_POST['data_price'] ?? ''
     ], JSON_UNESCAPED_UNICODE);
 
-    // Gallery Images (Lines to JSON)
+    // Gallery Images Handling
+    // 1. Text Area Input (Existing Paths)
     $gallery_raw = $_POST['gallery_images'] ?? '';
     $gallery_lines = preg_split('/\r\n|\r|\n/', $gallery_raw);
     $gallery_clean = [];
@@ -81,6 +84,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $gallery_clean[] = $line;
         }
     }
+
+    // 2. Multi-File Upload
+    if (isset($_FILES['gallery_files'])) {
+        $file_count = count($_FILES['gallery_files']['name']);
+        for ($i = 0; $i < $file_count; $i++) {
+            if ($_FILES['gallery_files']['error'][$i] === UPLOAD_ERR_OK) {
+                $tmpName = $_FILES['gallery_files']['tmp_name'][$i];
+                $name = basename($_FILES['gallery_files']['name'][$i]);
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                $newName = time() . '_' . uniqid() . '.' . $ext;
+
+                $targetDir = '../../assets/images/uploads/';
+                $targetPath = $targetDir . $newName; // Physical path
+
+                if (move_uploaded_file($tmpName, $targetPath)) {
+                    // DB Path: assets/images/uploads/...
+                    $gallery_clean[] = 'assets/images/uploads/' . $newName;
+                }
+            }
+        }
+    }
+
     $gallery_images = json_encode($gallery_clean, JSON_UNESCAPED_UNICODE);
 
     try {
@@ -185,10 +210,22 @@ require_once '../includes/header.php';
                 <div class="form-group mb-4">
                     <label class="form-label">メイン画像 (Main Image)</label>
                     <div class="flex flex-col gap-2">
+                        <!-- Preview -->
+                        <?php if ($work['main_image']): ?>
+                            <div class="mb-2">
+                                <img src="<?php echo '../../' . htmlspecialchars($work['main_image']); ?>"
+                                    class="h-32 object-cover border border-gray-600 rounded">
+                            </div>
+                        <?php endif; ?>
+
                         <input type="text" name="main_image" class="form-input text-xs text-gray-500"
                             value="<?php echo htmlspecialchars($work['main_image']); ?>"
-                            placeholder="現在のパス / assets/images/...">
-                        <input type="file" name="main_image_file" class="text-gray-300 text-sm">
+                            placeholder="assets/images/...">
+
+                        <div class="mt-2">
+                            <label class="text-xs text-gray-400 mb-1 block">新規アップロード:</label>
+                            <input type="file" name="main_image_file" class="text-gray-300 text-sm">
+                        </div>
                     </div>
                 </div>
                 <!-- Description -->
@@ -207,7 +244,7 @@ require_once '../includes/header.php';
                     <!-- Gallery Images -->
                     <div class="form-group">
                         <label class="form-label">ギャラリー画像 (Gallery Images)</label>
-                        <p class="text-xs text-gray-500 mb-2">※1行に1つの画像パスを入力してください。</p>
+                        <p class="text-xs text-gray-500 mb-2">※1行に1つの画像パスを入力（assets/...）</p>
                         <?php
                         $gallery_lines = '';
                         $gallery_json = $work['gallery_images'] ?? '[]';
@@ -216,8 +253,26 @@ require_once '../includes/header.php';
                             $gallery_lines = implode("\n", $gallery_arr);
                         }
                         ?>
-                        <textarea name="gallery_images" class="form-input h-32"
-                            placeholder="../assets/images/example1.jpg&#10;../assets/images/example2.jpg"><?php echo htmlspecialchars($gallery_lines); ?></textarea>
+                        <textarea name="gallery_images" class="form-input h-32 mb-2"
+                            placeholder="assets/images/example1.jpg&#10;assets/images/example2.jpg"><?php echo htmlspecialchars($gallery_lines); ?></textarea>
+
+                        <div class="mt-4 p-4 bg-gray-800 rounded border border-gray-700">
+                            <label class="text-sm font-bold text-gray-300 mb-2 block">画像追加アップロード (複数可)</label>
+                            <input type="file" name="gallery_files[]" multiple class="text-gray-300 text-sm w-full">
+                        </div>
+
+                        <!-- Gallery Preview -->
+                        <?php if (is_array($gallery_arr) && count($gallery_arr) > 0): ?>
+                            <div class="mt-4 grid grid-cols-4 gap-2">
+                                <?php foreach ($gallery_arr as $img): ?>
+                                    <a href="<?php echo '../../' . htmlspecialchars($img); ?>" target="_blank"
+                                        class="block border border-gray-600 rounded overflow-hidden hover:opacity-75 transition-opacity">
+                                        <img src="<?php echo '../../' . htmlspecialchars($img); ?>"
+                                            class="w-full h-20 object-cover">
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
