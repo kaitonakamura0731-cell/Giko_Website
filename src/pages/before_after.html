@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
 
 <head>
@@ -32,12 +32,8 @@
     <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="../index.php" class="flex items-center gap-3 group">
-                <div
-                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
-                    G</div>
-                <span
-                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            <a href="../index.php" class="flex items-center group">
+                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity">
             </a>
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
                 <a href="../index.php#concept"
@@ -132,48 +128,42 @@
                 </p>
             </div>
 
-            <!-- Comparison Slider -->
-            <div class="max-w-4xl mx-auto relative group">
-                <div class="comparison-container aspect-video rounded-sm overflow-hidden border border-white/10 shadow-2xl relative"
-                    id="slider-container">
-                    <!-- Before Image (Background) -->
-                    <img src="../assets/images/details/before.png" alt="Before"
-                        class="comparison-image object-cover w-full h-full select-none" draggable="false">
+            <!-- Before & After Gallery -->
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Image 1: Interior -->
+                <div
+                    class="group overflow-hidden rounded-sm border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <img src="../assets/images/details/ba_interior.jpg" alt="インテリア ビフォーアフター"
+                        class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
 
-                    <!-- After Image (Overlay) -->
-                    <div class="after-image-wrapper" id="after-wrapper"></div>
+                <!-- Image 2: Seat -->
+                <div
+                    class="group overflow-hidden rounded-sm border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <img src="../assets/images/details/ba_seat.jpg" alt="シート ビフォーアフター"
+                        class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
 
-                    <!-- Handle -->
-                    <div class="slider-handle" id="slider-handle">
-                        <i class="fas fa-arrows-alt-h text-white text-xs"></i>
-                    </div>
+                <!-- Image 3: Door Panel -->
+                <div
+                    class="group overflow-hidden rounded-sm border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <img src="../assets/images/details/ba_door.jpg" alt="ドアパネル ビフォーアフター"
+                        class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
+                </div>
 
-                    <!-- Labels -->
-                    <div
-                        class="absolute bottom-4 left-4 bg-black/50 px-3 py-1 text-xs font-bold font-en tracking-widest text-gray-300 z-20 pointer-events-none">
-                        BEFORE</div>
-                    <div
-                        class="absolute bottom-4 right-4 bg-primary/80 px-3 py-1 text-xs font-bold font-en tracking-widest text-white z-20 pointer-events-none">
-                        AFTER</div>
+                <!-- Image 4: Steering -->
+                <div
+                    class="group overflow-hidden rounded-sm border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <img src="../assets/images/details/ba_steering.jpg" alt="ステアリング ビフォーアフター"
+                        class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700">
                 </div>
             </div>
 
-            <div
-                class="max-w-4xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 bg-secondary p-8 border border-white/5">
-                <div>
-                    <h3 class="text-lg font-bold font-en mb-4 text-gray-500">BEFORE STATE</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ba_page_before_desc">
-                        経年劣化によるひび割れ、色褪せ、ウレタンのへたりが見られる状態。
-                        革本来のツヤは失われ、表面のコーティングも剥がれています。
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold font-en mb-4 text-primary">AFTER FINISH</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed" data-i18n="ba_page_after_desc">
-                        最高級ナッパレザーを使用し、純正同様のステッチラインで張り替え。
-                        ウレタンの補修も行い、新車時のような座り心地と、芳醇な革の香りが復活しました。
-                    </p>
-                </div>
+            <div class="max-w-4xl mx-auto mt-12 bg-secondary p-8 border border-white/5 text-center">
+                <p class="text-sm text-gray-400 leading-loose" data-i18n="ba_page_desc">
+                    経年劣化した内装が、職人の技術により新品以上の輝きを取り戻します。<br>
+                    素材選びからステッチの色まで、すべてをオーダーメイドで仕上げる技巧 -Giko- の施工をご覧ください。
+                </p>
             </div>
 
             <div class="text-center mt-20">
@@ -191,7 +181,7 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <div>
-                    <div class="text-3xl font-bold font-en tracking-widest mb-6">GIKO</div>
+                    <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
                     <div class="flex space-x-4">
                         <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"

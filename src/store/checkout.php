@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 
 // Generate CSRF Token for future use or validation
@@ -32,12 +32,8 @@ $csrf_token = $_SESSION['csrf_token'];
     <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="../index.php" class="flex items-center gap-3 group">
-                <div
-                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
-                    G</div>
-                <span
-                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            <a href="../index.php" class="flex items-center group">
+                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity">
             </a>
 
             <div class="flex items-center gap-6">

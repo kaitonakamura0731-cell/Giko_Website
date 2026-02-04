@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once 'admin/includes/db.php';
 require_once 'admin/includes/settings_helper.php';
 
@@ -67,12 +67,8 @@ try {
     <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="../index.php" class="flex items-center gap-3 group">
-                <div
-                    class="w-8 h-8 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-lg">
-                    G</div>
-                <span
-                    class="text-xl font-bold tracking-widest font-en group-hover:text-primary transition-colors">GIKO</span>
+            <a href="index.php" class="flex items-center group">
+                <img src="./assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity">
             </a>
 
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
@@ -358,12 +354,8 @@ try {
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col lg:flex-row gap-16 items-center">
                 <div class="lg:w-1/2 fade-in">
-                    <div class="relative">
-                        <img src="./assets/images/details/material.jpg"
-                            class="w-full h-auto rounded-sm shadow-2xl relative z-10">
-                        <img src="./assets/images/details/bespoke.jpg"
-                            class="absolute -bottom-10 -right-10 w-2/3 h-auto rounded-sm shadow-2xl z-20 border-4 border-secondary">
-                    </div>
+                    <img src="./assets/images/material_led.jpg"
+                        class="w-full h-auto rounded-sm shadow-2xl">
                 </div>
                 <div class="lg:w-1/2 fade-in">
                     <h2
@@ -411,9 +403,9 @@ try {
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         01</div>
-                    <div class="mb-6 h-40 flex items-center justify-center">
+                    <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
                         <img src="./assets/images/flow_inquiry.png"
-                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step1_title">INQUIRY</h3>
                     <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step1_text">まずはお電話かメールにてご連絡ください。
@@ -425,9 +417,9 @@ try {
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         02</div>
-                    <div class="mb-6 h-40 flex items-center justify-center">
+                    <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
                         <img src="./assets/images/flow_planning.png"
-                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step2_title">PLANNING
                     </h3>
@@ -439,9 +431,9 @@ try {
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         03</div>
-                    <div class="mb-6 h-40 flex items-center justify-center">
+                    <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
                         <img src="./assets/images/flow_construction.png"
-                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step3_title">CONSTRUCTION
                     </h3>
@@ -453,9 +445,9 @@ try {
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         04</div>
-                    <div class="mb-6 h-40 flex items-center justify-center">
+                    <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
                         <img src="./assets/images/flow_delivery.png"
-                            class="h-full object-contain opacity-50 group-hover:opacity-100 transition-opacity">
+                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step4_title">DELIVERY
                     </h3>
@@ -496,7 +488,7 @@ try {
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <!-- Col 1 -->
                 <div>
-                    <div class="text-3xl font-bold font-en tracking-widest mb-6">GIKO</div>
+                    <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">
                         最高級の素材と技術で、<br>
                         あなたのカーライフに彩りを。
