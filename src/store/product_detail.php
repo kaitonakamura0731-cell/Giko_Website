@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once '../admin/includes/db.php';
 
 $id = $_GET['id'] ?? null;

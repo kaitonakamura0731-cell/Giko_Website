@@ -154,7 +154,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                         <i
                                             class="indicator-icon fas fa-credit-card text-2xl text-gray-400 transition-colors"></i>
                                     </div>
-                                    <div class="font-bold font-en tracking-wide mb-1">CREDIT CARD</div>
+                                    <div class="font-bold tracking-wide mb-1">クレジットカード</div>
                                     <p class="text-[10px] text-gray-400 font-en">VISA, Master, JCB, AMEX, Diners</p>
                                 </div>
                             </label>
@@ -173,7 +173,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                             </div>
                                             <span class="relative z-10 flex items-center gap-1 tracking-tighter">
                                                 <i class="fas fa-bolt text-black animate-pulse"></i>
-                                                <span class="italic">LIGHTNING</span> FREE SHIPPING
+                                                <span class="italic">送料無料</span>
                                             </span>
                                         </div>
 
@@ -185,7 +185,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                         <i
                                             class="indicator-icon fas fa-university text-2xl text-gray-400 transition-colors"></i>
                                     </div>
-                                    <div class="font-bold font-en tracking-wide mb-1">BANK TRANSFER</div>
+                                    <div class="font-bold tracking-wide mb-1">銀行振込</div>
                                     <p class="text-[10px] text-gray-400">銀行振込（前払い）</p>
                                     <p class="text-xs text-primary font-bold mt-2">
                                         <i class="fas fa-truck-fast mr-1"></i> 送料無料対象

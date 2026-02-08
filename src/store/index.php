@@ -26,8 +26,8 @@ function getFirstImage($json)
     <meta property="og:title" content="ONLINE STORE | 技巧 -Giko-">
     <meta property="og:description" content="技巧 -Giko- 公式オンラインストア。厳選された本革を使用したステアリング、ナビカバーなどのオリジナル製品を販売。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://giko-artisan.jp/store/index.php">
-    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta property="og:url" content="https://giko-official.com/store/index.php">
+    <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
     <script src="https://cdn.tailwindcss.com"></script>

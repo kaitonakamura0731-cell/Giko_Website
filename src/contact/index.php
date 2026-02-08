@@ -17,7 +17,7 @@ require_once '../admin/includes/settings_helper.php';
 $company_name = get_setting('company_name', 'GIKO307合同会社');
 $company_address = get_setting('company_address', '〒483-8013 愛知県江南市般若町南山307');
 $company_tel = get_setting('company_tel', '080-8887-2116');
-$company_email = get_setting('company_email', 'info@giko-artisan.jp');
+$company_email = get_setting('company_email', 'info@giko-official.com');
 $instagram_url = get_setting('instagram_url', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
 $twitter_url = get_setting('twitter_url', '#');
 ?>
@@ -32,8 +32,8 @@ $twitter_url = get_setting('twitter_url', '#');
     <meta property="og:title" content="CONTACT | 技巧 -Giko-">
     <meta property="og:description" content="お問い合わせ。お見積もりやご相談はこちらから。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://giko-artisan.jp/contact.php">
-    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta property="og:url" content="https://giko-official.com/contact.php">
+    <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
     <script src="https://cdn.tailwindcss.com"></script>

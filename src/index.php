@@ -6,7 +6,7 @@ require_once 'admin/includes/settings_helper.php';
 $company_name = get_setting('company_name', 'GIKO307合同会社');
 $company_address = get_setting('company_address', '〒483-8013 愛知県江南市般若町南山307');
 $company_tel = get_setting('company_tel', '080-8887-2116');
-$company_email = get_setting('company_email', 'info@giko-artisan.jp');
+$company_email = get_setting('company_email', 'info@giko-official.com');
 $instagram_url = get_setting('instagram_url', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
 $twitter_url = get_setting('twitter_url', '#');
 $youtube_url = get_setting('youtube_url', '#');
@@ -45,8 +45,8 @@ try {
     <meta property="og:description"
         content="<?php echo htmlspecialchars(get_setting('site_description', '職人の手による最高級本革シート張り替え。愛車に感動と喜びを。')); ?>">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://giko-artisan.jp/">
-    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta property="og:url" content="https://giko-official.com/">
+    <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <!-- <link rel="icon" href="./assets/images/favicon.ico"> -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -334,13 +334,63 @@ try {
     </section>
 
     <!-- Store (Using Store Index) -->
+    <?php
+    // 商品データを取得
+    try {
+        $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY id ASC LIMIT 3");
+        $products_stmt->execute();
+        $latest_products = $products_stmt->fetchAll();
+    } catch (PDOException $e) {
+        $latest_products = [];
+    }
+    
+    // 画像を取得するヘルパー関数
+    function getProductImage($json) {
+        if (empty($json)) return null;
+        $images = json_decode($json, true);
+        return (!empty($images) && is_array($images)) ? $images[0] : null;
+    }
+    ?>
     <section id="store" class="py-32 bg-black border-t border-white/5">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">ONLINE STORE</h2>
                 <p class="text-xs text-textLight tracking-wider">公式オンラインストア</p>
             </div>
-            <div class="text-center mt-16 fade-in">
+            
+            <?php if (!empty($latest_products)): ?>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <?php foreach ($latest_products as $product): ?>
+                    <article class="group fade-in">
+                        <a href="store/product_detail.php?id=<?php echo $product['id']; ?>"
+                            class="block bg-secondary overflow-hidden relative border border-white/5 hover:border-primary/50 transition-colors duration-300">
+                            <div class="overflow-hidden aspect-[4/3]">
+                                <?php $img = getProductImage($product['images']); ?>
+                                <?php if ($img): ?>
+                                    <img src="<?php echo htmlspecialchars($img); ?>"
+                                        alt="<?php echo htmlspecialchars($product['name']); ?>"
+                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                                <?php else: ?>
+                                    <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">No Image</div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="p-6">
+                                <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">PRODUCT</div>
+                                <h3 class="text-lg font-bold font-en mb-2"><?php echo htmlspecialchars($product['name']); ?></h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="font-en font-bold text-lg">¥<?php echo number_format($product['price']); ?><span class="text-xs text-gray-500 ml-1">税込</span></span>
+                                    <span class="text-xs text-primary font-en tracking-widest group-hover:translate-x-1 transition-transform">
+                                        DETAILS <i class="fas fa-arrow-right ml-1"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+            
+            <div class="text-center fade-in">
                 <a href="store/index.php"
                     class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 font-en">
                     VIEW ONLINE STORE <i class="fas fa-arrow-right text-xs"></i>

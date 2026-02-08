@@ -20,8 +20,8 @@ loadEnv(__DIR__ . '/../.env');
 
 // Settings
 $payjpSecretKey = $_ENV['PAYJP_SECRET_KEY'] ?? '';
-$adminEmail = 'info@giko-artisan.jp'; // Change to actual admin email
-$emailFrom = 'noreply@giko-artisan.jp';
+$adminEmail = 'info@giko-official.com'; // Change to actual admin email
+$emailFrom = 'noreply@giko-official.com';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ../index.php');
@@ -129,8 +129,8 @@ $body = <<<EOD
 
 --------------------------------------------------
 技巧 -Giko- (GIKO307合同会社)
-URL: https://giko-artisan.jp/
-E-mail: info@giko-artisan.jp
+URL: https://giko-official.com/
+E-mail: info@giko-official.com
 --------------------------------------------------
 EOD;
 

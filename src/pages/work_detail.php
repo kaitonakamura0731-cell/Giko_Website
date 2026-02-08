@@ -2,10 +2,13 @@
 require_once '../admin/includes/db.php';
 
 $id = $_GET['id'] ?? null;
-if (!$id) {
+
+// IDを整数として検証（SQLインジェクション対策）
+if (!$id || !is_numeric($id)) {
     header("Location: works.php");
     exit;
 }
+$id = (int)$id;
 
 try {
     $stmt = $pdo->prepare("SELECT * FROM works WHERE id = ?");
@@ -17,9 +20,14 @@ try {
         exit;
     }
 
-    // Get Next/Prev
-    $prev = $pdo->query("SELECT id FROM works WHERE id < $id ORDER BY id DESC LIMIT 1")->fetch();
-    $next = $pdo->query("SELECT id FROM works WHERE id > $id ORDER BY id ASC LIMIT 1")->fetch();
+    // Get Next/Prev（プリペアドステートメント使用）
+    $prev_stmt = $pdo->prepare("SELECT id FROM works WHERE id < ? ORDER BY id DESC LIMIT 1");
+    $prev_stmt->execute([$id]);
+    $prev = $prev_stmt->fetch();
+    
+    $next_stmt = $pdo->prepare("SELECT id FROM works WHERE id > ? ORDER BY id ASC LIMIT 1");
+    $next_stmt->execute([$id]);
+    $next = $next_stmt->fetch();
 
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
@@ -50,7 +58,7 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
     <meta property="og:title" content="<?php echo htmlspecialchars($work['title']); ?> | Custom Works | 技巧 -Giko-">
     <meta property="og:description" content="<?php echo htmlspecialchars($work['description']); ?>">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://giko-artisan.jp/pages/work_detail.php?id=<?php echo $id; ?>">
+    <meta property="og:url" content="https://giko-official.com/pages/work_detail.php?id=<?php echo $id; ?>">
     <meta property="og:image" content="<?php echo '../' . htmlspecialchars($work['main_image']); ?>">
 
     <script src="https://cdn.tailwindcss.com"></script>

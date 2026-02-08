@@ -20,8 +20,8 @@ try {
     <meta property="og:title" content="WORKS | 技巧 -Giko-">
     <meta property="og:description" content="施工実績一覧。最高級の技術で仕上げた作品をご覧ください。">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://giko-artisan.jp/pages/works.php">
-    <meta property="og:image" content="https://giko-artisan.jp/assets/images/ogp.jpg">
+    <meta property="og:url" content="https://giko-official.com/pages/works.php">
+    <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
     <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
     <script src="https://cdn.tailwindcss.com"></script>
