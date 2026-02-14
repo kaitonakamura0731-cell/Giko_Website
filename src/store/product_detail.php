@@ -20,14 +20,29 @@ try {
     die("Error: " . $e->getMessage());
 }
 
+// Function to adjust image paths
+function adjustPath($path) {
+    if (empty($path)) return '';
+    if (strpos($path, '../assets') === 0) return $path;
+    if (strpos($path, 'assets/') === 0) return '../' . $path;
+    return $path;
+}
+
 $images = json_decode($product['images'] ?? '[]', true);
 $options = json_decode($product['options'] ?? '[]', true);
-$main_image = $images[0] ?? '../assets/images/no_image.png';
 
-// Swatches are now embedded in option choices, no need for hardcoded array
-// but we might want a fallback default?
+// Subdirectory fix: prepend ../ if path starts with assets/
+function adjustPath($path) {
+    if (empty($path)) return '';
+    if (strpos($path, 'assets/') === 0) {
+        return '../' . $path;
+    }
+    return $path;
+}
+
+$main_image = !empty($images[0]) ? adjustPath($images[0]) : '../assets/images/no_image.png';
+
 $default_swatch = '../assets/images/no_image.png';
-
 ?>
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
@@ -100,7 +115,7 @@ $default_swatch = '../assets/images/no_image.png';
                 <i class="fas fa-arrow-left"></i> BACK TO STORE
             </a>
 
-            <div class="flex flex-col lg:flex-row gap-12">
+            <div class="flex flex-col lg:flex-row gap-12 items-start">
                 <!-- Image Section -->
                 <div class="lg:w-1/2 lg:sticky lg:top-32 lg:self-start">
                     <div
@@ -110,15 +125,16 @@ $default_swatch = '../assets/images/no_image.png';
                     </div>
                     <div class="grid grid-cols-4 gap-2">
                         <?php foreach ($images as $img): ?>
-                            <button onclick="changeMainImage('<?php echo htmlspecialchars($img); ?>')"
+                            <?php $info_img = adjustPath($img); ?>
+                            <button onclick="changeMainImage('<?php echo htmlspecialchars($info_img); ?>')"
                                 class="border border-white/10 hover:border-primary rounded-sm overflow-hidden transition-colors aspect-video">
-                                <img src="<?php echo htmlspecialchars($img); ?>" class="w-full h-full object-cover">
+                                <img src="<?php echo htmlspecialchars($info_img); ?>" class="w-full h-full object-cover">
                             </button>
                         <?php endforeach; ?>
                     </div>
                 </div>
 
-                <!-- Info Section -->
+                <!-- Info Section (Simplified) -->
                 <div class="lg:w-1/2">
                     <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-relaxed">
                         <?php echo nl2br(htmlspecialchars($product['name'])); ?>
@@ -128,75 +144,123 @@ $default_swatch = '../assets/images/no_image.png';
                             class="text-sm text-gray-400 font-normal">税込</span></div>
                     <div class="text-sm text-gray-400 mb-8">
                         送料が別途¥<?php echo number_format($product['shipping_fee']); ?>かかります。</div>
+                </div>
+            </div>
 
-                    <div class="space-y-6 mb-10 text-sm md:text-base leading-relaxed text-gray-300">
-                        <?php
-                        // 説明文を整形して表示
-                        $desc = $product['description'];
-                        
-                        // 【】で囲まれた見出しをスタイリング
-                        $desc = preg_replace(
-                            '/【([^】]+)】/',
-                            '</div><div class="bg-secondary p-5 rounded-sm border border-white/10 mt-6"><h3 class="font-bold text-white mb-3 text-base border-l-2 border-primary pl-3">$1</h3><div class="text-gray-400 text-sm leading-loose">',
-                            $desc
-                        );
-                        
-                        // ☆で始まる行をサブ見出しとして整形
-                        $desc = preg_replace(
-                            '/☆([^\n<]+)/',
-                            '<p class="mt-4 mb-2"><span class="text-primary font-bold">☆$1</span></p>',
-                            $desc
-                        );
-                        
-                        // ・で始まる行をリストアイテムとして整形
-                        $desc = preg_replace(
-                            '/・([^\n<]+)/',
-                            '<li class="ml-4 text-gray-400">・$1</li>',
-                            $desc
-                        );
-                        
-                        // 改行を<br>に変換
-                        $desc = nl2br($desc);
-                        
-                        // 不要な空のdivを削除
-                        $desc = preg_replace('/<div class="bg-secondary[^>]*>\s*<\/div>/', '', $desc);
-                        
-                        echo $desc;
-                        ?>
-                        </div>
-                        <!-- Models -->
-                        <?php if ($product['compatible_models']): ?>
-                            <div class="bg-secondary p-4 rounded-sm border border-white/5">
-                                <p class="mb-2"><span
-                                        class="text-primary font-bold">《適合車種》</span><?php echo htmlspecialchars($product['compatible_models']); ?>
-                                </p>
-                                <p><span
-                                        class="text-primary font-bold">《車両型式》</span><?php echo htmlspecialchars($product['model_code']); ?>
-                                </p>
-                            </div>
-                        <?php endif; ?>
+            <!-- Description & Options Area (Full Width below) -->
+            <div class="max-w-4xl mx-auto mt-16">
+                
+                <!-- Detailed Description -->
+                <div class="space-y-6 mb-12 text-sm md:text-base leading-relaxed text-gray-300">
+                    <?php
+                    // 説明文を整形して表示
+                    $desc = $product['description'];
+                    
+                    // 【】で囲まれた見出しをスタイリング
+                    $desc = preg_replace(
+                        '/【([^】]+)】/',
+                        '</div><div class="bg-secondary p-5 rounded-sm border border-white/10 mt-6"><h3 class="font-bold text-white mb-3 text-base border-l-2 border-primary pl-3">$1</h3><div class="text-gray-400 text-sm leading-loose">',
+                        $desc
+                    );
+                    
+                    // ☆で始まる行をサブ見出しとして整形
+                    $desc = preg_replace(
+                        '/☆([^\n<]+)/',
+                        '<p class="mt-4 mb-2"><span class="text-primary font-bold">☆$1</span></p>',
+                        $desc
+                    );
+                    
+                    // ・で始まる行をリストアイテムとして整形
+                    $desc = preg_replace(
+                        '/・([^\n<]+)/',
+                        '<li class="ml-4 text-gray-400">・$1</li>',
+                        $desc
+                    );
+                    
+                    // 改行を<br>に変換
+                    $desc = nl2br($desc);
+                    
+                    // 不要な空のdivを削除
+                    $desc = preg_replace('/<div class="bg-secondary[^>]*>\s*<\/div>/', '', $desc);
+                    
+                    echo $desc;
+                    ?>
                     </div>
+                    <!-- Models -->
+                    <?php if ($product['compatible_models']): ?>
+                        <div class="bg-secondary p-4 rounded-sm border border-white/5">
+                            <p class="mb-2"><span
+                                    class="text-primary font-bold">《適合車種》</span><?php echo htmlspecialchars($product['compatible_models']); ?>
+                            </p>
+                            <p><span
+                                    class="text-primary font-bold">《車両型式》</span><?php echo htmlspecialchars($product['model_code']); ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
+                </div>
 
-                    <!-- Dynamic Options Form -->
-                    <form class="space-y-6 border-t border-white/10 pt-8 mb-12" id="orderForm">
+                <!-- Option Detail Image (New Feature) -->
+                <?php 
+                // Adjust path for checking
+                $detail_img = $product['option_detail_image'] ?? '';
+                if (!empty($detail_img)) {
+                     // Check if path starts with assets/ (older data might need fix)
+                     // But our admin code saves with ../assets if uploaded there.
+                     // The adjustPath function handles assets/ prefix.
+                     $detail_img = adjustPath($detail_img);
+                }
+                ?>
+                <?php if (!empty($detail_img)): ?>
+                    <div class="mb-12">
+                         <img src="<?php echo htmlspecialchars($detail_img); ?>" class="w-full h-auto rounded-sm border border-white/10" alt="Option Details">
+                    </div>
+                <?php endif; ?>
+
+                <!-- Parts Detail Section (Test Implementation) -->
+                <div class="mb-16">
+                    <div class="text-center mb-8">
+                        <h3 class="text-lg font-bold font-en tracking-widest text-primary border-b border-primary/30 pb-2 inline-block">PARTS DETAIL</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Test Image 1 -->
+                        <div class="bg-white/5 p-2 rounded-sm border border-white/10 group overflow-hidden">
+                            <div class="overflow-hidden rounded-sm h-64">
+                                <img src="../assets/images/hero.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Parts Detail 1">
+                            </div>
+                            <p class="text-xs text-gray-400 mt-3 text-center">パーツ詳細画像エリア 1</p>
+                        </div>
+                        
+                        <!-- Test Image 2 -->
+                        <div class="bg-white/5 p-2 rounded-sm border border-white/10 group overflow-hidden">
+                            <div class="overflow-hidden rounded-sm h-64">
+                                <img src="../assets/images/hero.png" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Parts Detail 2">
+                            </div>
+                            <p class="text-xs text-gray-400 mt-3 text-center">パーツ詳細画像エリア 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Options Form -->
+                <div class="bg-white/5 p-6 md:p-10 rounded-sm border border-white/10">
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-8 text-center text-primary">SELECT OPTIONS</h3>
+                    
+                    <form class="space-y-8" id="orderForm">
                         <?php if (is_array($options)): ?>
                             <?php foreach ($options as $idx => $opt): ?>
                                 <div>
                                     <label
-                                        class="block text-xs font-bold font-en tracking-widest text-gray-500 mb-2"><?php echo htmlspecialchars($opt['label']); ?></label>
-                                    <div class="flex items-end gap-4">
+                                        class="block text-sm font-bold font-en tracking-widest text-gray-400 mb-3"><?php echo htmlspecialchars($opt['label']); ?></label>
+                                    <div class="flex items-center gap-6">
                                         <div class="flex-1">
                                             <select name="option_<?php echo $idx; ?>"
                                                 data-label="<?php echo htmlspecialchars($opt['label']); ?>"
                                                 data-group-index="<?php echo $idx; ?>"
-                                                class="option-select w-full bg-secondary border border-white/10 rounded-sm px-4 py-3 focus:outline-none focus:border-primary text-sm transition-colors"
+                                                class="option-select w-full bg-black border border-white/20 rounded-sm px-6 py-4 focus:outline-none focus:border-primary text-base transition-colors"
                                                 onchange="onOptionChange(this)">
                                                 <?php
                                                 $choices = $opt['choices'] ?? [];
-                                                // Normalize choices for display
                                                 foreach ($choices as $cIdx => $choice):
-                                                    // New structure: $choice is array {value, label, image}
-                                                    // Old structure support not strictly needed but good for safety
                                                     $val = '';
                                                     $txt = '';
                                                     $img = '';
@@ -205,9 +269,11 @@ $default_swatch = '../assets/images/no_image.png';
                                                         $txt = $choice['label'];
                                                         $img = $choice['image'] ?? '';
                                                     } else {
-                                                        // Fallback
                                                         $val = $choice;
                                                         $txt = $choice;
+                                                    }
+                                                    if (!empty($img)) {
+                                                        $img = adjustPath($img);
                                                     }
                                                     ?>
                                                     <option value="<?php echo htmlspecialchars($val); ?>"
@@ -217,11 +283,9 @@ $default_swatch = '../assets/images/no_image.png';
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                        <!-- Dynamic Image Display Area for this Option -->
-                                        <!-- Only show if there IS an image associated with the selected option -->
-                                        <!-- We generate a unique ID for the image container -->
+                                        <!-- Dynamic Image Display Area -->
                                         <div id="option-image-<?php echo $idx; ?>"
-                                            class="w-24 h-24 bg-white/5 rounded-sm border border-white/10 overflow-hidden mb-1 flex-shrink-0 hidden">
+                                            class="w-20 h-20 bg-white/5 rounded-sm border border-white/10 overflow-hidden flex-shrink-0 hidden">
                                             <img src="" class="w-full h-full object-cover">
                                         </div>
                                     </div>
@@ -229,10 +293,12 @@ $default_swatch = '../assets/images/no_image.png';
                             <?php endforeach; ?>
                         <?php endif; ?>
 
-                        <button type="button" onclick="addToCartDynamic()"
-                            class="w-full bg-primary text-white font-bold py-4 rounded-sm hover:opacity-90 transition-opacity font-en tracking-widest mt-4">
-                            ADD TO CART
-                        </button>
+                        <div class="pt-8 border-t border-white/10 mt-8">
+                            <button type="button" onclick="addToCartDynamic()"
+                                class="w-full md:w-2/3 mx-auto block bg-primary text-black font-bold py-5 rounded-sm hover:bg-white hover:text-black transition-colors font-en tracking-widest text-lg shadow-[0_0_20px_rgba(255,215,0,0.3)]">
+                                ADD TO CART
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

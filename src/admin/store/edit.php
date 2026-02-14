@@ -18,6 +18,7 @@ $default_product = [
     'model_code' => '',
     'images' => '[]',
     'options' => '[]',
+    'option_detail_image' => '',
     'stock_status' => 1
 ];
 
@@ -48,6 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'];
     $compatible_models = $_POST['compatible_models'];
     $model_code = $_POST['model_code'];
+    
+    // Feature Image for Options
+    $option_detail_image = $_POST['option_detail_image_current'] ?? '';
+    // Handle Upload
+    $uploaded_opt_img = handleUpload('option_detail_image_file', '../../assets/images/uploads/');
+    if ($uploaded_opt_img) {
+        $option_detail_image = str_replace('../../assets', '../assets', $uploaded_opt_img);
+    }
     $stock_status = (int) ($_POST['stock_status'] ?? 1);
 
     // Images (Lines to JSON)
@@ -145,15 +154,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($id) {
             // Update
-            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, description=?, compatible_models=?, model_code=?, images=?, options=?, stock_status=? WHERE id=?";
+            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, description=?, compatible_models=?, model_code=?, images=?, options=?, option_detail_image=?, stock_status=? WHERE id=?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $stock_status, $id]);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $option_detail_image, $stock_status, $id]);
             $success = "商品情報を更新しました。";
         } else {
             // Insert
-            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, description, compatible_models, model_code, images, options, stock_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, description, compatible_models, model_code, images, options, option_detail_image, stock_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $stock_status]);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $option_detail_image, $stock_status]);
             $id = $pdo->lastInsertId();
             $success = "商品を新規作成しました。";
             header("Location: edit.php?id=" . $id . "&created=1");
@@ -255,6 +264,37 @@ require_once '../includes/header.php';
                         <textarea name="description"
                             class="form-input h-64 font-mono text-sm leading-relaxed"><?php echo htmlspecialchars($product['description']); ?></textarea>
                         <p class="text-xs text-gray-500 mt-1">※改行は自動的に反映されます。HTMLタグは使用しないでください。</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Option Detail Image (New) -->
+            <div>
+                <h3 class="text-lg font-bold text-primary mb-4 border-b border-gray-700 pb-2">オプション詳細画像</h3>
+                <div class="form-group">
+                    <label class="form-label">画像 (Image)</label>
+                    <p class="text-xs text-gray-500 mb-2">※オプション選択欄の上に表示される説明用画像です。</p>
+                    
+                    <div class="flex items-center gap-4 bg-gray-900 p-4 rounded border border-gray-700">
+                        <?php if (!empty($product['option_detail_image'])): ?>
+                            <div class="relative group">
+                                <img src="<?php echo htmlspecialchars($product['option_detail_image']); ?>" class="h-32 w-auto rounded border border-gray-600">
+                                <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <p class="text-xs text-white">現在の画像</p>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="h-32 w-32 bg-gray-800 rounded border border-gray-700 flex items-center justify-center text-gray-500 text-xs">
+                                未設定
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="flex-1">
+                            <input type="hidden" name="option_detail_image_current" value="<?php echo htmlspecialchars($product['option_detail_image'] ?? ''); ?>">
+                            <input type="file" name="option_detail_image_file" class="form-input text-sm">
+                            <p class="text-xs text-gray-500 mt-2">新しい画像をアップロードすると上書きされます。</p>
+                        </div>
                     </div>
                 </div>
             </div>
