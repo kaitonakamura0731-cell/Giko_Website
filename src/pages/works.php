@@ -1,6 +1,23 @@
 <?php
 require_once '../admin/includes/db.php';
 
+// カテゴリ定義
+$categories = [
+    'all' => 'ALL',
+    'partial' => '部分内装',
+    'full' => '全内装',
+    'package' => 'パッケージ',
+    'ambient' => 'アンビエントライト',
+    'starlight' => 'スターライト',
+    'newbiz' => '新事業',
+];
+
+// URLパラメータからカテゴリを取得
+$activeCategory = isset($_GET['category']) ? $_GET['category'] : 'all';
+if (!array_key_exists($activeCategory, $categories)) {
+    $activeCategory = 'all';
+}
+
 // Fetch works
 try {
     $stmt = $pdo->query("SELECT * FROM works ORDER BY created_at DESC");
@@ -8,6 +25,16 @@ try {
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
 }
+
+// カテゴリバッジ設定
+$categoryBadges = [
+    'partial' => ['label' => '部分内装', 'color' => 'bg-blue-600/90'],
+    'full' => ['label' => '全内装', 'color' => 'bg-primary/90'],
+    'package' => ['label' => 'パッケージ', 'color' => 'bg-purple-600/90'],
+    'ambient' => ['label' => 'アンビエントライト', 'color' => 'bg-green-600/90'],
+    'starlight' => ['label' => 'スターライト', 'color' => 'bg-indigo-500/90'],
+    'newbiz' => ['label' => '新事業', 'color' => 'bg-red-600/90'],
+];
 ?>
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
@@ -34,6 +61,28 @@ try {
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* フィルターアニメーション */
+        .work-item {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .work-item.hidden-by-filter {
+            opacity: 0;
+            transform: scale(0.95);
+            position: absolute;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        .work-item.visible-by-filter {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
 </head>
 
 <body class="bg-black text-white antialiased">
@@ -127,59 +176,53 @@ try {
     <section class="py-24 bg-black">
         <div class="container mx-auto px-6">
 
+            <!-- カテゴリフィルターボタン -->
+            <div class="mb-16">
+                <div class="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
+                    <?php foreach ($categories as $catId => $catLabel): ?>
+                        <button
+                            data-filter="<?php echo $catId; ?>"
+                            class="works-filter-btn px-6 py-3 text-sm font-bold tracking-wider border transition-all duration-300
+                                <?php if ($activeCategory === $catId): ?>
+                                    border-primary bg-primary text-black
+                                <?php else: ?>
+                                    border-white/20 text-white hover:bg-primary hover:text-black hover:border-primary
+                                <?php endif; ?>
+                            ">
+                            <?php echo $catLabel; ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- ワークス一覧グリッド -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="works-grid">
                 <?php foreach ($works as $work): ?>
                     <?php
-                    // Determine Badge Color/Text based on category or custom logic
-                    $badgeText = 'FULL CUSTOM';
-                    $badgeColor = 'bg-primary/90';
-
-                    if ($work['category'] === 'repair') {
-                        $badgeText = 'REPAIR';
-                        $badgeColor = 'bg-green-600/90';
-                    } elseif (stripos($work['title'], 'GTR') !== false) {
-                        $badgeText = 'RESTORATION';
-                        $badgeColor = 'bg-gray-700/90';
-                    } elseif (stripos($work['title'], 'MRS') !== false) {
-                        $badgeText = 'SEAT CUSTOM';
-                        $badgeColor = 'bg-red-600/90';
-                    } elseif (stripos($work['title'], 'SL55') !== false) {
-                        $badgeText = 'AUDIO / INTERIOR';
-                        $badgeColor = 'bg-blue-600/90';
-                    } elseif (stripos($work['title'], 'V-CLASS') !== false) {
-                        $badgeText = 'EXECUTIVE';
-                        $badgeColor = 'bg-primary/90';
-                    }
-
-                    // Link Logic: Dynamic Detail Page
+                    $category = $work['category'] ?? 'full';
+                    $badge = $categoryBadges[$category] ?? ['label' => 'OTHER', 'color' => 'bg-gray-700/90'];
                     $link = 'work_detail.php?id=' . $work['id'];
                     ?>
                     <!-- Work Item -->
-                    <a href="<?php echo $link; ?>" class="group block relative overflow-hidden bg-secondary work-item"
-                        data-category="<?php echo htmlspecialchars($work['category']); ?>">
+                    <a href="<?php echo $link; ?>" class="group block relative overflow-hidden bg-secondary work-item visible-by-filter"
+                        data-category="<?php echo htmlspecialchars($category); ?>">
                         <div class="relative aspect-[16/10] overflow-hidden">
                             <?php if ($work['main_image']): ?>
                                 <img src="<?php echo '../' . htmlspecialchars($work['main_image']); ?>"
                                     alt="<?php echo htmlspecialchars($work['title']); ?>"
                                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                             <?php else: ?>
-                                <div class="w-full h-full bg-gray-800 flex items-center justify-center">No Image</div>
+                                <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">No Image</div>
                             <?php endif; ?>
-
-                            <div
-                                class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
-                            </div>
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
                             <div class="absolute top-4 left-4">
-                                <span
-                                    class="<?php echo $badgeColor; ?> text-white text-[10px] font-bold px-3 py-1 font-en tracking-widest">
-                                    <?php echo $badgeText; ?>
+                                <span class="<?php echo $badge['color']; ?> text-white text-[10px] font-bold px-3 py-1 font-en tracking-widest">
+                                    <?php echo $badge['label']; ?>
                                 </span>
                             </div>
                         </div>
                         <div class="p-6 border-b border-white/10 group-hover:border-primary transition-colors duration-300">
-                            <h3
-                                class="text-xl font-bold font-en tracking-widest mb-2 group-hover:text-primary transition-colors">
+                            <h3 class="text-xl font-bold font-en tracking-widest mb-2 group-hover:text-primary transition-colors">
                                 <?php echo htmlspecialchars($work['title']); ?>
                             </h3>
                             <p class="text-xs text-gray-500 font-en tracking-wider mb-4">
@@ -188,15 +231,18 @@ try {
                             <div class="text-xs text-gray-400 leading-relaxed line-clamp-2">
                                 <?php echo htmlspecialchars($work['description']); ?>
                             </div>
-                            <div
-                                class="mt-6 flex items-center text-[10px] font-bold tracking-widest font-en text-white group-hover:text-primary transition-colors">
-                                VIEW DETAILS <i
-                                    class="fas fa-arrow-right ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></i>
+                            <div class="mt-6 flex items-center text-[10px] font-bold tracking-widest font-en text-white group-hover:text-primary transition-colors">
+                                VIEW DETAILS <i class="fas fa-arrow-right ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"></i>
                             </div>
                         </div>
                     </a>
                 <?php endforeach; ?>
+            </div>
 
+            <!-- フィルタ結果が0件の時 -->
+            <div id="no-results" class="hidden text-center py-20">
+                <i class="fas fa-search text-gray-700 text-4xl mb-4"></i>
+                <p class="text-gray-500 text-lg">該当するワークスが見つかりませんでした。</p>
             </div>
 
         </div>
@@ -269,6 +315,77 @@ try {
     </button>
 
     <script src="../assets/js/main.js"></script>
+
+    <!-- カテゴリフィルタリング JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.works-filter-btn');
+            const workItems = document.querySelectorAll('.work-item');
+            const noResults = document.getElementById('no-results');
+            const grid = document.getElementById('works-grid');
+
+            // URLパラメータから初期カテゴリを取得
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialCategory = urlParams.get('category') || 'all';
+
+            // フィルタリング関数
+            function filterWorks(category) {
+                let visibleCount = 0;
+
+                workItems.forEach(item => {
+                    const itemCats = item.getAttribute('data-category').split(',').map(c => c.trim());
+
+                    if (category === 'all' || itemCats.includes(category)) {
+                        item.classList.remove('hidden-by-filter');
+                        item.classList.add('visible-by-filter');
+                        visibleCount++;
+                    } else {
+                        item.classList.remove('visible-by-filter');
+                        item.classList.add('hidden-by-filter');
+                    }
+                });
+
+                // 結果が0件の場合
+                if (visibleCount === 0) {
+                    noResults.classList.remove('hidden');
+                    grid.classList.add('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                    grid.classList.remove('hidden');
+                }
+
+                // ボタンのアクティブ状態を更新
+                filterBtns.forEach(btn => {
+                    if (btn.getAttribute('data-filter') === category) {
+                        btn.classList.add('border-primary', 'bg-primary', 'text-black');
+                        btn.classList.remove('border-white/20', 'text-white');
+                    } else {
+                        btn.classList.remove('border-primary', 'bg-primary', 'text-black');
+                        btn.classList.add('border-white/20', 'text-white');
+                    }
+                });
+
+                // URLを更新（ブラウザ履歴に追加しない）
+                const newUrl = category === 'all'
+                    ? window.location.pathname
+                    : `${window.location.pathname}?category=${category}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+
+            // ボタンクリックイベント
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.getAttribute('data-filter');
+                    filterWorks(filter);
+                });
+            });
+
+            // 初期フィルタリング実行
+            if (initialCategory !== 'all') {
+                filterWorks(initialCategory);
+            }
+        });
+    </script>
 
 </body>
 

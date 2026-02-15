@@ -69,7 +69,7 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
 </head>
 
 <body class="bg-black text-white antialiased">
-    <!-- Header (Same as works.php) -->
+    <!-- Header -->
     <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5"
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
@@ -125,19 +125,25 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
         </div>
     </section>
 
-    <!-- Specs & Concept -->
+    <!-- Concept, Specs & Gallery + DATA -->
+    <?php $gallery = getGallery($work['gallery_images']); ?>
     <section class="py-24 bg-black border-b border-white/5">
         <div class="container mx-auto px-6">
             <div class="flex flex-col lg:flex-row gap-20">
+
+                <!-- 左カラム: CONCEPT → スペックカード → ギャラリー（スクロール可能） -->
                 <div class="lg:w-2/3">
+                    <!-- CONCEPT -->
                     <h2 class="text-2xl font-bold font-en tracking-widest mb-8 text-white">CONCEPT</h2>
                     <p class="text-gray-400 leading-loose text-justify mb-10 text-sm md:text-base">
                         <?php echo nl2br(htmlspecialchars($work['concept_text'])); ?>
                     </p>
+
+                    <!-- スペックカード（SEAT→PRICEに変更） -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                         <div class="bg-secondary p-4 border border-white/5 text-center">
-                            <i class="fas fa-couch text-primary text-2xl mb-2"></i>
-                            <div class="text-[10px] text-gray-500 font-en tracking-widest">SEAT</div>
+                            <i class="fas fa-yen-sign text-primary text-2xl mb-2"></i>
+                            <div class="text-[10px] text-gray-500 font-en tracking-widest">PRICE</div>
                             <div class="font-bold text-sm">
                                 <?php echo htmlspecialchars(getJson($work['specs'], 'seat')); ?>
                             </div>
@@ -164,69 +170,72 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                             </div>
                         </div>
                     </div>
+
+                    <!-- ギャラリー（左カラム内、CONCEPTのすぐ下） -->
+                    <?php if (count($gallery) > 0): ?>
+                        <div class="mt-16">
+                            <h2 class="text-2xl font-bold font-en tracking-widest mb-8 text-white">GALLERY</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <?php foreach ($gallery as $img): ?>
+                                    <div class="aspect-square bg-secondary overflow-hidden relative group">
+                                        <img src="<?php echo '../' . htmlspecialchars($img); ?>" alt="Gallery"
+                                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
+
+                <!-- 右カラム: DATA（スティッキー固定） -->
                 <div class="lg:w-1/3">
-                    <h2
-                        class="text-lg font-bold font-en tracking-widest mb-8 text-gray-500 border-b border-white/10 pb-2">
-                        DATA</h2>
-                    <dl class="space-y-6 text-sm">
-                        <div>
-                            <dt class="text-[10px] text-primary font-en tracking-widest mb-1">CAR MODEL</dt>
-                            <dd class="font-medium">
-                                <?php echo htmlspecialchars(getJson($work['data_info'], 'model')); ?>
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-[10px] text-primary font-en tracking-widest mb-1">MENU</dt>
-                            <dd class="font-medium"><?php echo htmlspecialchars(getJson($work['data_info'], 'menu')); ?>
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-[10px] text-primary font-en tracking-widest mb-1">MATERIAL</dt>
-                            <dd class="font-medium">
-                                <?php echo htmlspecialchars(getJson($work['data_info'], 'material')); ?>
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-[10px] text-primary font-en tracking-widest mb-1">CONTENT</dt>
-                            <dd class="font-medium text-gray-400 leading-relaxed">
-                                <?php echo nl2br(htmlspecialchars(getJson($work['data_info'], 'content'))); ?>
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="text-[10px] text-primary font-en tracking-widest mb-1">PRICE</dt>
-                            <dd class="font-medium text-xl font-en">
-                                <?php echo htmlspecialchars(getJson($work['data_info'], 'price')); ?>
-                            </dd>
-                            <dd class="text-[10px] text-gray-600 mt-1">※参考価格</dd>
-                        </div>
-                    </dl>
-                    <a href="../contact/index.php"
-                        class="block w-full mt-10 text-center bg-white text-black py-4 font-bold tracking-widest font-en hover:bg-primary transition-colors">
-                        ASK US
-                    </a>
+                    <div class="lg:sticky lg:top-28">
+                        <h2
+                            class="text-lg font-bold font-en tracking-widest mb-8 text-gray-500 border-b border-white/10 pb-2">
+                            DATA</h2>
+                        <dl class="space-y-6 text-sm">
+                            <div>
+                                <dt class="text-[10px] text-primary font-en tracking-widest mb-1">CAR MODEL</dt>
+                                <dd class="font-medium">
+                                    <?php echo htmlspecialchars(getJson($work['data_info'], 'model')); ?>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-[10px] text-primary font-en tracking-widest mb-1">型式</dt>
+                                <dd class="font-medium">
+                                    <?php echo htmlspecialchars(getJson($work['data_info'], 'model_code')); ?>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-[10px] text-primary font-en tracking-widest mb-1">MATERIAL</dt>
+                                <dd class="font-medium">
+                                    <?php echo htmlspecialchars(getJson($work['data_info'], 'material')); ?>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-[10px] text-primary font-en tracking-widest mb-1">CONTENT</dt>
+                                <dd class="font-medium text-gray-400 leading-relaxed">
+                                    <?php echo nl2br(htmlspecialchars(getJson($work['data_info'], 'content'))); ?>
+                                </dd>
+                            </div>
+                            <div>
+                                <dt class="text-[10px] text-primary font-en tracking-widest mb-1">PRICE</dt>
+                                <dd class="font-medium text-xl font-en">
+                                    <?php echo htmlspecialchars(getJson($work['data_info'], 'price')); ?>
+                                </dd>
+                                <dd class="text-[10px] text-gray-600 mt-1">※参考価格</dd>
+                            </div>
+                        </dl>
+                        <a href="../contact/index.php"
+                            class="block w-full mt-10 text-center bg-white text-black py-4 font-bold tracking-widest font-en hover:bg-primary transition-colors">
+                            ASK US
+                        </a>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
-
-    <!-- Gallery -->
-    <?php $gallery = getGallery($work['gallery_images']); ?>
-    <?php if (count($gallery) > 0): ?>
-        <section class="py-24 bg-secondary">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold font-en tracking-widest mb-12 text-center">GALLERY</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <?php foreach ($gallery as $img): ?>
-                        <div class="aspect-square bg-black overflow-hidden relative group">
-                            <img src="<?php echo '../' . htmlspecialchars($img); ?>" alt="Gallery"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-        </section>
-    <?php endif; ?>
 
     <!-- Next/Prev Navigation -->
     <section class="py-20 bg-black border-t border-white/5">

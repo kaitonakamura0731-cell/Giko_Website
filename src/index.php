@@ -285,49 +285,83 @@ try {
 
     <!-- Recopying Works/Store/BeforeAfter/Material/Flow from index.html but updating links to .php -->
 
-    <!-- Works -->
+    <!-- Works Category Menu -->
     <section id="works" class="py-32 bg-secondary">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">WORKS</h2>
                 <p class="text-xs text-textLight tracking-wider">施工実績</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="works-grid">
-                <?php if (!empty($latest_works)): ?>
-                    <?php foreach ($latest_works as $work): ?>
-                        <article class="group fade-in work-item"
-                            data-category="<?php echo htmlspecialchars($work['category']); ?>">
-                            <a href="pages/work_detail.php?id=<?php echo $work['id']; ?>"
-                                class="block bg-black overflow-hidden relative">
-                                <div class="overflow-hidden aspect-[4/3]">
-                                    <?php if ($work['main_image']): ?>
-                                        <img src="<?php echo htmlspecialchars($work['main_image']); ?>"
-                                            alt="<?php echo htmlspecialchars($work['title']); ?>"
-                                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100">
-                                    <?php else: ?>
-                                        <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">No
-                                            Image</div>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="p-6">
-                                    <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en uppercase">
-                                        <?php echo htmlspecialchars($work['category']); ?>
-                                    </div>
-                                    <h3 class="text-lg font-bold font-en mb-1"><?php echo htmlspecialchars($work['title']); ?>
-                                    </h3>
-                                    <p class="text-xs text-gray-500"><?php echo htmlspecialchars($work['subtitle']); ?></p>
-                                </div>
-                            </a>
-                        </article>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="col-span-3 text-center text-gray-500">No works found.</p>
-                <?php endif; ?>
+
+            <!-- カテゴリタイルメニュー (2行×3列) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto fade-in">
+
+                <!-- 部分内装 -->
+                <a href="pages/works.php?category=partial" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="relative z-10 text-center">
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">部分内装</span>
+                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">PARTIAL INTERIOR</div>
+                    </div>
+                </a>
+
+                <!-- 全内装 -->
+                <a href="pages/works.php?category=full" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="relative z-10 text-center">
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">全内装</span>
+                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">FULL INTERIOR</div>
+                    </div>
+                </a>
+
+                <!-- パッケージ -->
+                <a href="pages/works.php?category=package" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="relative z-10 text-center">
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">パッケージ</span>
+                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">PACKAGE</div>
+                    </div>
+                </a>
+
+                <!-- アンビエントライト -->
+                <a href="pages/works.php?category=ambient" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="relative z-10 text-center">
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">アンビエントライト</span>
+                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">AMBIENT LIGHT</div>
+                    </div>
+                </a>
+
+                <!-- スターライト -->
+                <a href="pages/works.php?category=starlight" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="relative z-10 text-center">
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">スターライト</span>
+                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">STARLIGHT</div>
+                    </div>
+                </a>
+
+                <!-- 新事業 -->
+                <a href="pages/works.php?category=newbiz" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="relative z-10 text-center">
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">新事業</span>
+                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">NEW BUSINESS</div>
+                    </div>
+                </a>
+
             </div>
-            <div class="text-center mt-16">
+
+            <div class="text-center mt-16 fade-in">
                 <a href="pages/works.php"
-                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-white hover:text-black transition-all duration-300 font-en">
-                    VIEW MORE WORKS <i class="fas fa-arrow-right text-xs"></i>
+                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 font-en font-bold">
+                    VIEW ALL WORKS <i class="fas fa-arrow-right text-xs"></i>
                 </a>
             </div>
         </div>
