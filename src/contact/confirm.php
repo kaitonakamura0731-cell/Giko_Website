@@ -50,8 +50,21 @@ if ($name === '' || $email === '' || $subject === '' || $message === '') {
 
 <body class="bg-black text-white antialiased">
 
+    <!-- Header -->
+    <header class="fixed w-full z-50 transition-all duration-300 bg-black/80 backdrop-blur-md border-b border-white/5" id="header">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="../index.php" class="flex items-center group">
+                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity">
+            </a>
+            <a href="index.php"
+                class="text-xs font-bold font-en tracking-widest hover:text-primary transition-colors flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> CONTACT
+            </a>
+        </div>
+    </header>
+
     <!-- Confirm Section -->
-    <section class="min-h-screen flex items-center justify-center py-24">
+    <section class="min-h-screen flex items-center justify-center py-24" style="padding-top: 8rem;">
         <div class="container mx-auto px-6 max-w-3xl">
             <div class="text-center mb-12">
                 <h1 class="text-3xl font-bold font-en tracking-widest mb-4">CONFIRMATION</h1>
@@ -101,6 +114,52 @@ if ($name === '' || $email === '' || $subject === '' || $message === '') {
             </form>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div>
+                    <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
+                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
+                                class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../index.php#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="../pages/works.php" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="../pages/before_after.html" class="hover:text-white transition-colors">BEFORE & AFTER</a></li>
+                        <li><a href="../index.php#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="../index.php#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">CONTACT</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a></li>
+                        <li><a href="../legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a></li>
+                        <li><a href="../legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+                <div>DESIGNED BY ATLASSHIFT</div>
+            </div>
+        </div>
+    </footer>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 

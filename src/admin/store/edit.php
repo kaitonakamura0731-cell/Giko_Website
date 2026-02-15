@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $option_detail_image = str_replace('../../assets', '../assets', $uploaded_opt_img);
     }
     $stock_status = (int) ($_POST['stock_status'] ?? 1);
+    $vehicle_tags = trim($_POST['vehicle_tags'] ?? '');
 
     // Images (Lines to JSON)
     $images_raw = $_POST['images'] ?? '';
@@ -154,15 +155,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($id) {
             // Update
-            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, description=?, compatible_models=?, model_code=?, images=?, options=?, option_detail_image=?, stock_status=? WHERE id=?";
+            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, description=?, compatible_models=?, model_code=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=? WHERE id=?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $option_detail_image, $stock_status, $id]);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $id]);
             $success = "商品情報を更新しました。";
         } else {
             // Insert
-            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, description, compatible_models, model_code, images, options, option_detail_image, stock_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, description, compatible_models, model_code, images, options, option_detail_image, stock_status, vehicle_tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $option_detail_image, $stock_status]);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $description, $compatible_models, $model_code, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags]);
             $id = $pdo->lastInsertId();
             $success = "商品を新規作成しました。";
             header("Location: edit.php?id=" . $id . "&created=1");
@@ -251,6 +252,14 @@ require_once '../includes/header.php';
                         <label class="form-label">車両型式 (Model Code)</label>
                         <input type="text" name="model_code" class="form-input"
                             value="<?php echo htmlspecialchars($product['model_code']); ?>">
+                    </div>
+
+                    <div class="form-group md:col-span-2">
+                        <label class="form-label">車種タグ (Vehicle Tags)</label>
+                        <input type="text" name="vehicle_tags" class="form-input"
+                            value="<?php echo htmlspecialchars($product['vehicle_tags'] ?? ''); ?>"
+                            placeholder="例: アルファード, ヴェルファイア, プリウス">
+                        <p class="text-xs text-gray-500 mt-1">※カンマ区切りで複数の車種を入力できます。ストアのフィルターに使用されます。</p>
                     </div>
 
                     <div class="form-group md:col-span-2">

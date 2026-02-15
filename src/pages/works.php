@@ -1,15 +1,15 @@
 <?php
 require_once '../admin/includes/db.php';
 
-// カテゴリ定義
+// カテゴリ定義（ラベル、英語名、背景画像）
 $categories = [
-    'all' => 'ALL',
-    'partial' => '部分内装',
-    'full' => '全内装',
-    'package' => 'パッケージ',
-    'ambient' => 'アンビエントライト',
-    'starlight' => 'スターライト',
-    'newbiz' => '新事業',
+    'all'       => ['label' => 'ALL',              'en' => 'ALL WORKS',        'image' => '../assets/images/hero.png'],
+    'partial'   => ['label' => 'Partial Interior',  'en' => 'PARTIAL INTERIOR', 'image' => '../assets/images/hero.png'],
+    'full'      => ['label' => 'Full Interior',     'en' => 'FULL INTERIOR',    'image' => '../assets/images/hero.png'],
+    'package'   => ['label' => 'Package',           'en' => 'PACKAGE',          'image' => '../assets/images/hero.png'],
+    'ambient'   => ['label' => 'Ambient Light',     'en' => 'AMBIENT LIGHT',    'image' => '../assets/images/hero.png'],
+    'starlight' => ['label' => 'Starlight',         'en' => 'STARLIGHT',        'image' => '../assets/images/hero.png'],
+    'newbiz'    => ['label' => 'New Business',      'en' => 'NEW BUSINESS',     'image' => '../assets/images/hero.png'],
 ];
 
 // URLパラメータからカテゴリを取得
@@ -28,12 +28,12 @@ try {
 
 // カテゴリバッジ設定
 $categoryBadges = [
-    'partial' => ['label' => '部分内装', 'color' => 'bg-blue-600/90'],
-    'full' => ['label' => '全内装', 'color' => 'bg-primary/90'],
-    'package' => ['label' => 'パッケージ', 'color' => 'bg-purple-600/90'],
-    'ambient' => ['label' => 'アンビエントライト', 'color' => 'bg-green-600/90'],
-    'starlight' => ['label' => 'スターライト', 'color' => 'bg-indigo-500/90'],
-    'newbiz' => ['label' => '新事業', 'color' => 'bg-red-600/90'],
+    'partial' => ['label' => 'Partial Interior', 'color' => 'bg-blue-600/90'],
+    'full' => ['label' => 'Full Interior', 'color' => 'bg-primary/90'],
+    'package' => ['label' => 'Package', 'color' => 'bg-purple-600/90'],
+    'ambient' => ['label' => 'Ambient Light', 'color' => 'bg-green-600/90'],
+    'starlight' => ['label' => 'Starlight', 'color' => 'bg-indigo-500/90'],
+    'newbiz' => ['label' => 'New Business', 'color' => 'bg-red-600/90'],
 ];
 ?>
 <!DOCTYPE html>
@@ -50,7 +50,6 @@ $categoryBadges = [
     <meta property="og:url" content="https://giko-official.com/pages/works.php">
     <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <!-- <link rel="icon" href="../assets/images/favicon.ico"> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
     <script src="../assets/js/cart.js"></script>
@@ -82,6 +81,9 @@ $categoryBadges = [
             opacity: 1;
             transform: scale(1);
         }
+        /* カルーセルスクロールバー非表示 */
+        #filter-carousel::-webkit-scrollbar { display: none; }
+        #filter-carousel { scrollbar-width: none; -ms-overflow-style: none; }
     </style>
 </head>
 
@@ -128,7 +130,6 @@ $categoryBadges = [
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
                 </div>
-                <!-- Cart Badge Mobile -->
                 <span id="cart-badge-mobile-btn"
                     class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
             </button>
@@ -152,7 +153,6 @@ $categoryBadges = [
                 <a href="../index.php#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
                 <a href="../index.php#company" class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
                 <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
-                <!-- Language Switcher Mobile -->
                 <button id="lang-toggle-mobile"
                     class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
                     <span class="text-primary">JP</span>
@@ -176,23 +176,53 @@ $categoryBadges = [
     <section class="py-24 bg-black">
         <div class="container mx-auto px-6">
 
-            <!-- カテゴリフィルターボタン -->
-            <div class="mb-16">
-                <div class="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
-                    <?php foreach ($categories as $catId => $catLabel): ?>
+            <!-- カテゴリフィルターカルーセル -->
+            <div class="mb-16 relative max-w-5xl mx-auto">
+                <!-- 左ナビボタン -->
+                <button type="button" id="filter-prev"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-20 w-10 h-10 bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all duration-300 backdrop-blur-sm opacity-0 pointer-events-none"
+                    style="transition: opacity 0.3s;">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </button>
+
+                <!-- スクロールコンテナ -->
+                <div id="filter-carousel" class="flex gap-3 overflow-x-auto scroll-smooth px-1 py-2">
+                    <?php foreach ($categories as $catId => $catInfo): ?>
                         <button
                             data-filter="<?php echo $catId; ?>"
-                            class="works-filter-btn px-6 py-3 text-sm font-bold tracking-wider border transition-all duration-300
+                            class="works-filter-btn group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border transition-all duration-500 cursor-pointer
                                 <?php if ($activeCategory === $catId): ?>
-                                    border-primary bg-primary text-black
+                                    border-primary
                                 <?php else: ?>
-                                    border-white/20 text-white hover:bg-primary hover:text-black hover:border-primary
+                                    border-white/10 hover:border-primary/50
                                 <?php endif; ?>
                             ">
-                            <?php echo $catLabel; ?>
+                            <!-- 背景画像 -->
+                            <div class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('<?php echo $catInfo['image']; ?>');"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20"></div>
+                            <!-- アクティブオーバーレイ -->
+                            <?php if ($activeCategory === $catId): ?>
+                                <div class="active-overlay absolute inset-0 bg-primary/20 border-2 border-primary"></div>
+                            <?php endif; ?>
+                            <!-- テキスト -->
+                            <div class="relative z-10 text-center">
+                                <span class="filter-label text-sm md:text-base font-bold tracking-wider <?php echo ($activeCategory === $catId) ? 'text-primary' : 'group-hover:text-primary'; ?> transition-colors duration-300">
+                                    <?php echo $catInfo['label']; ?>
+                                </span>
+                                <div class="text-[8px] md:text-[9px] font-en tracking-widest text-gray-400 mt-1">
+                                    <?php echo $catInfo['en']; ?>
+                                </div>
+                            </div>
                         </button>
                     <?php endforeach; ?>
                 </div>
+
+                <!-- 右ナビボタン -->
+                <button type="button" id="filter-next"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-20 w-10 h-10 bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all duration-300 backdrop-blur-sm"
+                    style="transition: opacity 0.3s;">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
             </div>
 
             <!-- ワークス一覧グリッド -->
@@ -316,7 +346,7 @@ $categoryBadges = [
 
     <script src="../assets/js/main.js"></script>
 
-    <!-- カテゴリフィルタリング JavaScript -->
+    <!-- カテゴリフィルタリング & カルーセルナビ JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const filterBtns = document.querySelectorAll('.works-filter-btn');
@@ -327,6 +357,61 @@ $categoryBadges = [
             // URLパラメータから初期カテゴリを取得
             const urlParams = new URLSearchParams(window.location.search);
             const initialCategory = urlParams.get('category') || 'all';
+
+            // === カルーセルナビボタン制御 ===
+            const carousel = document.getElementById('filter-carousel');
+            const prevBtn = document.getElementById('filter-prev');
+            const nextBtn = document.getElementById('filter-next');
+            const scrollAmount = 200; // 1クリックあたりのスクロール量
+
+            function updateNavButtons() {
+                if (!carousel) return;
+                const { scrollLeft, scrollWidth, clientWidth } = carousel;
+                // 左ボタン表示/非表示
+                if (scrollLeft > 5) {
+                    prevBtn.style.opacity = '1';
+                    prevBtn.style.pointerEvents = 'auto';
+                } else {
+                    prevBtn.style.opacity = '0';
+                    prevBtn.style.pointerEvents = 'none';
+                }
+                // 右ボタン表示/非表示
+                if (scrollLeft + clientWidth < scrollWidth - 5) {
+                    nextBtn.style.opacity = '1';
+                    nextBtn.style.pointerEvents = 'auto';
+                } else {
+                    nextBtn.style.opacity = '0';
+                    nextBtn.style.pointerEvents = 'none';
+                }
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+            }
+
+            if (carousel) {
+                carousel.addEventListener('scroll', updateNavButtons);
+                // 初期状態を設定
+                updateNavButtons();
+
+                // アクティブなカテゴリボタンを中央にスクロール
+                const activeBtn = carousel.querySelector('.works-filter-btn.border-primary');
+                if (activeBtn) {
+                    setTimeout(() => {
+                        const carouselRect = carousel.getBoundingClientRect();
+                        const btnRect = activeBtn.getBoundingClientRect();
+                        const scrollTo = activeBtn.offsetLeft - carousel.offsetLeft - (carouselRect.width / 2) + (btnRect.width / 2);
+                        carousel.scrollTo({ left: scrollTo, behavior: 'smooth' });
+                    }, 100);
+                }
+            }
 
             // フィルタリング関数
             function filterWorks(category) {
@@ -354,14 +439,32 @@ $categoryBadges = [
                     grid.classList.remove('hidden');
                 }
 
-                // ボタンのアクティブ状態を更新
+                // ボタンのアクティブ状態を更新（タイルデザイン対応）
                 filterBtns.forEach(btn => {
+                    const overlay = btn.querySelector('.active-overlay');
+                    const label = btn.querySelector('.filter-label');
+
                     if (btn.getAttribute('data-filter') === category) {
-                        btn.classList.add('border-primary', 'bg-primary', 'text-black');
-                        btn.classList.remove('border-white/20', 'text-white');
+                        btn.classList.add('border-primary');
+                        btn.classList.remove('border-white/10');
+                        // アクティブオーバーレイを追加
+                        if (!btn.querySelector('.active-overlay')) {
+                            const div = document.createElement('div');
+                            div.className = 'active-overlay absolute inset-0 bg-primary/20 border-2 border-primary';
+                            btn.appendChild(div);
+                        }
+                        // テキストをゴールドに
+                        const span = btn.querySelector('.filter-label');
+                        if (span) span.classList.add('text-primary');
                     } else {
-                        btn.classList.remove('border-primary', 'bg-primary', 'text-black');
-                        btn.classList.add('border-white/20', 'text-white');
+                        btn.classList.remove('border-primary');
+                        btn.classList.add('border-white/10');
+                        // アクティブオーバーレイを削除
+                        const existingOverlay = btn.querySelector('.active-overlay');
+                        if (existingOverlay) existingOverlay.remove();
+                        // テキスト色をリセット
+                        const span = btn.querySelector('.filter-label');
+                        if (span) span.classList.remove('text-primary');
                     }
                 });
 

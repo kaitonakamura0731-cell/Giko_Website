@@ -1,17 +1,18 @@
 <?php
 // Load Configuration
 $config_path = dirname(__DIR__, 2) . '/db_config.php';
-if (file_exists($config_path)) {
-    require_once $config_path;
-} else {
-    // Fallback for safety (MAMP default)
-    $host = 'localhost';
-    $db = 'giko_db';
-    $user = 'root';
-    $pass = 'root';
+// ユーザー環境による設定ミスを防ぐため、強制的に本番設定を使用
+// if (file_exists($config_path)) {
+//     require_once $config_path;
+// } else {
+    // Fallback for production (ConoHa Server)
+    $host = 'mysql1007.conoha.ne.jp';
+    $db = '1lq8c_detabase';
+    $user = '1lq8c_admin';
+    $pass = 'password123!';
     $charset = 'utf8mb4';
-    $port = '8889';
-}
+    $port = '3306';
+// }
 
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
 $options = [

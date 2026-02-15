@@ -66,7 +66,7 @@ $csrf_token = $_SESSION['csrf_token'];
         </div>
 
         <form action="order_complete.html" method="GET" id="checkout-form">
-            <!-- CSRF Token (Not strictly used for API calls, but good practice for form submissions) -->
+            <!-- CSRF Token -->
             <input type="hidden" name="csrf_token"
                 value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>">
 
@@ -131,18 +131,101 @@ $csrf_token = $_SESSION['csrf_token'];
                         </div>
                     </section>
 
-                    <!-- Payment Method -->
+                    <!-- 購入後フロー -->
                     <section>
                         <div class="flex items-center gap-4 mb-8">
                             <div
                                 class="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold font-en">
                                 2</div>
+                            <h2 class="text-xl font-bold font-en tracking-widest text-white">購入後フロー</h2>
+                        </div>
+
+                        <div class="bg-white/5 backdrop-blur-md p-8 border border-white/10 rounded-sm space-y-8">
+                            <!-- ステップ1: 商品発送 -->
+                            <div class="flex gap-4 items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-primary font-bold font-en">1</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white mb-1">購入後、商品送信</h3>
+                                    <p class="text-sm text-gray-400">ご購入確定後、技巧より商品をお客様のご住所へ発送いたします。</p>
+                                </div>
+                            </div>
+
+                            <!-- ステップ2: 脱着 -->
+                            <div class="flex gap-4 items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-primary font-bold font-en">2</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white mb-1">脱着</h3>
+                                    <p class="text-sm text-gray-400 mb-2">商品が届きましたら、お客様ご自身で現在のパーツを取り外し、届いた商品を取り付けてください。</p>
+                                    <p class="text-sm text-gray-400">
+                                        脱着作業を依頼したい場合は
+                                        <button type="button" onclick="openInstallModal()" class="text-primary font-bold underline underline-offset-4 hover:text-white transition-colors">こちら</button>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- ステップ3: 取り外した部品の返送 -->
+                            <div class="flex gap-4 items-start">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-primary font-bold font-en">3</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white mb-2">取り外した部品の返送</h3>
+                                    <div class="space-y-3">
+                                        <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
+                                            <div class="flex items-center gap-2 mb-1">
+                                                <i class="fas fa-exchange-alt text-primary text-sm"></i>
+                                                <span class="font-bold text-sm text-white">返送（下取り）する場合</span>
+                                            </div>
+                                            <p class="text-xs text-gray-400 ml-6">取り外したパーツを技巧へ返送いただくと、下取り買取として商品代が割引になります。</p>
+                                        </div>
+                                        <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
+                                            <div class="flex items-center gap-2 mb-1">
+                                                <i class="fas fa-box text-gray-400 text-sm"></i>
+                                                <span class="font-bold text-sm text-white">返送しない場合</span>
+                                            </div>
+                                            <p class="text-xs text-gray-400 ml-6">取り外したパーツをお手元に残される場合は、下取り割引は適用されません。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 注意事項 -->
+                            <div class="border-t border-white/10 pt-6">
+                                <h4 class="text-sm font-bold text-yellow-400 mb-3"><i class="fas fa-exclamation-triangle mr-1"></i> 注意事項</h4>
+                                <p class="text-sm text-gray-300 mb-4">取り外した部品を返送する場合は、商品到着後 <span class="text-primary font-bold">2週間以内</span> にご返送をお願いいたします。</p>
+
+                                <label class="flex items-start gap-3 cursor-pointer group" id="confirm-flow-label">
+                                    <input type="checkbox" id="confirm-flow-checkbox"
+                                        class="mt-1 w-5 h-5 rounded border-2 border-white/30 bg-transparent accent-primary cursor-pointer flex-shrink-0"
+                                        onchange="togglePaymentButtons()">
+                                    <span class="text-sm text-gray-300 group-hover:text-white transition-colors">
+                                        上記の購入後フローおよび注意事項を確認しました。<br>
+                                        <span class="text-[11px] text-gray-500">※取り外した部品がない場合・返送しない場合もチェックしてください</span>
+                                    </span>
+                                </label>
+                                <p id="checkbox-warning" class="text-xs text-red-400 mt-2 ml-8 hidden">
+                                    <i class="fas fa-info-circle mr-1"></i> チェックしないと決済ボタンが押せません
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Payment Method -->
+                    <section>
+                        <div class="flex items-center gap-4 mb-8">
+                            <div
+                                class="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold font-en">
+                                3</div>
                             <h2 class="text-xl font-bold font-en tracking-widest text-white">PAYMENT METHOD</h2>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="payment-method-container">
                             <!-- Card Option -->
-                            <label class="relative cursor-pointer group">
+                            <label class="relative cursor-pointer group payment-option-label" style="pointer-events: none; opacity: 0.4;">
                                 <input type="radio" name="payment_method" value="card" checked
                                     onchange="togglePayment('card')" class="peer sr-only">
                                 <div
@@ -160,7 +243,7 @@ $csrf_token = $_SESSION['csrf_token'];
                             </label>
 
                             <!-- Transfer Option -->
-                            <label class="relative cursor-pointer group">
+                            <label class="relative cursor-pointer group payment-option-label" style="pointer-events: none; opacity: 0.4;">
                                 <input type="radio" name="payment_method" value="transfer"
                                     onchange="togglePayment('transfer')" class="peer sr-only">
                                 <div
@@ -176,7 +259,6 @@ $csrf_token = $_SESSION['csrf_token'];
                                                 <span class="italic">送料無料</span>
                                             </span>
                                         </div>
-
                                     </div>
                                     <div class="flex justify-between items-start mb-4">
                                         <div
@@ -198,7 +280,6 @@ $csrf_token = $_SESSION['csrf_token'];
 
                 <!-- Right Column: Order Summary (Span 5) -->
                 <div class="lg:col-span-5 lg:sticky lg:top-32 h-fit">
-                    <!-- (Summary content same as before) -->
                     <div class="bg-secondary p-8 border border-white/10 rounded-sm relative overflow-hidden shadow-2xl">
                         <div class="absolute -top-20 -right-20 w-60 h-60 bg-primary/10 rounded-full blur-[80px]"></div>
 
@@ -218,7 +299,7 @@ $csrf_token = $_SESSION['csrf_token'];
                             </div>
                             <div class="flex justify-between items-center text-sm">
                                 <span class="text-gray-400 font-en tracking-wider">SHIPPING</span>
-                                <span class="font-en font-bold">¥0</span>
+                                <span id="display-shipping" class="font-en font-bold">¥1,000</span>
                             </div>
                             <div class="flex justify-between items-end pt-4 border-t border-white/10 mt-4">
                                 <span class="text-sm font-bold text-gray-400 font-en tracking-widest">TOTAL</span>
@@ -239,8 +320,9 @@ $csrf_token = $_SESSION['csrf_token'];
                                     </p>
                                 </div>
 
-                                <button type="button" onclick="handleCardPayment()"
-                                    class="w-full bg-[#C0A062] text-black font-bold py-4 rounded-sm hover:bg-white transition-all duration-300 tracking-widest font-en shadow-xl uppercase">
+                                <button type="button" id="btn-card-pay" onclick="handleCardPayment()"
+                                    class="w-full bg-[#C0A062] text-black font-bold py-4 rounded-sm hover:bg-white transition-all duration-300 tracking-widest font-en shadow-xl uppercase disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[#C0A062]"
+                                    disabled>
                                     PROCEED TO PAYMENT
                                 </button>
                                 <p class="text-[10px] text-gray-500 text-center">
@@ -250,8 +332,9 @@ $csrf_token = $_SESSION['csrf_token'];
 
                             <!-- Transfer Payment -->
                             <div id="payment-transfer" class="hidden">
-                                <button type="button" onclick="handleBankTransfer()"
-                                    class="w-full bg-white text-black font-bold py-4 rounded-sm hover:bg-primary hover:text-white transition-all duration-300 tracking-widest font-en shadow-xl uppercase">
+                                <button type="button" id="btn-transfer-pay" onclick="handleBankTransfer()"
+                                    class="w-full bg-white text-black font-bold py-4 rounded-sm hover:bg-primary hover:text-white transition-all duration-300 tracking-widest font-en shadow-xl uppercase disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
+                                    disabled>
                                     Place Order
                                 </button>
                                 <p class="text-[10px] text-gray-500 mt-4 text-center">
@@ -273,6 +356,65 @@ $csrf_token = $_SESSION['csrf_token'];
         </form>
     </main>
 
+    <!-- 脱着作業依頼ポップアップ -->
+    <div id="install-modal"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4"
+        onclick="if(event.target===this)closeInstallModal()">
+        <div class="bg-gray-900 border border-primary/30 rounded-sm max-w-md w-full shadow-2xl overflow-hidden transform transition-all">
+            <!-- モーダルヘッダー -->
+            <div class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-primary/30 p-6 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white tracking-wide">
+                    <i class="fas fa-wrench text-primary mr-2"></i>脱着作業依頼
+                </h3>
+                <button type="button" onclick="closeInstallModal()"
+                    class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <!-- モーダル内容 -->
+            <div class="p-8 space-y-6">
+                <p class="text-sm text-gray-300 leading-relaxed">
+                    脱着作業をご自身で行うことが難しい場合、技巧にて作業を承ります。<br>
+                    以下の連絡先までお問い合わせください。
+                </p>
+
+                <!-- 連絡先 -->
+                <div class="bg-black/50 border border-white/10 p-6 rounded-sm text-center">
+                    <p class="text-xs text-gray-500 font-en tracking-widest mb-2">CONTACT</p>
+                    <a href="mailto:giko.artisan@gmail.com"
+                        class="text-primary font-bold text-lg hover:text-white transition-colors break-all">
+                        <i class="fas fa-envelope mr-2"></i>giko.artisan@gmail.com
+                    </a>
+                </div>
+
+                <!-- 対応可能地域 -->
+                <div>
+                    <p class="text-xs text-gray-500 font-en tracking-widest mb-3">対応可能地域</p>
+                    <div class="flex gap-3 justify-center">
+                        <span class="bg-primary/10 border border-primary/30 text-primary px-4 py-2 rounded-sm text-sm font-bold">
+                            <i class="fas fa-map-marker-alt mr-1"></i> 東京
+                        </span>
+                        <span class="bg-primary/10 border border-primary/30 text-primary px-4 py-2 rounded-sm text-sm font-bold">
+                            <i class="fas fa-map-marker-alt mr-1"></i> 北海道
+                        </span>
+                        <span class="bg-primary/10 border border-primary/30 text-primary px-4 py-2 rounded-sm text-sm font-bold">
+                            <i class="fas fa-map-marker-alt mr-1"></i> 愛知
+                        </span>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- モーダルフッター -->
+            <div class="bg-gray-900 p-4 border-t border-white/10 text-center">
+                <button type="button" onclick="closeInstallModal()"
+                    class="px-8 py-3 bg-white/10 border border-white/20 text-white font-bold tracking-widest font-en hover:bg-primary hover:border-primary transition-all duration-300 rounded-sm text-sm">
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="loading-overlay"
         class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center">
         <div class="text-center">
@@ -284,7 +426,6 @@ $csrf_token = $_SESSION['csrf_token'];
     </div>
 
     <!-- Confirmation Modal -->
-    <!-- (Using strict structure same as before) -->
     <div id="confirmation-modal"
         class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div
@@ -303,13 +444,11 @@ $csrf_token = $_SESSION['csrf_token'];
             <!-- Modal Body -->
             <div class="p-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Shipping Info -->
                     <div>
                         <h4 class="text-gold-400 font-serif mb-4 border-b border-gray-700 pb-2">お届け先情報</h4>
                         <div id="confirm-shipping-info" class="space-y-2 text-gray-300 text-sm">
                         </div>
                     </div>
-                    <!-- Order Items -->
                     <div>
                         <h4 class="text-gold-400 font-serif mb-4 border-b border-gray-700 pb-2">注文商品</h4>
                         <div id="confirm-items-list" class="space-y-3">
@@ -317,7 +456,6 @@ $csrf_token = $_SESSION['csrf_token'];
                     </div>
                 </div>
 
-                <!-- Payment Summary -->
                 <div class="mt-8 bg-gray-800/50 p-4 rounded border border-gray-700">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-gray-400">お支払い方法</span>
@@ -330,7 +468,6 @@ $csrf_token = $_SESSION['csrf_token'];
                     </div>
                 </div>
 
-                <!-- Security Note -->
                 <div class="mt-6 text-xs text-gray-500 text-center">
                     <p><i class="fas fa-lock text-gold-500/50 mr-1"></i> SSL暗号化通信により、お客様の情報は安全に送信されます。</p>
                 </div>
@@ -351,9 +488,6 @@ $csrf_token = $_SESSION['csrf_token'];
         </div>
     </div>
 
-    <!-- <script src="../assets/js/email_handler.js"></script> -->
-    <!-- <script src="../assets/js/email_handler.js"></script> -->
-    <!-- PAY.JP V2 is not needed here anymore, moved to card_entry.php -->
     <script>
         // Init total amount
         let payjp, elements, cardElement;
@@ -368,8 +502,8 @@ $csrf_token = $_SESSION['csrf_token'];
                 togglePayment(currentPaymentMethod);
             }
 
-            const total = Cart.getTotal();
-            if (total === 0) {
+            const subtotal = Cart.getTotal();
+            if (subtotal === 0) {
                 alert('カートが空です');
                 window.location.href = 'purchase.html';
                 return;
@@ -378,11 +512,11 @@ $csrf_token = $_SESSION['csrf_token'];
             const items = Cart.getItems();
             renderCartItems(items);
 
-            const formattedTotal = '¥' + total.toLocaleString();
-            document.getElementById('checkout-total').innerText = formattedTotal;
-            document.getElementById('display-subtotal').innerText = formattedTotal;
-            document.getElementById('form-amount').value = total;
+            document.getElementById('display-subtotal').innerText = '¥' + subtotal.toLocaleString();
             document.getElementById('cart-items-input').value = JSON.stringify(items);
+
+            // 合計を計算（送料込み）
+            updateOrderTotal();
 
             // Check for error query param from 3DS redirect/callback
             const urlParams = new URLSearchParams(window.location.search);
@@ -390,6 +524,9 @@ $csrf_token = $_SESSION['csrf_token'];
             if (error) {
                 showError(decodeURIComponent(error));
             }
+
+            // チェックボックスの初期状態を反映
+            togglePaymentButtons();
 
             // Initialize PAY.JP V2
             initPayjpV2();
@@ -415,6 +552,26 @@ $csrf_token = $_SESSION['csrf_token'];
             itemsContainer.innerHTML = itemsHtml;
         }
 
+        // 送料を含む合計を計算して表示
+        function updateOrderTotal() {
+            const subtotal = Cart.getTotal();
+            const shipping = (currentPaymentMethod === 'transfer') ? 0 : 1000;
+            const total = subtotal + shipping;
+
+            // 送料表示
+            const shippingEl = document.getElementById('display-shipping');
+            if (shippingEl) {
+                shippingEl.innerText = (shipping === 0) ? '¥0（無料）' : '¥' + shipping.toLocaleString();
+                shippingEl.className = (shipping === 0)
+                    ? 'font-en font-bold text-green-400'
+                    : 'font-en font-bold';
+            }
+
+            // 合計表示
+            document.getElementById('checkout-total').innerText = '¥' + total.toLocaleString();
+            document.getElementById('form-amount').value = total;
+        }
+
         function togglePayment(method) {
             currentPaymentMethod = method;
             const cardDiv = document.getElementById('payment-card');
@@ -427,13 +584,51 @@ $csrf_token = $_SESSION['csrf_token'];
                 cardDiv.classList.add('hidden');
                 transferDiv.classList.remove('hidden');
             }
+
+            // 送料・合計を再計算
+            updateOrderTotal();
+        }
+
+        // チェックボックスによる決済ボタンの有効/無効切り替え
+        function togglePaymentButtons() {
+            const checkbox = document.getElementById('confirm-flow-checkbox');
+            const isChecked = checkbox.checked;
+            const warning = document.getElementById('checkbox-warning');
+            const paymentLabels = document.querySelectorAll('.payment-option-label');
+            const btnCard = document.getElementById('btn-card-pay');
+            const btnTransfer = document.getElementById('btn-transfer-pay');
+
+            if (isChecked) {
+                // 決済ボタンを有効化
+                paymentLabels.forEach(label => {
+                    label.style.pointerEvents = 'auto';
+                    label.style.opacity = '1';
+                });
+                if (btnCard) btnCard.disabled = false;
+                if (btnTransfer) btnTransfer.disabled = false;
+                if (warning) warning.classList.add('hidden');
+            } else {
+                // 決済ボタンを無効化
+                paymentLabels.forEach(label => {
+                    label.style.pointerEvents = 'none';
+                    label.style.opacity = '0.4';
+                });
+                if (btnCard) btnCard.disabled = true;
+                if (btnTransfer) btnTransfer.disabled = true;
+                if (warning) warning.classList.remove('hidden');
+            }
+        }
+
+        // 脱着作業依頼ポップアップ
+        function openInstallModal() {
+            document.getElementById('install-modal').classList.remove('hidden');
+        }
+        function closeInstallModal() {
+            document.getElementById('install-modal').classList.add('hidden');
         }
 
         function initPayjpV2() {
             // No initialization needed on this page anymore
-            /* 
-            if (typeof Payjp === 'undefined') { ... } 
-            */
         }
 
         function showError(msg) {
@@ -467,10 +662,11 @@ $csrf_token = $_SESSION['csrf_token'];
             // 2. Gather Data
             const formData = new FormData(form);
             const items = Cart.getItems();
-            const total = Cart.getTotal();
+            const subtotal = Cart.getTotal();
+            const shipping = (currentPaymentMethod === 'transfer') ? 0 : 1000;
+            const total = subtotal + shipping;
 
             // 3. Populate Modal
-            // Shipping Info
             const shippingHtml = `
                 <p><span class="text-gray-500 w-24 inline-block">お名前:</span> ${formData.get('name')}</p>
                 <p><span class="text-gray-500 w-24 inline-block">Email:</span> ${formData.get('email')}</p>
@@ -480,7 +676,6 @@ $csrf_token = $_SESSION['csrf_token'];
             `;
             document.getElementById('confirm-shipping-info').innerHTML = shippingHtml;
 
-            // Items
             let itemsListHtml = '';
             items.forEach(item => {
                 itemsListHtml += `
@@ -490,9 +685,15 @@ $csrf_token = $_SESSION['csrf_token'];
                     </div>
                 `;
             });
+            // 送料行
+            itemsListHtml += `
+                <div class="flex justify-between text-sm py-2 border-b border-gray-800">
+                    <span class="text-gray-500">送料</span>
+                    <span class="text-white font-en">${shipping === 0 ? '¥0（無料）' : '¥' + shipping.toLocaleString()}</span>
+                </div>
+            `;
             document.getElementById('confirm-items-list').innerHTML = itemsListHtml;
 
-            // Payment Method & Total
             const methodText = currentPaymentMethod === 'card' ? 'クレジットカード' : '銀行振込';
             document.getElementById('confirm-payment-method').innerText = methodText;
             document.getElementById('confirm-total-amount').innerText = '¥' + total.toLocaleString();
@@ -508,7 +709,6 @@ $csrf_token = $_SESSION['csrf_token'];
         // --- Final Payment Processing ---
 
         async function processFinalPayment() {
-            // Close Confirm Modal, Show Loading
             closeConfirmationModal();
             const loadingOverlay = document.getElementById('loading-overlay');
             const errDiv = document.getElementById('error-message');
@@ -530,16 +730,12 @@ $csrf_token = $_SESSION['csrf_token'];
 
         async function processCardPayment() {
             const form = document.getElementById('checkout-form');
-            // Change Action to card_entry.php
             form.action = "card_entry.php";
             form.method = "POST";
-
-            // Submit form to go to next page
             form.submit();
         }
 
         async function processBankTransfer() {
-            // Simulate processing
             await new Promise(r => setTimeout(r, 1000));
             await finalizeOrder('BANK TRANSFER');
         }
@@ -561,8 +757,6 @@ $csrf_token = $_SESSION['csrf_token'];
                 items: items
             };
 
-            // EmailJS
-            // Send Email via PHP
             try {
                 await fetch('./mail_order.php', {
                     method: 'POST',
@@ -571,39 +765,26 @@ $csrf_token = $_SESSION['csrf_token'];
                 });
             } catch (e) {
                 console.error("Email sending warning:", e);
-                // Do not block flow
             }
 
-            // Clean Redirect
             Cart.clear();
             const pmParam = paymentMethod === 'CREDIT CARD' ? 'card' : 'transfer';
             window.location.href = `order_complete.html?order_id=${orderId}&payment_method=${pmParam}`;
         }
 
-        // Helper: Format phone to E.164 (Japan +81)
         function formatPhoneNumberToE164(phone) {
             if (!phone) return '';
-            // 1. Remove hyphens, spaces, parentheses
             let cleaned = phone.replace(/[-()\s]/g, '');
-
-            // 2. Remove leading zero if present and prepend +81
             if (cleaned.startsWith('0')) {
                 cleaned = cleaned.substring(1);
                 return '+81' + cleaned;
             }
-
-            // 3. If already starts with 81 (without +), prepend +
             if (cleaned.startsWith('81')) {
                 return '+' + cleaned;
             }
-
-            // 4. Default fallback: if it looks like just numbers, assume JP and add +81?
-            // Or if user entered +81..., leave it.
             if (cleaned.startsWith('+')) {
                 return cleaned;
             }
-
-            // Fallback for non-standard inputs, try +81
             return '+81' + cleaned;
         }
     </script>

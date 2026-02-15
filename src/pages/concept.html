@@ -34,7 +34,8 @@
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <a href="../index.php" class="flex items-center group">
-                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity">
+                <img src="../assets/images/logo_new.png" alt="GIKO"
+                    class="h-10 group-hover:opacity-80 transition-opacity">
             </a>
 
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
@@ -160,24 +161,26 @@
                     </div>
                 </div>
 
-                <!-- Material Preview Section -->
+                <!-- Navigation Tiles -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-24 fade-in" style="animation-delay: 0.2s;">
-                    <div class="relative group overflow-hidden border border-white/10">
-                        <img src="../assets/images/items/steering_main.png" alt="Craftsmanship"
+                    <a href="../store/index.php" class="relative group overflow-hidden border border-white/10 block">
+                        <img src="../assets/images/items/steering_main.png" alt="Store"
                             class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                             <span
-                                class="text-xl font-bold font-en tracking-widest border-b border-white/50 pb-2">CRAFTSMANSHIP</span>
+                                class="text-xl font-bold font-en tracking-widest border-b border-white/50 pb-2 group-hover:border-primary group-hover:text-primary transition-colors">STORE</span>
                         </div>
-                    </div>
-                    <div class="relative group overflow-hidden border border-white/10">
-                        <img src="../assets/images/items/navicover_main.png" alt="Materials"
+                    </a>
+                    <a href="../pages/works.php" class="relative group overflow-hidden border border-white/10 block">
+                        <img src="../assets/images/items/navicover_main.png" alt="Works"
                             class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <div
+                            class="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
                             <span
-                                class="text-xl font-bold font-en tracking-widest border-b border-white/50 pb-2">MATERIALS</span>
+                                class="text-xl font-bold font-en tracking-widest border-b border-white/50 pb-2 group-hover:border-primary group-hover:text-primary transition-colors">WORKS</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="text-center mt-24 fade-in">
@@ -191,50 +194,58 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black border-t border-white/10 pt-20 pb-10">
+    <footer class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <div>
-                    <a href="../index.php" class="flex items-center gap-3 mb-6 group">
-                        <div
-                            class="w-10 h-10 bg-primary rounded-sm flex items-center justify-center text-black font-bold font-en text-xl">
-                            G</div>
-                        <span class="text-2xl font-bold tracking-widest font-en">GIKO</span>
-                    </a>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-6">
-                        Automotive Interior Specialist<br>
-                        Restoration & Custom Overlays
-                    </p>
+                    <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
+                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
+                                class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-12 md:gap-20">
-                    <div>
-                        <h4 class="font-bold font-en tracking-widest mb-6 text-gray-500 text-xs">PAGES</h4>
-                        <ul class="space-y-4 text-sm font-en">
-                            <li><a href="../index.php" class="hover:text-primary transition-colors">HOME</a></li>
-                            <li><a href="../pages/works.php" class="hover:text-primary transition-colors">WORKS</a>
-                            </li>
-                            <li><a href="../store/index.php" class="hover:text-primary transition-colors">STORE</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold font-en tracking-widest mb-6 text-gray-500 text-xs">LEGAL</h4>
-                        <ul class="space-y-4 text-sm font-en">
-                            <li><a href="../legal/terms.html" class="hover:text-primary transition-colors">TERMS OF
-                                    SERVICE</a>
-                            </li>
-                            <li><a href="../legal/privacy.html" class="hover:text-primary transition-colors">PRIVACY
-                                    POLICY</a>
-                            </li>
-                            <li><a href="../legal/tokusho.html" class="hover:text-primary transition-colors">TOKUSHO
-                                    LAW</a></li>
-                        </ul>
-                    </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../index.php#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="../pages/works.php" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="../pages/before_after.html" class="hover:text-white transition-colors">BEFORE &
+                                AFTER</a></li>
+                        <li><a href="../index.php#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="../index.php#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        CONTACT</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li class="flex items-start gap-4">
+                            <a href="../contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a>
+                        </li>
+                        <li><a href="../legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+                        </li>
+                        <li><a href="../legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-xs text-gray-600 font-en">© 2025 GIKO. All Rights Reserved.</p>
-                <p class="text-xs text-gray-600 font-en">Designed by AtlasShift</p>
+            <div
+                class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+                <div>DESIGNED BY ATLASSHIFT</div>
             </div>
         </div>
     </footer>

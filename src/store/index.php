@@ -8,6 +8,25 @@ try {
     die("Database error: " . $e->getMessage());
 }
 
+// 車種タグのユニークリストを取得
+$allTags = [];
+foreach ($products as $p) {
+    $tags = $p['vehicle_tags'] ?? '';
+    if ($tags) {
+        foreach (explode(',', $tags) as $tag) {
+            $tag = trim($tag);
+            if ($tag && !in_array($tag, $allTags)) {
+                $allTags[] = $tag;
+            }
+        }
+    }
+}
+// アルファードタグを強制追加（ユーザー要望）
+if (!in_array('Alphard', $allTags)) {
+    array_unshift($allTags, 'Alphard');
+}
+sort($allTags);
+
 function getFirstImage($json)
 {
     $images = json_decode($json ?? '[]', true);
@@ -41,6 +60,31 @@ function getFirstImage($json)
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>document.documentElement.classList.add('js-loading');</script>
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* フィルターアニメーション */
+        .product-card {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .product-card.hidden-by-filter {
+            opacity: 0;
+            transform: scale(0.95);
+            position: absolute;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        .product-card.visible-by-filter {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* カルーセルスクロールバー非表示 */
+        #store-filter-carousel::-webkit-scrollbar { display: none; }
+        #store-filter-carousel { scrollbar-width: none; -ms-overflow-style: none; }
+    </style>
 </head>
 
 <body class="bg-black text-white antialiased selection:bg-primary selection:text-white">
@@ -91,7 +135,34 @@ function getFirstImage($json)
                     class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
             </button>
         </div>
-        <!-- Mobile Menu Omitted for brevity, assuming standard include or similar logic -->
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+                <a href="cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../index.php#concept" class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
+                <a href="index.php" class="text-primary font-en tracking-widest">STORE</a>
+                <a href="../pages/before_after.html"
+                    class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.php#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.php#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.php#company" class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <!-- Language Switcher Mobile -->
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -107,36 +178,100 @@ function getFirstImage($json)
     <!-- Product Grid -->
     <section class="py-20 bg-black">
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <?php foreach ($products as $product): ?>
-                    <article class="group fade-in">
-                        <a href="product_detail.php?id=<?php echo $product['id']; ?>"
-                            class="block bg-secondary overflow-hidden relative border border-white/5 hover:border-primary/50 transition-colors duration-300">
-                            <div class="overflow-hidden aspect-square">
-                                <img src="<?php echo htmlspecialchars(getFirstImage($product['images'])); ?>"
-                                    alt="<?php echo htmlspecialchars($product['name']); ?>"
-                                    class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+            <!-- 車種フィルター タイルカルーセル -->
+            <?php if (!empty($allTags)): ?>
+            <div class="mb-16 relative max-w-5xl mx-auto">
+                <!-- 左ナビボタン -->
+                <button type="button" id="store-filter-prev"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-20 w-10 h-10 bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all duration-300 backdrop-blur-sm opacity-0 pointer-events-none"
+                    style="transition: opacity 0.3s;">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </button>
+
+                <!-- スクロールコンテナ -->
+                <div id="store-filter-carousel" class="flex gap-3 overflow-x-auto scroll-smooth px-1 py-2 justify-center">
+                    <!-- ALL タイル -->
+                    <button type="button" onclick="filterProducts('all')"
+                        class="filter-btn group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border transition-all duration-500 cursor-pointer border-primary"
+                        data-tag="all">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30"></div>
+                        <div class="active-overlay absolute inset-0 bg-primary/20 border-2 border-primary"></div>
+                        <div class="relative z-10 text-center">
+                            <span class="filter-label text-sm md:text-base font-bold tracking-wider text-primary transition-colors duration-300 font-en">ALL</span>
+                            <div class="text-[8px] md:text-[9px] font-en tracking-widest text-gray-400 mt-1">ALL PRODUCTS</div>
+                        </div>
+                    </button>
+                    <?php foreach ($allTags as $tag): 
+                        // このタグに対応する最初の商品画像を取得
+                        $tagImage = '';
+                        
+                        // アルファードの場合は固定画像を使用（商品がなくても表示するため）
+                        if (strtolower($tag) === 'alphard' || $tag === 'アルファード') {
+                            $tagImage = '../assets/images/alphard.jpg';
+                        } else {
+                            // その他のタグは商品画像から取得
+                            foreach ($products as $p) {
+                                $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
+                                if (in_array($tag, $pTags)) {
+                                    $tagImage = getFirstImage($p['images']);
+                                    break;
+                                }
+                            }
+                        }
+                    ?>
+                    <button type="button" onclick="filterProducts('<?php echo htmlspecialchars($tag); ?>')"
+                        class="filter-btn group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border border-white/10 hover:border-primary/50 transition-all duration-500 cursor-pointer"
+                        data-tag="<?php echo htmlspecialchars($tag); ?>">
+                        <!-- 背景画像 -->
+                        <?php if ($tagImage): ?>
+                        <div class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('<?php echo htmlspecialchars($tagImage); ?>');"></div>
+                        <?php endif; ?>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20"></div>
+                        <!-- テキスト -->
+                        <div class="relative z-10 text-center">
+                            <span class="filter-label text-sm md:text-base font-bold tracking-wider group-hover:text-primary transition-colors duration-300"><?php echo htmlspecialchars($tag); ?></span>
+                        </div>
+                    </button>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- 右ナビボタン -->
+                <button type="button" id="store-filter-next"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-20 w-10 h-10 bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all duration-300 backdrop-blur-sm"
+                    style="transition: opacity 0.3s;">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+            </div>
+            <?php endif; ?>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto" id="product-grid">
+                <?php foreach ($products as $product): 
+                    $productTags = $product['vehicle_tags'] ?? '';
+                    $img = getFirstImage($product['images']);
+                ?>
+                    <article class="product-card group visible-by-filter" data-tags="<?php echo htmlspecialchars($productTags); ?>">
+                        <a href="product_detail.php?id=<?php echo $product['id']; ?>" class="block">
+                            <!-- 商品画像 -->
+                            <div class="aspect-square w-full overflow-hidden bg-gray-900 border border-white/10 relative mb-4">
+                                <?php if ($img): ?>
+                                <img src="<?php echo htmlspecialchars($img); ?>" 
+                                     alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                                     class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                                <?php else: ?>
+                                <div class="w-full h-full flex items-center justify-center text-gray-600 font-en text-xs tracking-widest">
+                                    NO IMAGE
+                                </div>
+                                <?php endif; ?>
                             </div>
-                            <div class="p-8">
-                                <div class="text-primary text-[10px] font-bold tracking-widest mb-3 font-en">PRODUCT</div>
-                                <h3 class="text-lg font-bold mb-2"><?php echo nl2br(htmlspecialchars($product['name'])); ?>
+                            
+                            <!-- 商品情報 -->
+                            <div class="text-center">
+                                <h3 class="text-base md:text-lg font-bold font-en tracking-wider text-white group-hover:text-primary transition-colors duration-300 mb-2">
+                                    <?php echo htmlspecialchars($product['name']); ?>
                                 </h3>
-                                <p class="text-xs text-gray-400 mb-4 line-clamp-2">
-                                    <?php
-                                    $desc = $product['short_description'] ?? '';
-                                    if (!$desc) {
-                                        // Fallback to strip_tags of description
-                                        $desc = strip_tags($product['description']);
-                                    }
-                                    echo htmlspecialchars($desc);
-                                    ?>
-                                </p>
-                                <div class="flex justify-between items-center border-t border-white/10 pt-4">
-                                    <span class="font-en font-bold text-lg">¥<?php echo number_format($product['price']); ?>
-                                        <span class="text-xs font-normal text-gray-500">~</span></span>
-                                    <span
-                                        class="text-xs font-bold font-en tracking-widest group-hover:text-primary transition-colors">VIEW
-                                        DETAILS <i class="fas fa-arrow-right ml-1"></i></span>
+                                <div class="text-sm font-en font-bold text-gray-400">
+                                    ¥<?php echo number_format($product['price']); ?>
+                                    <span class="text-[10px] font-normal text-gray-500 ml-1">~</span>
                                 </div>
                             </div>
                         </a>
@@ -163,14 +298,142 @@ function getFirstImage($json)
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black border-t border-white/10 pt-20 pb-10">
+    <footer class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
         <div class="container mx-auto px-6">
-            <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-xs text-gray-600 font-en">© 2025 GIKO. All Rights Reserved.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div>
+                    <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
+                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
+                                class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../index.php#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="../pages/works.php" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="../pages/before_after.html" class="hover:text-white transition-colors">BEFORE & AFTER</a></li>
+                        <li><a href="../index.php#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="../index.php#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">CONTACT</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li class="flex items-start gap-4">
+                            <a href="../contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="../legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a></li>
+                        <li><a href="../legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a></li>
+                        <li><a href="../legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
+                <div>DESIGNED BY ATLASSHIFT</div>
             </div>
         </div>
     </footer>
 
+    <script>
+        // 車種フィルター機能
+        function filterProducts(tag) {
+            const cards = document.querySelectorAll('.product-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // タイルのアクティブ状態を更新
+            buttons.forEach(btn => {
+                const overlay = btn.querySelector('.active-overlay');
+                const label = btn.querySelector('.filter-label');
+                if (btn.getAttribute('data-tag') === tag) {
+                    btn.classList.add('border-primary');
+                    btn.classList.remove('border-white/10');
+                    if (!overlay) {
+                        const newOverlay = document.createElement('div');
+                        newOverlay.className = 'active-overlay absolute inset-0 bg-primary/20 border-2 border-primary';
+                        btn.insertBefore(newOverlay, btn.children[btn.children.length - 1]);
+                    }
+                    if (label) label.classList.add('text-primary');
+                } else {
+                    btn.classList.remove('border-primary');
+                    btn.classList.add('border-white/10');
+                    if (overlay) overlay.remove();
+                    if (label) label.classList.remove('text-primary');
+                }
+            });
+
+            // 商品カードをフィルタリング（アニメーション付き）
+            cards.forEach(card => {
+                if (tag === 'all') {
+                    card.classList.remove('hidden-by-filter');
+                    card.classList.add('visible-by-filter');
+                    return;
+                }
+                const cardTags = (card.getAttribute('data-tags') || '').split(',').map(t => t.trim());
+                if (cardTags.includes(tag)) {
+                    card.classList.remove('hidden-by-filter');
+                    card.classList.add('visible-by-filter');
+                } else {
+                    card.classList.remove('visible-by-filter');
+                    card.classList.add('hidden-by-filter');
+                }
+            });
+        }
+
+        // カルーセルナビゲーション
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('store-filter-carousel');
+            const prevBtn = document.getElementById('store-filter-prev');
+            const nextBtn = document.getElementById('store-filter-next');
+            if (!carousel || !prevBtn || !nextBtn) return;
+
+            const scrollAmount = 200;
+
+            function updateNavButtons() {
+                const canScrollLeft = carousel.scrollLeft > 10;
+                const canScrollRight = carousel.scrollLeft < (carousel.scrollWidth - carousel.clientWidth - 10);
+                prevBtn.style.opacity = canScrollLeft ? '1' : '0';
+                prevBtn.style.pointerEvents = canScrollLeft ? 'auto' : 'none';
+                nextBtn.style.opacity = canScrollRight ? '1' : '0';
+                nextBtn.style.pointerEvents = canScrollRight ? 'auto' : 'none';
+            }
+
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            carousel.addEventListener('scroll', updateNavButtons);
+            updateNavButtons();
+
+            // URLパラメータによる初期フィルタリング
+            const urlParams = new URLSearchParams(window.location.search);
+            const tag = urlParams.get('tag');
+            if (tag) {
+                // 少し遅延させて実行（要素描画待ち＆アニメーション見せるため）
+                setTimeout(() => {
+                    filterProducts(tag);
+                    
+                    // カルーセル内で該当ボタンを探してスクロール
+                    const targetBtn = document.querySelector(`.filter-btn[data-tag="${tag}"]`);
+                    if (targetBtn) {
+                        targetBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                }, 300);
+            }
+        });
+    </script>
     <script src="../assets/js/main.js"></script>
 </body>
 

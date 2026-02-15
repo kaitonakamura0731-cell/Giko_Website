@@ -28,6 +28,15 @@ try {
 } catch (PDOException $e) {
     $latest_works = [];
 }
+
+// Fetch Products (Latest 3)
+try {
+    $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY created_at DESC LIMIT 3");
+    $products_stmt->execute();
+    $latest_products = $products_stmt->fetchAll();
+} catch (PDOException $e) {
+    $latest_products = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
@@ -296,63 +305,57 @@ try {
             <!-- カテゴリタイルメニュー (2行×3列) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto fade-in">
 
-                <!-- 部分内装 -->
+                <!-- PARTIAL INTERIOR -->
                 <a href="pages/works.php?category=partial" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
                     <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">部分内装</span>
-                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">PARTIAL INTERIOR</div>
+                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">PARTIAL INTERIOR</span>
                     </div>
                 </a>
 
-                <!-- 全内装 -->
+                <!-- FULL INTERIOR -->
                 <a href="pages/works.php?category=full" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
                     <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">全内装</span>
-                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">FULL INTERIOR</div>
+                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">FULL INTERIOR</span>
                     </div>
                 </a>
 
-                <!-- パッケージ -->
+                <!-- PACKAGE -->
                 <a href="pages/works.php?category=package" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
                     <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">パッケージ</span>
-                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">PACKAGE</div>
+                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">PACKAGE</span>
                     </div>
                 </a>
 
-                <!-- アンビエントライト -->
+                <!-- AMBIENT LIGHT -->
                 <a href="pages/works.php?category=ambient" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
                     <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">アンビエントライト</span>
-                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">AMBIENT LIGHT</div>
+                        <span class="text-lg md:text-xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">AMBIENT LIGHT</span>
                     </div>
                 </a>
 
-                <!-- スターライト -->
+                <!-- STARLIGHT -->
                 <a href="pages/works.php?category=starlight" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
                     <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">スターライト</span>
-                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">STARLIGHT</div>
+                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">STARLIGHT</span>
                     </div>
                 </a>
 
-                <!-- 新事業 -->
+                <!-- NEW BUSINESS -->
                 <a href="pages/works.php?category=newbiz" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
                     <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">新事業</span>
-                        <div class="text-[10px] font-en tracking-widest text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">NEW BUSINESS</div>
+                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">NEW BUSINESS</span>
                     </div>
                 </a>
 
@@ -369,20 +372,45 @@ try {
 
     <!-- Store (Using Store Index) -->
     <?php
-    // 商品データを取得
+    // 商品データを取得（タグ抽出のため全件取得）
     try {
-        $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY id ASC LIMIT 3");
+        $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY id ASC");
         $products_stmt->execute();
         $latest_products = $products_stmt->fetchAll();
     } catch (PDOException $e) {
         $latest_products = [];
     }
+
+    // 車種タグのユニークリストを取得
+    $allTags = [];
+    foreach ($latest_products as $p) {
+        $tags = $p['vehicle_tags'] ?? '';
+        if ($tags) {
+            foreach (explode(',', $tags) as $tag) {
+                $tag = trim($tag);
+                if ($tag && !in_array($tag, $allTags)) {
+                    $allTags[] = $tag;
+                }
+            }
+        }
+    }
+    // アルファードタグを強制追加（ユーザー要望）
+    if (!in_array('Alphard', $allTags)) {
+        array_unshift($allTags, 'Alphard');
+    }
+    sort($allTags);
     
+    // 画像を取得するヘルパー関数
     // 画像を取得するヘルパー関数
     function getProductImage($json) {
         if (empty($json)) return null;
         $images = json_decode($json, true);
-        return (!empty($images) && is_array($images)) ? $images[0] : null;
+        $img = (!empty($images) && is_array($images)) ? $images[0] : null;
+        // パス調整: ../assets -> ./assets
+        if ($img && strpos($img, '../') === 0) {
+            $img = substr($img, 1); // Remove first dot: ./assets...
+        }
+        return $img;
     }
     ?>
     <section id="store" class="py-32 bg-black border-t border-white/5">
@@ -392,37 +420,143 @@ try {
                 <p class="text-xs text-textLight tracking-wider">公式オンラインストア</p>
             </div>
             
-            <?php if (!empty($latest_products)): ?>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-                <?php foreach ($latest_products as $product): ?>
-                    <article class="group fade-in">
-                        <a href="store/product_detail.php?id=<?php echo $product['id']; ?>"
-                            class="block bg-secondary overflow-hidden relative border border-white/5 hover:border-primary/50 transition-colors duration-300">
-                            <div class="overflow-hidden aspect-[4/3]">
-                                <?php $img = getProductImage($product['images']); ?>
-                                <?php if ($img): ?>
-                                    <img src="<?php echo htmlspecialchars($img); ?>"
-                                        alt="<?php echo htmlspecialchars($product['name']); ?>"
-                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                                <?php else: ?>
-                                    <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">No Image</div>
-                                <?php endif; ?>
+            <!-- カテゴリタイル カルーセル -->
+            <div class="mb-16 relative max-w-5xl mx-auto">
+                <!-- 左ナビボタン -->
+                <button type="button" id="index-store-prev"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 z-20 w-10 h-10 bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all duration-300 backdrop-blur-sm opacity-0 pointer-events-none"
+                    style="transition: opacity 0.3s;">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </button>
+
+                <!-- 右ナビボタン -->
+                <button type="button" id="index-store-next"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 z-20 w-10 h-10 bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-primary hover:border-primary transition-all duration-300 backdrop-blur-sm opacity-0 pointer-events-none"
+                    style="transition: opacity 0.3s;">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+
+                <!-- スクロールコンテナ -->
+                <div id="index-store-carousel" class="flex gap-3 overflow-x-auto scroll-smooth px-1 py-2 justify-center">
+                    <!-- ALL タイル -->
+                    <a href="store/index.php"
+                        class="group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border transition-all duration-500 cursor-pointer border-primary">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30"></div>
+                        <div class="active-overlay absolute inset-0 bg-primary/20 border-2 border-primary"></div>
+                        <div class="relative z-10 text-center">
+                            <span class="text-sm md:text-base font-bold tracking-wider text-primary transition-colors duration-300 font-en">ALL</span>
+                            <div class="text-[8px] md:text-[9px] font-en tracking-widest text-gray-400 mt-1">ALL PRODUCTS</div>
+                        </div>
+                    </a>
+                    
+                    <?php foreach ($allTags as $tag): 
+                        // このタグに対応する最初の商品画像を取得
+                        $tagImage = '';
+                        // アルファードの場合は固定画像
+                        if (strtolower($tag) === 'alphard' || $tag === 'アルファード') {
+                            $tagImage = './assets/images/alphard.jpg';
+                        } else {
+                            foreach ($latest_products as $p) {
+                                $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
+                                if (in_array($tag, $pTags)) {
+                                    $tagImage = getProductImage($p['images']);
+                                    break;
+                                }
+                            }
+                        }
+                    ?>
+                    <a href="store/index.php?tag=<?php echo htmlspecialchars($tag); ?>"
+                        class="group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border border-white/10 hover:border-primary/50 transition-all duration-500 cursor-pointer">
+                        <!-- 背景画像 -->
+                        <?php if ($tagImage): ?>
+                        <div class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('<?php echo htmlspecialchars($tagImage); ?>');"></div>
+                        <?php endif; ?>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20"></div>
+                        <!-- テキスト -->
+                        <div class="relative z-10 text-center px-2">
+                            <div class="text-sm md:text-base font-bold tracking-wider text-white group-hover:text-primary transition-colors duration-300 font-en mb-1">
+                                <?php echo htmlspecialchars($tag); ?>
                             </div>
-                            <div class="p-6">
-                                <div class="text-primary text-[10px] font-bold tracking-widest mb-2 font-en">PRODUCT</div>
-                                <h3 class="text-lg font-bold font-en mb-2"><?php echo htmlspecialchars($product['name']); ?></h3>
-                                <div class="flex justify-between items-center">
-                                    <span class="font-en font-bold text-lg">¥<?php echo number_format($product['price']); ?><span class="text-xs text-gray-500 ml-1">税込</span></span>
-                                    <span class="text-xs text-primary font-en tracking-widest group-hover:translate-x-1 transition-transform">
-                                        DETAILS <i class="fas fa-arrow-right ml-1"></i>
-                                    </span>
-                                </div>
+                            <!-- ロゴ透かし的な装飾 -->
+                            <div class="text-[10px] font-en font-bold text-white/10 tracking-[0.2em] transform scale-150 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none -z-10 w-full overflow-hidden whitespace-nowrap">
+                                -GIKO-
                             </div>
-                        </a>
-                    </article>
-                <?php endforeach; ?>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
             </div>
-            <?php endif; ?>
+            
+            <div class="text-center fade-in mt-12">
+                <a href="store/index.php"
+                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 font-en">
+                    VIEW ONLINE STORE <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-white/10 py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-8 md:mb-0">
+                    <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 md:h-10 opacity-80">
+                    <p class="text-gray-500 text-xs mt-4 tracking-widest">HANDMADE BY ARTISAN</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <div class="flex justify-center md:justify-end space-x-6 mb-4">
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                        <!-- <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter text-xl"></i></a> -->
+                        <!-- <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-youtube text-xl"></i></a> -->
+                    </div>
+                    <p class="text-gray-600 text-xs tracking-wider">&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($company_name); ?>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script>
+        // Store Carousel Control (Top Page)
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('index-store-carousel');
+            const prevBtn = document.getElementById('index-store-prev');
+            const nextBtn = document.getElementById('index-store-next');
+            if (!carousel || !prevBtn || !nextBtn) return;
+
+            const scrollAmount = 200;
+
+            function updateNavButtons() {
+                const canScrollLeft = carousel.scrollLeft > 10;
+                const canScrollRight = carousel.scrollLeft < (carousel.scrollWidth - carousel.clientWidth - 10);
+                prevBtn.style.opacity = canScrollLeft ? '1' : '0';
+                prevBtn.style.pointerEvents = canScrollLeft ? 'auto' : 'none';
+                nextBtn.style.opacity = canScrollRight ? '1' : '0';
+                nextBtn.style.pointerEvents = canScrollRight ? 'auto' : 'none';
+            }
+
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            carousel.addEventListener('scroll', updateNavButtons);
+            updateNavButtons();
+            
+            // カルーセルスクロールバー非表示スタイル
+            const style = document.createElement('style');
+            style.textContent = `
+                #index-store-carousel::-webkit-scrollbar { display: none; }
+                #index-store-carousel { scrollbar-width: none; -ms-overflow-style: none; }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
             
             <div class="text-center fade-in">
                 <a href="store/index.php"
@@ -477,7 +611,7 @@ try {
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">FLOW</h2>
-                <p class="text-xs text-textLight tracking-wider" data-i18n="flow_sub">ご納車までの流れ</p>
+                <p class="text-xs text-textLight tracking-wider">フルオーダーの流れ</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -491,8 +625,8 @@ try {
                         <img src="./assets/images/flow_inquiry.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step1_title">INQUIRY</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step1_text">まずはお電話かメールにてご連絡ください。
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">INQUIRY</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">お問い合わせフォームまたはお電話にて、ご希望の内容をお知らせください。車種・施工箇所・イメージなど、お決まりの範囲で構いません。
                     </p>
                 </div>
                 <!-- Step 2 -->
@@ -505,9 +639,9 @@ try {
                         <img src="./assets/images/flow_planning.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step2_title">PLANNING
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">CONSULTATION
                     </h3>
-                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step2_text">詳細なデザインや素材を決定します。</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。</p>
                 </div>
                 <!-- Step 3 -->
                 <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
@@ -519,9 +653,9 @@ try {
                         <img src="./assets/images/flow_construction.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step3_title">CONSTRUCTION
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">PRODUCTION
                     </h3>
-                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step3_text">熟練の職人が丁寧に仕上げます。</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により2週間〜2ヶ月程度です。</p>
                 </div>
                 <!-- Step 4 -->
                 <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
@@ -533,16 +667,17 @@ try {
                         <img src="./assets/images/flow_delivery.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4" data-i18n="flow_step4_title">DELIVERY
+                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">DELIVERY
                     </h3>
-                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step4_text">仕上がりをご確認いただき納車となります。
+                    <p class="text-xs text-gray-400 leading-relaxed">仕上がりをご確認いただき、お引き渡し。アフターフォローもご説明いたします。
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Company (Dynamic) -->
+
+    <!-- Company -->
     <section id="company" class="py-32 bg-black border-t border-white/5">
         <div class="container mx-auto px-6 max-w-4xl">
             <div class="text-center mb-16 fade-in">
@@ -552,15 +687,27 @@ try {
             <div class="border-t border-white/10 fade-in">
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">COMPANY NAME</div>
-                    <div class="md:w-2/3 py-2"><?php echo htmlspecialchars($company_name); ?></div>
+                    <div class="md:w-2/3 py-2">GIKO307合同会社</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BRAND</div>
+                    <div class="md:w-2/3 py-2">技巧 -Giko- (Giko Artisan)</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">ADDRESS</div>
-                    <div class="md:w-2/3 py-2"><?php echo htmlspecialchars($company_address); ?></div>
+                    <div class="md:w-2/3 py-2">〒483-8013 愛知県江南市般若町南山307</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BUSINESS</div>
+                    <div class="md:w-2/3 py-2">自動車内装のカスタム・リペア<br>レザーシート張り替え<br>インテリアパーツ販売</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">TEL</div>
-                    <div class="md:w-2/3 py-2"><?php echo htmlspecialchars($company_tel); ?></div>
+                    <div class="md:w-2/3 py-2">080-8887-2116</div>
+                </div>
+                <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
+                    <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">OPEN</div>
+                    <div class="md:w-2/3 py-2">10:00 - 20:00<br><span class="text-red-400">定休日：木曜日</span></div>
                 </div>
             </div>
         </div>
