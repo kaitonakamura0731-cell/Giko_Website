@@ -45,7 +45,7 @@ const Cart = {
         this.updateBadge();
     },
 
-    // Get total price
+    // Get total price (with trade-in discount)
     getTotal: function () {
         const items = this.getItems();
         return items.reduce((total, item) => {
@@ -54,8 +54,57 @@ const Cart = {
                 typeof item.price === 'string'
                     ? parseInt(item.price.replace(/,/g, ''))
                     : item.price;
+
+            // Apply 10,000 yen discount if trade-in option is selected
+            if (this.hasTradeIn(item)) {
+                price = Math.max(0, price - 10000);
+            }
+
             return total + price;
         }, 0);
+    },
+
+    // Check if item has trade-in option selected
+    hasTradeIn: function (item) {
+        if (!item.options) return false;
+        // Check for various possible key names and values
+        const tradeInKeys = [
+            '下取り交換',
+            '下取り',
+            'トレードイン',
+            '下取交換'
+        ];
+        const tradeInValues = ['あり', 'する', 'yes', 'true', '有'];
+
+        for (const key of tradeInKeys) {
+            if (item.options[key]) {
+                const value = String(item.options[key]).toLowerCase();
+                if (
+                    tradeInValues.some((v) => value.includes(v.toLowerCase()))
+                ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
+
+    // Get item price with discount applied
+    getItemPrice: function (item) {
+        let price =
+            typeof item.price === 'string'
+                ? parseInt(item.price.replace(/,/g, ''))
+                : item.price;
+
+        if (this.hasTradeIn(item)) {
+            return Math.max(0, price - 10000);
+        }
+        return price;
+    },
+
+    // Get discount amount for item
+    getItemDiscount: function (item) {
+        return this.hasTradeIn(item) ? 10000 : 0;
     },
 
     // Update cart count badge in header (if exists)

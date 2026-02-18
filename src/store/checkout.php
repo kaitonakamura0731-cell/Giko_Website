@@ -294,6 +294,14 @@ $csrf_token = $_SESSION['csrf_token'];
 
                         <div class="border-t border-white/10 pt-6 space-y-3">
                             <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-400 font-en tracking-wider">SUBTOTAL (before discount)</span>
+                                <span id="display-subtotal-before" class="font-en font-bold">¥0</span>
+                            </div>
+                            <div id="discount-row" class="flex justify-between items-center text-sm hidden">
+                                <span class="text-green-400 font-en tracking-wider"><i class="fas fa-tag mr-2"></i>TRADE-IN DISCOUNT</span>
+                                <span id="display-discount" class="font-en font-bold text-green-400">-¥0</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
                                 <span class="text-gray-400 font-en tracking-wider">SUBTOTAL</span>
                                 <span id="display-subtotal" class="font-en font-bold">¥0</span>
                             </div>
@@ -502,16 +510,39 @@ $csrf_token = $_SESSION['csrf_token'];
                 togglePayment(currentPaymentMethod);
             }
 
+            const items = Cart.getItems();
+
+            // Calculate subtotal and discount
+            let subtotalBefore = 0;
+            let totalDiscount = 0;
+            items.forEach(item => {
+                const originalPrice = typeof item.price === 'string' ? parseInt(item.price.replace(/,/g, '')) : item.price;
+                const discount = Cart.getItemDiscount(item);
+                subtotalBefore += originalPrice;
+                totalDiscount += discount;
+            });
+
             const subtotal = Cart.getTotal();
-            if (subtotal === 0) {
+
+            if (subtotal === 0 && items.length === 0) {
                 alert('カートが空です');
                 window.location.href = 'purchase.html';
                 return;
             }
+
             // Render items
-            const items = Cart.getItems();
             renderCartItems(items);
 
+            // Display subtotal before discount
+            document.getElementById('display-subtotal-before').innerText = '¥' + subtotalBefore.toLocaleString();
+
+            // Display discount if applicable
+            if (totalDiscount > 0) {
+                document.getElementById('discount-row').classList.remove('hidden');
+                document.getElementById('display-discount').innerText = '-¥' + totalDiscount.toLocaleString();
+            }
+
+            // Display subtotal after discount
             document.getElementById('display-subtotal').innerText = '¥' + subtotal.toLocaleString();
             document.getElementById('cart-items-input').value = JSON.stringify(items);
 
@@ -536,6 +567,11 @@ $csrf_token = $_SESSION['csrf_token'];
             const itemsContainer = document.getElementById('checkout-items');
             let itemsHtml = '';
             items.forEach(item => {
+                const discount = Cart.getItemDiscount(item);
+                const finalPrice = Cart.getItemPrice(item);
+                const originalPrice = typeof item.price === 'string' ? parseInt(item.price.replace(/,/g, '')) : item.price;
+                const hasDiscount = discount > 0;
+
                 itemsHtml += `
                      <div class="flex gap-4 items-start">
                           <div class="w-16 h-16 bg-white/5 rounded-sm flex-shrink-0 overflow-hidden border border-white/5">
@@ -544,8 +580,16 @@ $csrf_token = $_SESSION['csrf_token'];
                          <div class="flex-1 min-w-0">
                              <h4 class="font-bold text-sm truncate pr-4">${item.name}</h4>
                              <p class="text-xs text-gray-400 mt-1 font-en">${Object.values(item.options || {}).join(' / ')}</p>
+                             ${hasDiscount ? `<p class="text-xs text-green-400 mt-1"><i class="fas fa-tag mr-1"></i>下取り割引：-¥${discount.toLocaleString()}</p>` : ''}
                          </div>
-                         <div class="font-en font-bold text-sm">¥${item.price.toLocaleString()}</div>
+                         <div class="text-right">
+                             ${hasDiscount ? `
+                                 <div class="text-xs text-gray-500 line-through font-en">¥${originalPrice.toLocaleString()}</div>
+                                 <div class="font-en font-bold text-sm text-primary">¥${finalPrice.toLocaleString()}</div>
+                             ` : `
+                                 <div class="font-en font-bold text-sm">¥${finalPrice.toLocaleString()}</div>
+                             `}
+                         </div>
                      </div>
                  `;
             });
@@ -678,10 +722,23 @@ $csrf_token = $_SESSION['csrf_token'];
 
             let itemsListHtml = '';
             items.forEach(item => {
+                const discount = Cart.getItemDiscount(item);
+                const finalPrice = Cart.getItemPrice(item);
+                const originalPrice = typeof item.price === 'string' ? parseInt(item.price.replace(/,/g, '')) : item.price;
+                const hasDiscount = discount > 0;
+
                 itemsListHtml += `
-                    <div class="flex justify-between text-sm py-2 border-b border-gray-800 last:border-0">
-                        <span class="text-gray-300 truncate w-2/3">${item.name} <span class="text-xs text-gray-500">(${Object.values(item.options || {}).join('/')})</span></span>
-                        <span class="text-white font-en">¥${item.price.toLocaleString()}</span>
+                    <div class="py-2 border-b border-gray-800 last:border-0">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300 truncate w-2/3">${item.name} <span class="text-xs text-gray-500">(${Object.values(item.options || {}).join('/')})</span></span>
+                            <span class="text-white font-en">¥${originalPrice.toLocaleString()}</span>
+                        </div>
+                        ${hasDiscount ? `
+                            <div class="flex justify-between text-xs mt-1">
+                                <span class="text-green-400"><i class="fas fa-tag mr-1"></i>下取り割引</span>
+                                <span class="text-green-400 font-en">-¥${discount.toLocaleString()}</span>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             });

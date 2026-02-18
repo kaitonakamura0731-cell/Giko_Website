@@ -21,10 +21,14 @@ try {
 }
 
 // Function to adjust image paths
-function adjustPath($path) {
-    if (empty($path)) return '';
-    if (strpos($path, '../assets') === 0) return $path;
-    if (strpos($path, 'assets/') === 0) return '../' . $path;
+function adjustPath($path)
+{
+    if (empty($path))
+        return '';
+    if (strpos($path, '../assets') === 0)
+        return $path;
+    if (strpos($path, 'assets/') === 0)
+        return '../' . $path;
     return $path;
 }
 
@@ -55,7 +59,8 @@ $default_swatch = '../assets/images/no_image.png';
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <a href="../index.php" class="flex items-center group">
-                <img src="../assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity">
+                <img src="../assets/images/logo_new.png" alt="GIKO"
+                    class="h-10 group-hover:opacity-80 transition-opacity">
             </a>
 
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
@@ -165,85 +170,109 @@ $default_swatch = '../assets/images/no_image.png';
                             送料が別途¥<?php echo number_format($product['shipping_fee']); ?>かかります。</div>
                     </div>
 
-                    <!-- 商品説明 -->
+                    <!-- PRODUCT DETAILS -->
                     <div class="border-t border-white/10 pt-8">
                         <h3 class="text-sm font-bold font-en tracking-widest text-primary mb-4 flex items-center gap-2">
                             <i class="fas fa-info-circle"></i> PRODUCT DETAILS
                         </h3>
-                        <div class="space-y-4 text-sm leading-relaxed text-gray-300">
-                            <?php
-                            $desc = $product['description'];
-                            
-                            // 【】で囲まれた見出しをスタイリング
-                            $desc = preg_replace(
-                                '/【([^】]+)】/',
-                                '</div><div class="bg-secondary p-5 rounded-sm border border-white/10 mt-4"><h3 class="font-bold text-white mb-3 text-base border-l-2 border-primary pl-3">$1</h3><div class="text-gray-400 text-sm leading-loose">',
-                                $desc
-                            );
-                            
-                            // ☆で始まる行をサブ見出しとして整形
-                            $desc = preg_replace(
-                                '/☆([^\n<]+)/',
-                                '<p class="mt-3 mb-2"><span class="text-primary font-bold">☆$1</span></p>',
-                                $desc
-                            );
-                            
-                            // ・で始まる行をリストアイテムとして整形
-                            $desc = preg_replace(
-                                '/・([^\n<]+)/',
-                                '<li class="ml-4 text-gray-400">・$1</li>',
-                                $desc
-                            );
-                            
-                            $desc = nl2br($desc);
-                            $desc = preg_replace('/<div class="bg-secondary[^>]*>\s*<\/div>/', '', $desc);
-                            
-                            echo $desc;
+
+                        <!-- リード文 -->
+                        <?php if (!empty($product['lead_text'])): ?>
+                            <div class="text-sm leading-relaxed text-gray-300 mb-6">
+                                <?php echo nl2br(htmlspecialchars($product['lead_text'])); ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- 商品概要（リスト形式） -->
+                        <?php
+                        $product_summary = json_decode($product['product_summary_json'] ?? '[]', true);
+                        if (!empty($product_summary) && is_array($product_summary)):
                             ?>
-                        </div>
+                            <div class="bg-secondary p-5 rounded-sm border border-white/10 mb-6">
+                                <h4 class="font-bold text-white mb-4 text-base border-l-2 border-primary pl-3">商品概要</h4>
+                                <div class="space-y-4">
+                                    <?php foreach ($product_summary as $item): ?>
+                                        <?php if (!empty($item['title']) || !empty($item['text'])): ?>
+                                            <div class="text-sm">
+                                                <?php if (!empty($item['title'])): ?>
+                                                    <p class="text-primary font-bold mb-1">
+                                                        <?php echo htmlspecialchars($item['title']); ?></p>
+                                                <?php endif; ?>
+                                                <?php if (!empty($item['text'])): ?>
+                                                    <p class="text-gray-400 leading-relaxed">
+                                                        <?php echo nl2br(htmlspecialchars($item['text'])); ?></p>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </div>
 
-                    <!-- 適合車種 -->
-                    <?php if ($product['compatible_models']): ?>
+                    <!-- 車両情報 -->
+                    <?php if (!empty($product['compatible_models']) || !empty($product['vehicle_type'])): ?>
                         <div class="bg-secondary p-4 rounded-sm border border-white/5">
-                            <p class="mb-2"><span
-                                    class="text-primary font-bold">《適合車種》</span><?php echo htmlspecialchars($product['compatible_models']); ?>
-                            </p>
-                            <p><span
-                                    class="text-primary font-bold">《車両型式》</span><?php echo htmlspecialchars($product['model_code']); ?>
-                            </p>
+                            <?php if (!empty($product['compatible_models'])): ?>
+                                <p class="mb-2">
+                                    <span class="text-primary font-bold">《適合車種》</span>
+                                    <?php echo htmlspecialchars($product['compatible_models']); ?>
+                                </p>
+                            <?php endif; ?>
+                            <?php if (!empty($product['vehicle_type'])): ?>
+                                <p>
+                                    <span class="text-primary font-bold">《車両型式》</span>
+                                    <?php echo htmlspecialchars($product['vehicle_type']); ?>
+                                </p>
+                            <?php elseif (!empty($product['model_code'])): ?>
+                                <!-- 互換性のため旧フィールドも確認 -->
+                                <p>
+                                    <span class="text-primary font-bold">《車両型式》</span>
+                                    <?php echo htmlspecialchars($product['model_code']); ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
 
-                    <!-- オプション詳細画像 -->
-                    <?php 
-                    $detail_img = $product['option_detail_image'] ?? '';
-                    if (!empty($detail_img)) {
-                         $detail_img = adjustPath($detail_img);
+                    <!-- 詳細画像 (削除済み) -->
+
+                    <!-- オプション詳細画像 (PARTS DETAILへ統合) -->
+                    <?php
+                    $option_detail_img = $product['option_detail_image'] ?? '';
+                    if (!empty($option_detail_img)) {
+                        $option_detail_img = adjustPath($option_detail_img);
                     }
                     ?>
-                    <?php if (!empty($detail_img)): ?>
+                    <?php if (!empty($option_detail_img) && false): // Hide standalone display ?>
                         <div>
-                             <img src="<?php echo htmlspecialchars($detail_img); ?>" class="w-full h-auto rounded-sm border border-white/10" alt="Option Details">
+                            <img src="<?php echo htmlspecialchars($option_detail_img); ?>"
+                                class="w-full h-auto rounded-sm border border-white/10" alt="Option Details">
                         </div>
                     <?php endif; ?>
 
-                    <!-- パーツ詳細セクション -->
-                    <div>
-                        <div class="text-center mb-6">
-                            <h3 class="text-sm font-bold font-en tracking-widest text-primary border-b border-primary/30 pb-2 inline-block">PARTS DETAIL</h3>
-                        </div>
-                        <div class="bg-white/5 p-2 rounded-sm border border-white/10 group overflow-hidden">
-                            <div class="overflow-hidden rounded-sm">
-                                <img src="../assets/images/hero.png" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105" alt="Parts Detail">
+                    <!-- パーツ詳細セクション (PARTS DETAIL) -->
+                    <?php if (!empty($option_detail_img)): ?>
+                        <div>
+                            <div class="text-center mb-6">
+                                <h3
+                                    class="text-sm font-bold font-en tracking-widest text-primary border-b border-primary/30 pb-2 inline-block">
+                                    PARTS DETAIL</h3>
+                            </div>
+                            <div class="bg-white/5 p-2 rounded-sm border border-white/10 group overflow-hidden">
+                                <div class="overflow-hidden rounded-sm">
+                                    <img src="<?php echo htmlspecialchars($option_detail_img); ?>"
+                                        class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                                        alt="Parts Detail">
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
 
                     <!-- オプション選択フォーム -->
                     <div class="bg-white/5 p-6 rounded-sm border border-white/10">
-                        <h3 class="text-sm font-bold font-en tracking-widest mb-6 text-center text-primary">SELECT OPTIONS</h3>
-                        
+                        <h3 class="text-sm font-bold font-en tracking-widest mb-6 text-center text-primary">SELECT
+                            OPTIONS</h3>
+
                         <form class="space-y-6" id="orderForm">
                             <?php if (is_array($options)): ?>
                                 <?php foreach ($options as $idx => $opt): ?>
@@ -292,11 +321,23 @@ $default_swatch = '../assets/images/no_image.png';
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
+                            <!-- 下取り交換オプション（固定） -->
+                            <div>
+                                <label
+                                    class="block text-sm font-bold font-en tracking-widest text-gray-400 mb-3">下取り交換</label>
+                                <select name="option_trade_in" data-label="下取り交換"
+                                    class="w-full bg-black border border-white/20 rounded-sm px-4 py-3 focus:outline-none focus:border-primary text-sm transition-colors">
+                                    <option value="なし">なし</option>
+                                    <option value="あり">あり</option>
+                                </select>
+                            </div>
+
                             <!-- 送料案内 -->
                             <div class="pt-4 border-t border-white/10 mt-4">
                                 <div class="flex items-center gap-2 text-xs text-gray-400">
                                     <i class="fas fa-truck text-primary"></i>
-                                    <span>送料: <strong class="text-white">¥1,000</strong>（銀行振込は<span class="text-green-400 font-bold">送料無料</span>）</span>
+                                    <span>送料: <strong class="text-white">¥1,000</strong>（銀行振込は<span
+                                            class="text-green-400 font-bold">送料無料</span>）</span>
                                 </div>
                             </div>
 
@@ -327,17 +368,22 @@ $default_swatch = '../assets/images/no_image.png';
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">MENU</h3>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        MENU</h3>
                     <ul class="space-y-4 text-xs tracking-wider text-gray-400">
                         <li><a href="../index.php#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
                         <li><a href="../pages/works.php" class="hover:text-white transition-colors">WORKS</a></li>
-                        <li><a href="../pages/before_after.html" class="hover:text-white transition-colors">BEFORE & AFTER</a></li>
+                        <li><a href="../pages/before_after.html" class="hover:text-white transition-colors">BEFORE &
+                                AFTER</a></li>
                         <li><a href="../index.php#flow" class="hover:text-white transition-colors">FLOW</a></li>
                         <li><a href="../index.php#company" class="hover:text-white transition-colors">COMPANY</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">CONTACT</h3>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        CONTACT</h3>
                     <ul class="space-y-4 text-xs tracking-wider text-gray-400">
                         <li class="flex items-start gap-4">
                             <a href="../contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
@@ -345,15 +391,20 @@ $default_swatch = '../assets/images/no_image.png';
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">LEGAL</h3>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        LEGAL</h3>
                     <ul class="space-y-4 text-xs tracking-wider text-gray-400">
-                        <li><a href="../legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a></li>
-                        <li><a href="../legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a></li>
+                        <li><a href="../legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a>
+                        </li>
+                        <li><a href="../legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a>
+                        </li>
                         <li><a href="../legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+            <div
+                class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
                 <p>&copy; 2025 GIKO. ALL RIGHTS RESERVED.</p>
                 <div>DESIGNED BY ATLASSHIFT</div>
             </div>
@@ -407,7 +458,9 @@ $default_swatch = '../assets/images/no_image.png';
             selects.forEach(select => {
                 const label = select.getAttribute('data-label');
                 const val = select.options[select.selectedIndex].text;
-                options[label] = val;
+                if (label) {
+                    options[label] = val;
+                }
             });
 
             Cart.addItem({

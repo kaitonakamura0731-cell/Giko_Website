@@ -18,9 +18,23 @@ if (!array_key_exists($activeCategory, $categories)) {
     $activeCategory = 'all';
 }
 
-// Fetch works
+// データベースから実際に使用されているカテゴリを取得
 try {
-    $stmt = $pdo->query("SELECT * FROM works ORDER BY created_at DESC");
+    $categoryStmt = $pdo->query("SELECT DISTINCT category FROM works WHERE category IS NOT NULL AND category != '' ORDER BY category");
+    $dbCategories = $categoryStmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    die("Database error: " . $e->getMessage());
+}
+
+// Fetch works（カテゴリでフィルタリング）
+try {
+    if ($activeCategory !== 'all' && $activeCategory !== '') {
+        $stmt = $pdo->prepare("SELECT * FROM works WHERE category = :category ORDER BY created_at DESC");
+        $stmt->bindParam(':category', $activeCategory, PDO::PARAM_STR);
+        $stmt->execute();
+    } else {
+        $stmt = $pdo->query("SELECT * FROM works ORDER BY created_at DESC");
+    }
     $works = $stmt->fetchAll();
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
@@ -61,26 +75,6 @@ $categoryBadges = [
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        /* フィルターアニメーション */
-        .work-item {
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .work-item.hidden-by-filter {
-            opacity: 0;
-            transform: scale(0.95);
-            position: absolute;
-            pointer-events: none;
-            width: 0;
-            height: 0;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
-        .work-item.visible-by-filter {
-            opacity: 1;
-            transform: scale(1);
-        }
         /* カルーセルスクロールバー非表示 */
         #filter-carousel::-webkit-scrollbar { display: none; }
         #filter-carousel { scrollbar-width: none; -ms-overflow-style: none; }
@@ -188,7 +182,8 @@ $categoryBadges = [
                 <!-- スクロールコンテナ -->
                 <div id="filter-carousel" class="flex gap-3 overflow-x-auto scroll-smooth px-1 py-2">
                     <?php foreach ($categories as $catId => $catInfo): ?>
-                        <button
+                        <a
+                            href="works.php<?php echo ($catId === 'all') ? '' : '?category=' . urlencode($catId); ?>"
                             data-filter="<?php echo $catId; ?>"
                             class="works-filter-btn group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border transition-all duration-500 cursor-pointer
                                 <?php if ($activeCategory === $catId): ?>
@@ -213,7 +208,7 @@ $categoryBadges = [
                                     <?php echo $catInfo['en']; ?>
                                 </div>
                             </div>
-                        </button>
+                        </a>
                     <?php endforeach; ?>
                 </div>
 
@@ -234,7 +229,7 @@ $categoryBadges = [
                     $link = 'work_detail.php?id=' . $work['id'];
                     ?>
                     <!-- Work Item -->
-                    <a href="<?php echo $link; ?>" class="group block relative overflow-hidden bg-secondary work-item visible-by-filter"
+                    <a href="<?php echo $link; ?>" class="group block relative overflow-hidden bg-secondary work-item"
                         data-category="<?php echo htmlspecialchars($category); ?>">
                         <div class="relative aspect-[16/10] overflow-hidden">
                             <?php if ($work['main_image']): ?>
@@ -269,11 +264,13 @@ $categoryBadges = [
                 <?php endforeach; ?>
             </div>
 
-            <!-- フィルタ結果が0件の時 -->
-            <div id="no-results" class="hidden text-center py-20">
-                <i class="fas fa-search text-gray-700 text-4xl mb-4"></i>
-                <p class="text-gray-500 text-lg">該当するワークスが見つかりませんでした。</p>
-            </div>
+            <?php if (empty($works)): ?>
+                <!-- フィルタ結果が0件の時 -->
+                <div class="text-center py-20">
+                    <i class="fas fa-search text-gray-700 text-4xl mb-4"></i>
+                    <p class="text-gray-500 text-lg">該当するワークスが見つかりませんでした。</p>
+                </div>
+            <?php endif; ?>
 
         </div>
     </section>
@@ -346,18 +343,9 @@ $categoryBadges = [
 
     <script src="../assets/js/main.js"></script>
 
-    <!-- カテゴリフィルタリング & カルーセルナビ JavaScript -->
+    <!-- カルーセルナビゲーション JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const filterBtns = document.querySelectorAll('.works-filter-btn');
-            const workItems = document.querySelectorAll('.work-item');
-            const noResults = document.getElementById('no-results');
-            const grid = document.getElementById('works-grid');
-
-            // URLパラメータから初期カテゴリを取得
-            const urlParams = new URLSearchParams(window.location.search);
-            const initialCategory = urlParams.get('category') || 'all';
-
             // === カルーセルナビボタン制御 ===
             const carousel = document.getElementById('filter-carousel');
             const prevBtn = document.getElementById('filter-prev');
@@ -411,81 +399,6 @@ $categoryBadges = [
                         carousel.scrollTo({ left: scrollTo, behavior: 'smooth' });
                     }, 100);
                 }
-            }
-
-            // フィルタリング関数
-            function filterWorks(category) {
-                let visibleCount = 0;
-
-                workItems.forEach(item => {
-                    const itemCats = item.getAttribute('data-category').split(',').map(c => c.trim());
-
-                    if (category === 'all' || itemCats.includes(category)) {
-                        item.classList.remove('hidden-by-filter');
-                        item.classList.add('visible-by-filter');
-                        visibleCount++;
-                    } else {
-                        item.classList.remove('visible-by-filter');
-                        item.classList.add('hidden-by-filter');
-                    }
-                });
-
-                // 結果が0件の場合
-                if (visibleCount === 0) {
-                    noResults.classList.remove('hidden');
-                    grid.classList.add('hidden');
-                } else {
-                    noResults.classList.add('hidden');
-                    grid.classList.remove('hidden');
-                }
-
-                // ボタンのアクティブ状態を更新（タイルデザイン対応）
-                filterBtns.forEach(btn => {
-                    const overlay = btn.querySelector('.active-overlay');
-                    const label = btn.querySelector('.filter-label');
-
-                    if (btn.getAttribute('data-filter') === category) {
-                        btn.classList.add('border-primary');
-                        btn.classList.remove('border-white/10');
-                        // アクティブオーバーレイを追加
-                        if (!btn.querySelector('.active-overlay')) {
-                            const div = document.createElement('div');
-                            div.className = 'active-overlay absolute inset-0 bg-primary/20 border-2 border-primary';
-                            btn.appendChild(div);
-                        }
-                        // テキストをゴールドに
-                        const span = btn.querySelector('.filter-label');
-                        if (span) span.classList.add('text-primary');
-                    } else {
-                        btn.classList.remove('border-primary');
-                        btn.classList.add('border-white/10');
-                        // アクティブオーバーレイを削除
-                        const existingOverlay = btn.querySelector('.active-overlay');
-                        if (existingOverlay) existingOverlay.remove();
-                        // テキスト色をリセット
-                        const span = btn.querySelector('.filter-label');
-                        if (span) span.classList.remove('text-primary');
-                    }
-                });
-
-                // URLを更新（ブラウザ履歴に追加しない）
-                const newUrl = category === 'all'
-                    ? window.location.pathname
-                    : `${window.location.pathname}?category=${category}`;
-                window.history.replaceState({}, '', newUrl);
-            }
-
-            // ボタンクリックイベント
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const filter = btn.getAttribute('data-filter');
-                    filterWorks(filter);
-                });
-            });
-
-            // 初期フィルタリング実行
-            if (initialCategory !== 'all') {
-                filterWorks(initialCategory);
             }
         });
     </script>

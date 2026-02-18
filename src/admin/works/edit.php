@@ -12,7 +12,7 @@ $success = '';
 $default_work = [
     'title' => '',
     'subtitle' => '',
-    'category' => 'full-order',
+    'category' => 'full',
     'main_image' => '',
     'description' => '',
     'concept_text' => '',
@@ -189,16 +189,13 @@ require_once '../includes/header.php';
                     </div>
                     <div class="form-group">
                         <label class="form-label">カテゴリー (Category)</label>
-                        <select name="category" class="form-input">
-                            <option value="full-order" <?php if ($work['category'] == 'full-order')
-                                echo 'selected'; ?>>
-                                Full Order</option>
-                            <option value="semi-order" <?php if ($work['category'] == 'semi-order')
-                                echo 'selected'; ?>>
-                                Semi Order</option>
-                            <option value="repair" <?php if ($work['category'] == 'repair')
-                                echo 'selected'; ?>>Repair
-                            </option>
+                        <select name="category" class="form-input" required>
+                            <option value="partial" <?php if ($work['category'] == 'partial') echo 'selected'; ?>>PARTIAL INTERIOR</option>
+                            <option value="full" <?php if ($work['category'] == 'full') echo 'selected'; ?>>FULL INTERIOR</option>
+                            <option value="package" <?php if ($work['category'] == 'package') echo 'selected'; ?>>PACKAGE</option>
+                            <option value="ambient" <?php if ($work['category'] == 'ambient') echo 'selected'; ?>>AMBIENT LIGHT</option>
+                            <option value="starlight" <?php if ($work['category'] == 'starlight') echo 'selected'; ?>>STARLIGHT</option>
+                            <option value="newbiz" <?php if ($work['category'] == 'newbiz') echo 'selected'; ?>>NEW BUSINESS</option>
                         </select>
                     </div>
                 </div>
