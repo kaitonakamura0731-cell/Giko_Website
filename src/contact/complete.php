@@ -125,18 +125,22 @@ if ($mail_sent) {
 
 担当者より折り返しご連絡させていただきます。
 
+【今後のご連絡先】
+ご質問やご相談がございましたら、下記までお気軽にご連絡ください。
+Email: {$ADMIN_EMAIL}
+
 --------------------------------------------------
 技巧 -Giko-
 https://giko-official.com
 --------------------------------------------------
 EOT;
 
-    $user_headers = "From: {$ADMIN_EMAIL}\r\n";
+    $user_headers = "From: {$noreply_email}\r\n";
+    $user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
     $user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $user_headers .= "X-Mailer: PHP/" . phpversion();
 
-    // Use admin email as envelope sender
-    @mb_send_mail($email_safe, $user_subject, $user_body, $user_headers, "-f{$ADMIN_EMAIL}"); // Note: @gmail.com sender might still be blocked by SPF if not configured
+    @mb_send_mail($email_safe, $user_subject, $user_body, $user_headers, "-f{$noreply_email}");
 
     // Regenerate Token
     unset($_SESSION['csrf_token']);
