@@ -265,12 +265,30 @@ $categoryBadges = [
             </div>
 
             <?php if (empty($works)): ?>
-                <!-- フィルタ結果が0件の時 -->
-                <div class="text-center py-20">
-                    <i class="fas fa-search text-gray-700 text-4xl mb-4"></i>
-                    <p class="text-gray-500 text-lg">該当するワークスが見つかりませんでした。</p>
+                <!-- DB にワークスが0件の時 -->
+                <div class="text-center py-24">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/5 border border-white/10 mb-6">
+                        <i class="fas fa-folder-open text-gray-600 text-3xl"></i>
+                    </div>
+                    <p class="text-gray-400 text-lg font-bold mb-2">このカテゴリの施工実績はまだありません</p>
+                    <p class="text-gray-600 text-sm">他のカテゴリをご覧いただくか、<br class="md:hidden">新しい実績の追加をお待ちください。</p>
+                    <a href="works.php" class="inline-flex items-center gap-2 mt-8 text-sm text-primary border border-primary/30 px-6 py-2.5 hover:bg-primary hover:text-black transition-all duration-300 font-en tracking-wider">
+                        <i class="fas fa-th-large text-xs"></i> ALL WORKS を見る
+                    </a>
                 </div>
             <?php endif; ?>
+
+            <!-- JSフィルタ結果が0件の時 -->
+            <div id="no-results" class="hidden text-center py-24">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/5 border border-white/10 mb-6">
+                    <i class="fas fa-folder-open text-gray-600 text-3xl"></i>
+                </div>
+                <p class="text-gray-400 text-lg font-bold mb-2">このカテゴリの施工実績はまだありません</p>
+                <p class="text-gray-600 text-sm">他のカテゴリをご覧いただくか、<br class="md:hidden">新しい実績の追加をお待ちください。</p>
+                <a href="works.php" class="inline-flex items-center gap-2 mt-8 text-sm text-primary border border-primary/30 px-6 py-2.5 hover:bg-primary hover:text-black transition-all duration-300 font-en tracking-wider">
+                    <i class="fas fa-th-large text-xs"></i> ALL WORKS を見る
+                </a>
+            </div>
 
         </div>
     </section>

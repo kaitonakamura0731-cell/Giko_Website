@@ -440,7 +440,7 @@ try {
                 <div id="index-store-carousel" class="flex gap-3 overflow-x-auto scroll-smooth px-1 py-2 justify-center">
                     <!-- ALL タイル -->
                     <a href="store/index.php"
-                        class="group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border transition-all duration-500 cursor-pointer border-primary">
+                        class="group relative overflow-hidden flex-shrink-0 w-[200px] md:w-[260px] aspect-[4/3] flex items-center justify-center border transition-all duration-500 cursor-pointer border-primary">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30"></div>
                         <div class="active-overlay absolute inset-0 bg-primary/20 border-2 border-primary"></div>
                         <div class="relative z-10 text-center">
@@ -466,7 +466,7 @@ try {
                         }
                     ?>
                     <a href="store/index.php?tag=<?php echo htmlspecialchars($tag); ?>"
-                        class="group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border border-white/10 hover:border-primary/50 transition-all duration-500 cursor-pointer">
+                        class="group relative overflow-hidden flex-shrink-0 w-[200px] md:w-[260px] aspect-[4/3] flex items-center justify-center border border-white/10 hover:border-primary/50 transition-all duration-500 cursor-pointer">
                         <!-- 背景画像 -->
                         <?php if ($tagImage): ?>
                         <div class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('<?php echo htmlspecialchars($tagImage); ?>');"></div>
@@ -495,26 +495,6 @@ try {
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-black border-t border-white/10 py-12">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-8 md:mb-0">
-                    <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 md:h-10 opacity-80">
-                    <p class="text-gray-500 text-xs mt-4 tracking-widest">HANDMADE BY ARTISAN</p>
-                </div>
-                <div class="text-center md:text-right">
-                    <div class="flex justify-center md:justify-end space-x-6 mb-4">
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
-                        <!-- <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter text-xl"></i></a> -->
-                        <!-- <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-youtube text-xl"></i></a> -->
-                    </div>
-                    <p class="text-gray-600 text-xs tracking-wider">&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($company_name); ?>. All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script>
@@ -555,17 +535,6 @@ try {
             document.head.appendChild(style);
         });
     </script>
-</body>
-</html>
-            
-            <div class="text-center fade-in">
-                <a href="store/index.php"
-                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 font-en">
-                    VIEW ONLINE STORE <i class="fas fa-arrow-right text-xs"></i>
-                </a>
-            </div>
-        </div>
-    </section>
 
     <!-- Material -->
     <section id="material" class="py-32 bg-secondary relative overflow-hidden">
@@ -717,51 +686,68 @@ try {
     <footer id="contact" class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                <!-- Col 1 -->
+                <!-- Col 1: Logo & SNS -->
                 <div>
                     <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
-                    <p class="text-xs text-gray-500 leading-loose mb-6">
-                        最高級の素材と技術で、<br>
-                        あなたのカーライフに彩りを。
-                    </p>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
                     <div class="flex space-x-4">
                         <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank"
                             class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank"
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
                     </div>
                 </div>
-                <!-- Col 2, 3, 4 omitted for brevity, similar to header -->
+                <!-- Col 2: Menu -->
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="pages/works.php" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="store/index.php" class="hover:text-white transition-colors">STORE</a></li>
+                        <li><a href="pages/before_after.html" class="hover:text-white transition-colors">BEFORE & AFTER</a></li>
+                        <li><a href="#material" class="hover:text-white transition-colors">MATERIAL</a></li>
+                        <li><a href="#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+                <!-- Col 3: Contact -->
                 <div>
                     <h3
                         class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
                         CONTACT</h3>
                     <ul class="space-y-4 text-xs tracking-wider text-gray-400">
                         <li class="flex items-start gap-4">
-                            <a href="contact/index.php" class="hover:text-white transition-colors"><i
-                                    class="fas fa-envelope mr-2 text-primary"></i> お問い合わせフォーム</a>
+                            <a href="contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="fas fa-phone mt-1 text-primary"></i>
-                            <div>
-                                <div class="text-white font-bold text-lg font-en">
-                                    <?php echo htmlspecialchars($company_tel); ?>
-                                </div>
-                            </div>
-                        </li>
+                    </ul>
+                </div>
+                <!-- Col 4: Legal -->
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a></li>
+                        <li><a href="legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a></li>
+                        <li><a href="legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
                     </ul>
                 </div>
             </div>
             <div
-                class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
                 <p>&copy; 2025 <?php echo htmlspecialchars($company_name); ?>. ALL RIGHTS RESERVED.</p>
+                <div>DESIGNED BY ATLASSHIFT</div>
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 hover:bg-white hover:text-black">
+        <i class="fas fa-chevron-up"></i>
+    </button>
     <script src="assets/js/main.js"></script>
 </body>
 
