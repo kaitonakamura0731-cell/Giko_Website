@@ -3,6 +3,32 @@ require_once '../includes/auth.php';
 require_once '../includes/db.php';
 checkAuth();
 
+// ===== 自動マイグレーション: 不足カラムを自動追加 =====
+$auto_migrate_columns = [
+    'lead_text'            => "ALTER TABLE products ADD COLUMN lead_text TEXT AFTER short_description",
+    'product_summary_json' => "ALTER TABLE products ADD COLUMN product_summary_json JSON AFTER lead_text",
+    'vehicle_type'         => "ALTER TABLE products ADD COLUMN vehicle_type VARCHAR(255) AFTER model_code",
+    'detail_image_path'    => "ALTER TABLE products ADD COLUMN detail_image_path VARCHAR(255) AFTER vehicle_type",
+    'option_detail_image'  => "ALTER TABLE products ADD COLUMN option_detail_image VARCHAR(255) AFTER detail_image_path",
+    'vehicle_tags'         => "ALTER TABLE products ADD COLUMN vehicle_tags VARCHAR(500) AFTER option_detail_image",
+    'trade_in_discount'    => "ALTER TABLE products ADD COLUMN trade_in_discount INT DEFAULT 10000 AFTER vehicle_tags",
+];
+try {
+    $existing_cols = [];
+    $res = $pdo->query("SHOW COLUMNS FROM products");
+    foreach ($res->fetchAll(PDO::FETCH_ASSOC) as $col) {
+        $existing_cols[] = $col['Field'];
+    }
+    foreach ($auto_migrate_columns as $col_name => $alter_sql) {
+        if (!in_array($col_name, $existing_cols)) {
+            $pdo->exec($alter_sql);
+        }
+    }
+} catch (PDOException $e) {
+    // マイグレーション失敗は無視して続行
+}
+// =====================================================
+
 $id = $_GET['id'] ?? null;
 $copy_from = $_GET['copy_from'] ?? null;
 $product = null;
@@ -225,39 +251,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $options_json = json_encode($options_arr, JSON_UNESCAPED_UNICODE);
 
-    // trade_in_discount カラムの存在チェック
-    $has_trade_in_col = false;
-    try {
-        $col_check = $pdo->query("SHOW COLUMNS FROM products LIKE 'trade_in_discount'");
-        $has_trade_in_col = ($col_check && $col_check->rowCount() > 0);
-    } catch (PDOException $e) {
-        // カラムチェック失敗時は無視
-    }
-
     try {
         if ($id) {
             // Update
-            if ($has_trade_in_col) {
-                $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=?, trade_in_discount=? WHERE id=?";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount, $id]);
-            } else {
-                $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=? WHERE id=?";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $id]);
-            }
+            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=?, trade_in_discount=? WHERE id=?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount, $id]);
             $success = "商品情報を更新しました。";
         } else {
             // Insert
-            if ($has_trade_in_col) {
-                $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags, trade_in_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount]);
-            } else {
-                $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags]);
-            }
+            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags, trade_in_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount]);
             $id = $pdo->lastInsertId();
             $success = "商品を新規作成しました。";
             header("Location: edit.php?id=" . $id . "&created=1");
