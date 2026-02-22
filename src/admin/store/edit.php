@@ -72,9 +72,9 @@ require_once '../includes/upload_helper.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Basic Sanitation
-    $name = trim($_POST['name']);
-    $price = (int) $_POST['price'];
-    $shipping_fee = (int) $_POST['shipping_fee'];
+    $name = trim($_POST['name'] ?? '');
+    $price = (int) ($_POST['price'] ?? 0);
+    $shipping_fee = (int) ($_POST['shipping_fee'] ?? 0);
     $short_description = $_POST['short_description'] ?? '';
 
     // New Extended Fields
