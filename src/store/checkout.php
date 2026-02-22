@@ -175,19 +175,19 @@ $csrf_token = $_SESSION['csrf_token'];
                                 <div>
                                     <h3 class="font-bold text-white mb-2">取り外した部品の返送</h3>
                                     <div class="space-y-3">
-                                        <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
+                                        <div class="bg-black/40 border border-primary/30 p-4 rounded-sm">
                                             <div class="flex items-center gap-2 mb-1">
                                                 <i class="fas fa-exchange-alt text-primary text-sm"></i>
-                                                <span class="font-bold text-sm text-white">返送（下取り）する場合</span>
+                                                <span class="font-bold text-sm text-primary">技巧に買取を依頼する場合（割引あり）</span>
                                             </div>
-                                            <p class="text-xs text-gray-400 ml-6">取り外したパーツを技巧へ返送いただくと、下取り買取として商品代が割引になります。</p>
+                                            <p class="text-xs text-gray-400 ml-6">取り外した旧パーツを技巧へご返送いただくと、買取割引が適用されます。</p>
                                         </div>
                                         <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
                                             <div class="flex items-center gap-2 mb-1">
                                                 <i class="fas fa-box text-gray-400 text-sm"></i>
-                                                <span class="font-bold text-sm text-white">返送しない場合</span>
+                                                <span class="font-bold text-sm text-white">買取依頼しない場合（手元に保管）</span>
                                             </div>
-                                            <p class="text-xs text-gray-400 ml-6">取り外したパーツをお手元に残される場合は、下取り割引は適用されません。</p>
+                                            <p class="text-xs text-gray-400 ml-6">旧パーツをお手元に残される場合は、買取割引は適用されません。</p>
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +298,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                 <span id="display-subtotal-before" class="font-en font-bold">¥0</span>
                             </div>
                             <div id="discount-row" class="flex justify-between items-center text-sm hidden">
-                                <span class="text-green-400 tracking-wider"><i class="fas fa-tag mr-2"></i>下取り割引</span>
+                                <span class="text-green-400 tracking-wider"><i class="fas fa-tag mr-2"></i>買取依頼割引</span>
                                 <span id="display-discount" class="font-en font-bold text-green-400">-¥0</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">

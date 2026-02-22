@@ -11,6 +11,16 @@ try {
     die("Database error: " . $e->getMessage());
 }
 
+// カテゴリ日本語マッピング
+$categoryLabels = [
+    'partial'   => '部分張替え',
+    'full'      => '全内装張替え',
+    'package'   => '補修/リペア',
+    'ambient'   => 'アンビエントライト',
+    'starlight' => 'スターライト',
+    'newbiz'    => '新ブランド',
+];
+
 require_once '../includes/header.php';
 ?>
 
@@ -56,8 +66,8 @@ require_once '../includes/header.php';
                                 <div class="text-xs text-gray-400"><?php echo htmlspecialchars($work['subtitle']); ?></div>
                             </td>
                             <td class="p-4">
-                                <span class="bg-gray-700 py-1 px-2 rounded text-xs text-primary font-en tracking-wide">
-                                    <?php echo htmlspecialchars($work['category']); ?>
+                                <span class="bg-gray-700 py-1 px-2 rounded text-xs text-primary tracking-wide">
+                                    <?php echo htmlspecialchars($categoryLabels[$work['category']] ?? $work['category']); ?>
                                 </span>
                             </td>
                             <td class="p-4 text-gray-400 text-sm">

@@ -7,7 +7,7 @@
     <title>カート | 技巧 -Giko-</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="../assets/js/cart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,6 +60,7 @@
             </a>
             <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
                 <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
                 </div>
@@ -156,12 +157,23 @@
                         <div class="flex-grow text-center md:text-left">
                             <h3 class="font-bold text-lg mb-1">${item.name}</h3>
                             <div class="text-sm text-gray-400 mb-2">
-                                ${Object.keys(item.options || {}).map(k => `<span class="mr-3">${k}: ${item.options[k]}</span>`).join('')}
+                                ${Object.keys(item.options || {}).map(k => {
+                                    // 下取り交換の表示を分かりやすく
+                                    if (['下取り交換','下取り','トレードイン','下取交換'].includes(k)) {
+                                        const v = item.options[k];
+                                        if (['あり','する','yes','true','有'].includes(v)) {
+                                            return '<span class="mr-3 text-primary">買取依頼：あり</span>';
+                                        } else {
+                                            return '<span class="mr-3">買取依頼：なし</span>';
+                                        }
+                                    }
+                                    return `<span class="mr-3">${k}: ${item.options[k]}</span>`;
+                                }).join('')}
                             </div>
                             ${hasDiscount ? `
                                 <div class="inline-flex items-center gap-2 bg-green-900/30 border border-green-700/50 text-green-400 px-3 py-1 rounded-sm text-xs font-bold mt-2">
                                     <i class="fas fa-tag"></i>
-                                    <span>下取り割引：-¥${discount.toLocaleString()}</span>
+                                    <span>買取依頼割引：-¥${discount.toLocaleString()}</span>
                                 </div>
                             ` : ''}
                         </div>

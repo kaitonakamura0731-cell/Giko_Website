@@ -67,7 +67,7 @@ try {
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>document.documentElement.classList.add('js-loading');</script>
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -154,6 +154,7 @@ try {
                 <div class="space-y-2">
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
                 </div>
                 <!-- Cart Badge Mobile -->
                 <span id="cart-badge-mobile-btn"
@@ -232,7 +233,7 @@ try {
 
         <!-- Scroll Indicator -->
         <div
-            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-2 animate-bounce opacity-50">
+            class="absolute bottom-10 left-0 right-0 z-20 flex flex-col items-center gap-2 animate-bounce opacity-50">
             <span class="text-[10px] tracking-widest font-en">SCROLL</span>
             <div class="w-px h-12 bg-white"></div>
         </div>
@@ -607,7 +608,7 @@ try {
                     </p>
                 </div>
                 <!-- Step 2 -->
-                <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
+                <div class="bg-secondary p-4 md:p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
                     style="transition-delay: 0.1s;">
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
@@ -620,7 +621,7 @@ try {
                     <p class="text-xs text-gray-400 leading-relaxed">素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。</p>
                 </div>
                 <!-- Step 3 -->
-                <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
+                <div class="bg-secondary p-4 md:p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
                     style="transition-delay: 0.2s;">
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
@@ -633,7 +634,7 @@ try {
                     <p class="text-xs text-gray-400 leading-relaxed">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により1日〜2ヶ月程度です。</p>
                 </div>
                 <!-- Step 4 -->
-                <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
+                <div class="bg-secondary p-4 md:p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
                     style="transition-delay: 0.3s;">
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">

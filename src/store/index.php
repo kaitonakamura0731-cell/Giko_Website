@@ -64,7 +64,7 @@ function getFirstImage($json)
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>document.documentElement.classList.add('js-loading');</script>
     <link rel="stylesheet" href="../css/style.css">
     <style>
@@ -135,6 +135,7 @@ function getFirstImage($json)
 
             <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
                 <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
                 </div>

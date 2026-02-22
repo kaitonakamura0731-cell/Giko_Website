@@ -11,12 +11,12 @@ $line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
 // カテゴリ定義（ラベル、英語名、背景画像）
 $categories = [
     'all'       => ['label' => 'ALL',              'en' => 'ALL WORKS',        'image' => '../assets/images/hero.png'],
-    'partial'   => ['label' => 'Partial Interior',  'en' => 'PARTIAL INTERIOR', 'image' => '../assets/images/hero.png'],
-    'full'      => ['label' => 'Full Interior',     'en' => 'FULL INTERIOR',    'image' => '../assets/images/hero.png'],
-    'package'   => ['label' => 'Package',           'en' => 'PACKAGE',          'image' => '../assets/images/hero.png'],
-    'ambient'   => ['label' => 'Ambient Light',     'en' => 'AMBIENT LIGHT',    'image' => '../assets/images/hero.png'],
-    'starlight' => ['label' => 'Starlight',         'en' => 'STARLIGHT',        'image' => '../assets/images/hero.png'],
-    'newbiz'    => ['label' => 'New Business',      'en' => 'NEW BUSINESS',     'image' => '../assets/images/hero.png'],
+    'partial'   => ['label' => 'Partial Interior',  'en' => 'PARTIAL INTERIOR', 'image' => '../assets/images/tile_partial.jpg'],
+    'full'      => ['label' => 'Full Interior',     'en' => 'FULL INTERIOR',    'image' => '../assets/images/tile_full.jpg'],
+    'package'   => ['label' => 'Package',           'en' => 'PACKAGE',          'image' => '../assets/images/tile_repair.jpg'],
+    'ambient'   => ['label' => 'Ambient Light',     'en' => 'AMBIENT LIGHT',    'image' => '../assets/images/tile_ambient.jpg'],
+    'starlight' => ['label' => 'Starlight',         'en' => 'STARLIGHT',        'image' => '../assets/images/tile_starlight.jpg'],
+    'newbiz'    => ['label' => 'New Business',      'en' => 'NEW BUSINESS',     'image' => '../assets/images/tile_newbiz.jpg'],
 ];
 
 // URLパラメータからカテゴリを取得
@@ -79,7 +79,7 @@ $categoryBadges = [
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <style>
         /* カルーセルスクロールバー非表示 */
@@ -128,6 +128,7 @@ $categoryBadges = [
             </a>
             <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
                 <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
                 </div>
