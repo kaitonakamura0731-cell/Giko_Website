@@ -499,7 +499,7 @@ $csrf_token = $_SESSION['csrf_token'];
     <script>
         // Init total amount
         let payjp, elements, cardElement;
-        const PUBLIC_KEY = 'pk_test_445533d2d990496d0d9266f0';
+        const PUBLIC_KEY = 'pk_test_9deadd0cb5a5d94b4cd785dc';
         let currentPaymentMethod = 'card';
 
         document.addEventListener('DOMContentLoaded', () => {
