@@ -268,10 +268,10 @@ try {
                             「純正超え」の<br>感動品質を。
                         </h2>
                         <p class="text-gray-400 leading-loose mb-8 text-justify" data-i18n="concept_text">
-                            量産車にはない「あなただけ」の特別感。<br>
-                            私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を具現化します。<br>
+                            量産車にはない「あなただけ」の理想を叶える。<br>
+                            私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を提供します。<br>
                             最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>
-                            それが、技巧 -Giko- の流儀です。
+                            それが、技巧 -GIKO- の流儀です。
                         </p>
                         <a href="pages/concept.html"
                             class="inline-block border-b border-primary pb-1 text-sm tracking-widest hover:text-primary transition-colors">READ
@@ -594,7 +594,7 @@ try {
                         <img src="./assets/images/flow_inquiry.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">INQUIRY</h3>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">お問い合わせ</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">お問い合わせフォームまたはお電話にて、ご希望の内容をお知らせください。車種・施工箇所・イメージなど、お決まりの範囲で構いません。
                     </p>
                 </div>
@@ -608,8 +608,7 @@ try {
                         <img src="./assets/images/flow_planning.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">CONSULTATION
-                    </h3>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">打ち合わせ</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。</p>
                 </div>
                 <!-- Step 3 -->
@@ -622,9 +621,8 @@ try {
                         <img src="./assets/images/flow_construction.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">PRODUCTION
-                    </h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により2週間〜2ヶ月程度です。</p>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">製作</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により1日〜2ヶ月程度です。</p>
                 </div>
                 <!-- Step 4 -->
                 <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
@@ -636,8 +634,7 @@ try {
                         <img src="./assets/images/flow_delivery.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">DELIVERY
-                    </h3>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">納車</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">仕上がりをご確認いただき、お引き渡し。アフターフォローもご説明いたします。
                     </p>
                 </div>
@@ -660,7 +657,7 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BRAND</div>
-                    <div class="md:w-2/3 py-2">技巧 -Giko- (Giko Artisan)</div>
+                    <div class="md:w-2/3 py-2">技巧　-GIKO-</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">ADDRESS</div>
@@ -668,15 +665,15 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BUSINESS</div>
-                    <div class="md:w-2/3 py-2">自動車内装のカスタム・リペア<br>レザーシート張り替え<br>インテリアパーツ販売</div>
+                    <div class="md:w-2/3 py-2">自動車内装のカスタム/補修リペア<br>シート/ステアリング/天井張替え<br>車種専用インテリアパーツ販売</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">TEL</div>
-                    <div class="md:w-2/3 py-2">080-8887-2116</div>
+                    <div class="md:w-2/3 py-2">会社TEL：0587-22-7344<br>FAX：0587-22-7158<br>代表TEL：080-8887-2116（直通）</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">OPEN</div>
-                    <div class="md:w-2/3 py-2">10:00 - 20:00<br><span class="text-red-400">定休日：木曜日</span></div>
+                    <div class="md:w-2/3 py-2">10:00 - 20:00<br><span class="text-red-400">定休日：不定休　※ご来店時は事前にご連絡願います</span></div>
                 </div>
             </div>
         </div>
