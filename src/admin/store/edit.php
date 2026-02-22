@@ -225,18 +225,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $options_json = json_encode($options_arr, JSON_UNESCAPED_UNICODE);
 
+    // trade_in_discount カラムの存在チェック
+    $has_trade_in_col = false;
+    try {
+        $col_check = $pdo->query("SHOW COLUMNS FROM products LIKE 'trade_in_discount'");
+        $has_trade_in_col = ($col_check && $col_check->rowCount() > 0);
+    } catch (PDOException $e) {
+        // カラムチェック失敗時は無視
+    }
+
     try {
         if ($id) {
             // Update
-            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=?, trade_in_discount=? WHERE id=?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount, $id]);
+            if ($has_trade_in_col) {
+                $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=?, trade_in_discount=? WHERE id=?";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount, $id]);
+            } else {
+                $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=? WHERE id=?";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $id]);
+            }
             $success = "商品情報を更新しました。";
         } else {
             // Insert
-            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags, trade_in_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount]);
+            if ($has_trade_in_col) {
+                $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags, trade_in_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount]);
+            } else {
+                $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags]);
+            }
             $id = $pdo->lastInsertId();
             $success = "商品を新規作成しました。";
             header("Location: edit.php?id=" . $id . "&created=1");
@@ -250,6 +271,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } catch (PDOException $e) {
         $error = "Error: " . $e->getMessage();
+        // エラー時はPOSTデータを保持してフォームに再表示
+        $product = [
+            'name' => $name,
+            'price' => $price,
+            'shipping_fee' => $shipping_fee,
+            'short_description' => $short_description,
+            'lead_text' => $lead_text,
+            'product_summary_json' => $product_summary_json,
+            'compatible_models' => $compatible_models,
+            'model_code' => $model_code,
+            'vehicle_type' => $vehicle_type,
+            'detail_image_path' => $detail_image_path,
+            'images' => $images_json,
+            'options' => $options_json,
+            'option_detail_image' => $option_detail_image,
+            'stock_status' => $stock_status,
+            'vehicle_tags' => $vehicle_tags,
+            'trade_in_discount' => $trade_in_discount
+        ];
     }
 }
 
