@@ -25,6 +25,17 @@ $address = htmlspecialchars($_POST['address'] ?? '');
 $amount = (int)$_POST['amount'];
 $cart_items = $_POST['cart_items'];
 
+// Store order data in session for 3DS callback
+$_SESSION['pending_order'] = [
+    'name' => $name,
+    'email' => $email,
+    'phone' => $phone,
+    'zip' => $zip,
+    'address' => $address,
+    'amount' => $amount,
+    'cart_items' => $cart_items
+];
+
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -187,17 +198,34 @@ if (empty($_SESSION['csrf_token'])) {
                     throw new Error(result.error.message);
                 }
 
-                // Send to backend
+                // Send to backend with 3DS support
                 const uniqueId = 'req_' + Date.now() + Math.random().toString(36).substr(2, 9);
                 const response = await fetch('./payment.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-Idempotency-Key': uniqueId },
-                    body: JSON.stringify({ token: result.id, amount: amount })
+                    body: JSON.stringify({
+                        token: result.id,
+                        amount: amount,
+                        order_data: {
+                            name: document.getElementById('data-name').value,
+                            email: document.getElementById('data-email').value,
+                            phone: document.getElementById('data-phone').value,
+                            amount: amount,
+                            cart_items: document.getElementById('data-items').value
+                        }
+                    })
                 });
 
                 const data = await response.json().catch(() => { throw new Error('サーバー応答エラー'); });
                 if (!response.ok || !data.success) throw new Error(data.error || '決済処理に失敗しました。');
 
+                if (data.requires_3ds && data.tds_url) {
+                    // 3Dセキュア認証が必要 → PAY.JP認証ページへリダイレクト
+                    window.location.href = data.tds_url;
+                    return;
+                }
+
+                // 3DS不要 or 認証済み → 注文完了処理
                 await finalizeOrder(uniqueId, data.id);
 
             } catch (error) {
