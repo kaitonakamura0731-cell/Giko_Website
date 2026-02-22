@@ -305,57 +305,57 @@ try {
             <!-- カテゴリタイルメニュー (2行×3列) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto fade-in">
 
-                <!-- PARTIAL INTERIOR -->
+                <!-- 部分張替え -->
                 <a href="pages/works.php?category=partial" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_partial.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">PARTIAL INTERIOR</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">部分張替え</span>
                     </div>
                 </a>
 
-                <!-- FULL INTERIOR -->
+                <!-- 全内装張替え -->
                 <a href="pages/works.php?category=full" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_full.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">FULL INTERIOR</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">全内装張替え</span>
                     </div>
                 </a>
 
-                <!-- PACKAGE -->
+                <!-- 補修/リペア -->
                 <a href="pages/works.php?category=package" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_repair.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">PACKAGE</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">補修/リペア</span>
                     </div>
                 </a>
 
-                <!-- AMBIENT LIGHT -->
+                <!-- アンビエントライト -->
                 <a href="pages/works.php?category=ambient" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_ambient.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-lg md:text-xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">AMBIENT LIGHT</span>
+                        <span class="text-lg md:text-xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">アンビエントライト</span>
                     </div>
                 </a>
 
-                <!-- STARLIGHT -->
+                <!-- スターライト -->
                 <a href="pages/works.php?category=starlight" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_starlight.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">STARLIGHT</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">スターライト</span>
                     </div>
                 </a>
 
-                <!-- NEW BUSINESS -->
+                <!-- 新ブランド -->
                 <a href="pages/works.php?category=newbiz" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_newbiz.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">NEW BUSINESS</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">新ブランド</span>
                     </div>
                 </a>
 
@@ -541,7 +541,7 @@ try {
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col lg:flex-row gap-16 items-center">
                 <div class="lg:w-1/2 fade-in">
-                    <img src="./assets/images/material_led.jpg"
+                    <img src="./assets/images/material_leather.jpg"
                         class="w-full h-auto rounded-sm shadow-2xl">
                 </div>
                 <div class="lg:w-1/2 fade-in">
@@ -681,6 +681,20 @@ try {
 
     <!-- Footer -->
     <footer id="contact" class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <!-- Google Maps -->
+        <div class="w-full mb-16 px-6 max-w-6xl mx-auto">
+            <h3 class="text-xs font-bold font-en tracking-widest mb-4 text-gray-400 border-b border-white/10 pb-3">
+                <i class="fas fa-map-marker-alt text-primary mr-2"></i>ACCESS
+            </h3>
+            <p class="text-xs text-gray-500 mb-4">〒483-8013 愛知県江南市般若町南山307</p>
+            <div class="overflow-hidden rounded-sm border border-white/10" style="height:280px;">
+                <iframe
+                    src="https://maps.google.com/maps?q=愛知県江南市般若町南山307&output=embed&hl=ja&z=15"
+                    width="100%" height="280" style="border:0; filter: grayscale(0.3) invert(0.05);"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <!-- Col 1: Logo & SNS -->
