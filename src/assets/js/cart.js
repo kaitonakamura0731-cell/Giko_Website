@@ -13,12 +13,10 @@ const Cart = {
 
     // Add item
     addItem: function (product) {
-        // product: { id, name, price, image, options: { ... } }
+        // product: { id, name, price, image, options: { ... }, tradeInDiscount: number }
         let items = this.getItems();
 
-        // Improve: Check if same item with same options exists
-        // For simplicity, we just push new item, or unique ID generation could be needed
-        // Here we assign a unique timestamp-based ID for line-item management
+        // Assign a unique timestamp-based ID for line-item management
         product.cartId = Date.now().toString();
 
         items.push(product);
@@ -55,9 +53,10 @@ const Cart = {
                     ? parseInt(item.price.replace(/,/g, ''))
                     : item.price;
 
-            // Apply 10,000 yen discount if trade-in option is selected
+            // Apply discount if trade-in option is selected
             if (this.hasTradeIn(item)) {
-                price = Math.max(0, price - 10000);
+                const discount = this.getTradeInAmount(item);
+                price = Math.max(0, price - discount);
             }
 
             return total + price;
@@ -89,6 +88,15 @@ const Cart = {
         return false;
     },
 
+    // Get the trade-in discount amount for an item
+    getTradeInAmount: function (item) {
+        // Use per-product discount amount, fallback to 10000
+        if (item.tradeInDiscount !== undefined && item.tradeInDiscount !== null) {
+            return parseInt(item.tradeInDiscount) || 0;
+        }
+        return 10000; // Legacy fallback
+    },
+
     // Get item price with discount applied
     getItemPrice: function (item) {
         let price =
@@ -97,14 +105,15 @@ const Cart = {
                 : item.price;
 
         if (this.hasTradeIn(item)) {
-            return Math.max(0, price - 10000);
+            const discount = this.getTradeInAmount(item);
+            return Math.max(0, price - discount);
         }
         return price;
     },
 
     // Get discount amount for item
     getItemDiscount: function (item) {
-        return this.hasTradeIn(item) ? 10000 : 0;
+        return this.hasTradeIn(item) ? this.getTradeInAmount(item) : 0;
     },
 
     // Update cart count badge in header (if exists)

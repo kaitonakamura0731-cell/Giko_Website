@@ -96,6 +96,7 @@ $default_swatch = '../assets/images/no_image.png';
                 <div class="space-y-2">
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
                 </div>
                 <span id="cart-badge-mobile-btn"
                     class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
@@ -321,16 +322,32 @@ $default_swatch = '../assets/images/no_image.png';
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
-                            <!-- 下取り交換オプション（固定） -->
-                            <div>
-                                <label
-                                    class="block text-sm font-bold font-en tracking-widest text-gray-400 mb-3">下取り交換</label>
-                                <select name="option_trade_in" data-label="下取り交換"
-                                    class="w-full bg-black border border-white/20 rounded-sm px-4 py-3 focus:outline-none focus:border-primary text-sm transition-colors">
-                                    <option value="なし">なし</option>
-                                    <option value="あり">あり</option>
-                                </select>
+                            <!-- 下取り（買取）オプション -->
+                            <?php
+                            $trade_in_discount = (int)($product['trade_in_discount'] ?? 10000);
+                            if ($trade_in_discount > 0):
+                            ?>
+                            <div class="bg-white/5 border border-white/10 rounded-sm p-4">
+                                <label class="block text-sm font-bold tracking-widest text-gray-300 mb-1">お車から外した元パーツについて</label>
+                                <p class="text-xs text-primary font-bold mb-3">割引金額：¥<?php echo number_format($trade_in_discount); ?></p>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 cursor-pointer p-3 rounded-sm border border-primary/50 bg-primary/10 hover:bg-primary/20 transition-colors">
+                                        <input type="radio" name="option_trade_in" data-label="下取り交換" value="あり" class="accent-primary w-4 h-4" checked>
+                                        <span class="text-sm text-primary font-bold">技巧に買取を依頼（割引あり）</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 cursor-pointer p-3 rounded-sm border border-white/10 hover:border-white/30 transition-colors">
+                                        <input type="radio" name="option_trade_in" data-label="下取り交換" value="なし" class="accent-primary w-4 h-4">
+                                        <span class="text-sm text-gray-400">買取依頼しない（割引なし／手元に保管）</span>
+                                    </label>
+                                </div>
+                                <p class="text-[11px] text-gray-500 mt-3 leading-relaxed">
+                                    <i class="fas fa-info-circle text-primary mr-1"></i>
+                                    張り替え済みパーツをお届け後、取り外した旧パーツをご返送いただくと割引になります。旧パーツを手元に残したい場合は"買取依頼しない"を選択してください。
+                                </p>
                             </div>
+                            <?php else: ?>
+                            <input type="hidden" name="option_trade_in" data-label="下取り交換" value="なし">
+                            <?php endif; ?>
 
                             <!-- 送料案内 -->
                             <div class="pt-4 border-t border-white/10 mt-4">
@@ -450,6 +467,7 @@ $default_swatch = '../assets/images/no_image.png';
             const price = <?php echo json_encode($product['price']); ?>;
             const image = <?php echo json_encode($main_image); ?>;
             const id = 'product_' + <?php echo $product['id']; ?>;
+            const tradeInDiscount = <?php echo (int)($product['trade_in_discount'] ?? 10000); ?>;
 
             const form = document.getElementById('orderForm');
             const selects = form.querySelectorAll('select');
@@ -463,12 +481,31 @@ $default_swatch = '../assets/images/no_image.png';
                 }
             });
 
+            // Radio buttons (for trade-in)
+            const radios = form.querySelectorAll('input[type="radio"]:checked');
+            radios.forEach(radio => {
+                const label = radio.getAttribute('data-label');
+                if (label) {
+                    options[label] = radio.value;
+                }
+            });
+
+            // Hidden inputs with data-label (for hidden trade-in when discount=0)
+            const hiddens = form.querySelectorAll('input[type="hidden"][data-label]');
+            hiddens.forEach(hidden => {
+                const label = hidden.getAttribute('data-label');
+                if (label) {
+                    options[label] = hidden.value;
+                }
+            });
+
             Cart.addItem({
                 id: id,
                 name: productName,
                 price: price,
                 image: image,
-                options: options
+                options: options,
+                tradeInDiscount: tradeInDiscount
             });
 
             window.location.href = 'cart.html';

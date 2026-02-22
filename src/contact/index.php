@@ -94,6 +94,7 @@ $line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
                 <div class="space-y-2">
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
                 </div>
                 <!-- Cart Badge Mobile -->
                 <span id="cart-badge-mobile-btn"

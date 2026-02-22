@@ -137,6 +137,7 @@ function getFirstImage($json)
                 <div class="space-y-2">
                     <span class="block w-8 h-0.5 bg-white"></span>
                     <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
                 </div>
                 <span id="cart-badge-mobile-btn"
                     class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>

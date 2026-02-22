@@ -190,12 +190,12 @@ require_once '../includes/header.php';
                     <div class="form-group">
                         <label class="form-label">カテゴリー (Category)</label>
                         <select name="category" class="form-input" required>
-                            <option value="partial" <?php if ($work['category'] == 'partial') echo 'selected'; ?>>PARTIAL INTERIOR</option>
-                            <option value="full" <?php if ($work['category'] == 'full') echo 'selected'; ?>>FULL INTERIOR</option>
-                            <option value="package" <?php if ($work['category'] == 'package') echo 'selected'; ?>>PACKAGE</option>
-                            <option value="ambient" <?php if ($work['category'] == 'ambient') echo 'selected'; ?>>AMBIENT LIGHT</option>
-                            <option value="starlight" <?php if ($work['category'] == 'starlight') echo 'selected'; ?>>STARLIGHT</option>
-                            <option value="newbiz" <?php if ($work['category'] == 'newbiz') echo 'selected'; ?>>NEW BUSINESS</option>
+                            <option value="partial" <?php if ($work['category'] == 'partial') echo 'selected'; ?>>部分張替え</option>
+                            <option value="full" <?php if ($work['category'] == 'full') echo 'selected'; ?>>全内装張替え</option>
+                            <option value="package" <?php if ($work['category'] == 'package') echo 'selected'; ?>>補修/リペア</option>
+                            <option value="ambient" <?php if ($work['category'] == 'ambient') echo 'selected'; ?>>アンビエントライト</option>
+                            <option value="starlight" <?php if ($work['category'] == 'starlight') echo 'selected'; ?>>スターライト</option>
+                            <option value="newbiz" <?php if ($work['category'] == 'newbiz') echo 'selected'; ?>>新ブランド</option>
                         </select>
                     </div>
                 </div>

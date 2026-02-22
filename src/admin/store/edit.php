@@ -25,7 +25,8 @@ $default_product = [
     'options' => '[]',
     'option_detail_image' => '',
     'stock_status' => 1,
-    'vehicle_tags' => ''
+    'vehicle_tags' => '',
+    'trade_in_discount' => 10000
 ];
 
 if ($id) {
@@ -114,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $stock_status = (int) ($_POST['stock_status'] ?? 1);
     $vehicle_tags = trim($_POST['vehicle_tags'] ?? '');
+    $trade_in_discount = (int) ($_POST['trade_in_discount'] ?? 10000);
 
     // Images (Lines to JSON)
     $images_raw = $_POST['images'] ?? '';
@@ -126,12 +128,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Handle New Image Upload
-    $uploaded_img = handleUpload('new_image_file', '../../assets/images/uploads/');
-    if ($uploaded_img) {
-        // Convert to frontend-friendly path
-        $db_path = str_replace('../../assets', '../assets', $uploaded_img);
-        array_unshift($images_clean, $db_path); // Add to top
+    // Handle New Image Upload (Multiple)
+    if (isset($_FILES['new_image_files']) && is_array($_FILES['new_image_files']['name'])) {
+        $upload_dir = '../../assets/images/uploads/';
+        if (!file_exists($upload_dir)) {
+            mkdir($upload_dir, 0777, true);
+        }
+        $new_uploaded = [];
+        for ($fi = 0; $fi < count($_FILES['new_image_files']['name']); $fi++) {
+            if ($_FILES['new_image_files']['error'][$fi] === UPLOAD_ERR_OK) {
+                $tmp = $_FILES['new_image_files']['tmp_name'][$fi];
+                $fname = $_FILES['new_image_files']['name'][$fi];
+                $ext = strtolower(pathinfo($fname, PATHINFO_EXTENSION));
+                $new_name = time() . '_' . uniqid() . '.' . $ext;
+                $dest = $upload_dir . $new_name;
+                if (move_uploaded_file($tmp, $dest)) {
+                    $db_path = '../assets/images/uploads/' . $new_name;
+                    $new_uploaded[] = $db_path;
+                }
+            }
+        }
+        // Add new images to top of list
+        $images_clean = array_merge($new_uploaded, $images_clean);
     }
 
     $images_json = json_encode($images_clean, JSON_UNESCAPED_UNICODE);
@@ -210,15 +228,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($id) {
             // Update
-            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=? WHERE id=?";
+            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=?, trade_in_discount=? WHERE id=?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $id]);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount, $id]);
             $success = "商品情報を更新しました。";
         } else {
             // Insert
-            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags, trade_in_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags]);
+            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount]);
             $id = $pdo->lastInsertId();
             $success = "商品を新規作成しました。";
             header("Location: edit.php?id=" . $id . "&created=1");
@@ -289,6 +307,12 @@ require_once '../includes/header.php';
                         <label class="form-label">送料 (Shipping Fee)</label>
                         <input type="number" name="shipping_fee" class="form-input"
                             value="<?php echo htmlspecialchars($product['shipping_fee']); ?>" required min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">下取り割引金額 (Trade-in Discount)</label>
+                        <input type="number" name="trade_in_discount" class="form-input"
+                            value="<?php echo htmlspecialchars($product['trade_in_discount'] ?? 10000); ?>" min="0">
+                        <p class="text-xs text-gray-500 mt-1">※買取依頼（下取り）時に適用される割引金額（円）。0で下取りオプション非表示。</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">在庫状況 (Stock Status)</label>
@@ -448,14 +472,15 @@ require_once '../includes/header.php';
                         <!-- JS renders here -->
                     </div>
 
-                    <!-- New Upload -->
+                    <!-- New Upload (Multiple) -->
                     <div class="bg-gray-800 p-4 rounded border border-gray-700">
-                        <label class="text-xs font-bold text-primary block mb-2">新規画像追加 (Upload New)</label>
-                        <input type="file" name="new_image_file" id="new-image-input"
+                        <label class="text-xs font-bold text-primary block mb-2">新規画像追加 (Upload New) - 複数選択可</label>
+                        <input type="file" name="new_image_files[]" id="new-image-input" multiple accept="image/*"
                             class="text-gray-300 text-sm w-full">
-                        <div id="new-image-preview" class="mt-2 hidden">
-                            <p class="text-[10px] text-gray-400 mb-1">プレビュー (保存後にリストに追加されます)</p>
-                            <img src="" class="h-20 w-auto rounded border border-gray-600">
+                        <p class="text-xs text-gray-500 mt-1">※Ctrl/Cmdキーを押しながら複数画像を選択できます。</p>
+                        <div id="new-image-preview" class="mt-3 hidden">
+                            <p class="text-[10px] text-gray-400 mb-2">プレビュー (保存後にリストに追加されます)</p>
+                            <div id="new-image-preview-grid" class="grid grid-cols-4 md:grid-cols-6 gap-2"></div>
                         </div>
                     </div>
                 </div>
@@ -527,16 +552,26 @@ require_once '../includes/header.php';
                             imagesInput.value = images.join('\n');
                         }
 
-                        // Local Preview for new upload
+                        // Local Preview for new upload (Multiple)
                         newImageInput.addEventListener('change', (e) => {
-                            const file = e.target.files[0];
-                            if (file) {
-                                const reader = new FileReader();
-                                reader.onload = (ev) => {
-                                    newImagePreview.querySelector('img').src = ev.target.result;
-                                    newImagePreview.classList.remove('hidden');
-                                };
-                                reader.readAsDataURL(file);
+                            const files = e.target.files;
+                            const previewGrid = document.getElementById('new-image-preview-grid');
+                            previewGrid.innerHTML = '';
+                            if (files.length > 0) {
+                                newImagePreview.classList.remove('hidden');
+                                Array.from(files).forEach((file, idx) => {
+                                    const reader = new FileReader();
+                                    reader.onload = (ev) => {
+                                        const div = document.createElement('div');
+                                        div.className = 'relative';
+                                        div.innerHTML = `
+                                            <img src="${ev.target.result}" class="h-20 w-full object-cover rounded border border-gray-600">
+                                            <span class="absolute top-0 right-0 bg-black/70 text-[10px] text-white px-1 rounded-bl">${idx + 1}</span>
+                                        `;
+                                        previewGrid.appendChild(div);
+                                    };
+                                    reader.readAsDataURL(file);
+                                });
                             } else {
                                 newImagePreview.classList.add('hidden');
                             }
