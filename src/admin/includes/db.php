@@ -21,7 +21,7 @@ if ($is_local) {
     $host = 'mysql1007.conoha.ne.jp';
     $db = '1lq8c_detabase';
     $user = '1lq8c_admin';
-    $pass = 'password123!';
+    $pass = 'gikogiko1234!';
     $charset = 'utf8mb4';
     $port = '3306';
 }
