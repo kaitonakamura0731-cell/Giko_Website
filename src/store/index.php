@@ -178,7 +178,7 @@ function getFirstImage($json)
         <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black"></div>
         <div class="container mx-auto px-6 relative z-10 text-center fade-in">
             <h1 class="text-4xl md:text-6xl font-bold font-en tracking-widest mb-6">ONLINE STORE</h1>
-            <p class="text-sm md:text-base text-gray-400 tracking-[0.2em] font-light">SIGNATURE PRODUCTS</p>
+            <p class="text-sm md:text-base text-gray-400 tracking-[0.2em] font-light" data-i18n="store_sub">厳選されたオリジナル製品</p>
         </div>
     </section>
 
@@ -312,11 +312,11 @@ function getFirstImage($json)
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
-                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
                     </div>
                 </div>
                 <div>

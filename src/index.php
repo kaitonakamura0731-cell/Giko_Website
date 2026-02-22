@@ -126,12 +126,12 @@ try {
             </a>
 
             <!-- SNS Icons Desktop -->
-            <div class="hidden lg:flex ml-4 items-center space-x-3">
-                <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
-                <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
-                <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
-                <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
-                <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="text-white/60 hover:text-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
+            <div class="hidden lg:flex ml-4 items-center gap-4">
+                <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-tiktok"></i></a>
+                <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-x-twitter"></i></a>
+                <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-youtube"></i></a>
+                <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-instagram"></i></a>
+                <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-[#06C755] transition-colors text-lg"><i class="fab fa-line"></i></a>
             </div>
 
             <!-- Language Switcher Desktop -->
@@ -201,7 +201,7 @@ try {
     <!-- Hero -->
     <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden group">
         <div class="absolute inset-0 z-0 overflow-hidden">
-            <img src="./assets/images/hero.png" alt="Hero"
+            <img src="./assets/images/hero.jpg" alt="Hero"
                 class="w-full h-full object-cover opacity-60 scale-100 group-hover:scale-110 transition-transform duration-[10s] ease-out">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50"></div>
             <div class="absolute inset-0 bg-black/20"></div>
@@ -713,11 +713,11 @@ try {
                     <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
-                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
                     </div>
                 </div>
                 <!-- Col 2: Menu -->

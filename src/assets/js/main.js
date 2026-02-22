@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hero_sub: 'Beyond the Genuine Quality',
             concept_main: '「純正超え」の<br>感動品質を。',
             concept_text:
-                '量産車にはない「あなただけ」の特別感。<br>私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を具現化します。<br>最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>それが、技巧 -Giko- の流儀です。',
+                '量産車にはない「あなただけ」の理想を叶える。<br>私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を提供します。<br>最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>それが、技巧 -GIKO- の流儀です。',
             ba_desc:
                 '長年の使用で劣化したシートも、技巧-Giko-の手にかかれば新品以上の輝きを取り戻します。<br>スライダーを動かして、その変化をご覧ください。',
             ba_before_title: 'BEFORE STATE',
@@ -82,7 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
             avensis_data_content:
                 '運転席サイドサポート部分張り替え<br>ウレタン補充・成形',
 
-            price_note: '※参考価格'
+            price_note: '※参考価格',
+
+            // Works Page
+            works_sub: '施工実績一覧',
+            works_empty_title: 'このカテゴリの施工実績はまだありません',
+            works_empty_desc: '他のカテゴリをご覧いただくか、新しい実績の追加をお待ちください。',
+
+            // Store Page
+            store_sub: '厳選されたオリジナル製品'
         },
         en: {
             hero_sub: 'Beyond the Genuine Quality',
@@ -162,7 +170,15 @@ document.addEventListener('DOMContentLoaded', () => {
             avensis_data_content:
                 "Driver's Seat Side Support Reupholstery<br>Urethane Replenishment & Molding",
 
-            price_note: '* Reference Price'
+            price_note: '* Reference Price',
+
+            // Works Page
+            works_sub: 'Our Masterpieces',
+            works_empty_title: 'No works in this category yet',
+            works_empty_desc: 'Please check other categories or wait for new works to be added.',
+
+            // Store Page
+            store_sub: 'Signature Original Products'
         }
     };
 

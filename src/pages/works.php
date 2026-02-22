@@ -168,7 +168,7 @@ $categoryBadges = [
     <section class="relative h-[40vh] min-h-[300px] flex items-center justify-center bg-secondary">
         <div class="text-center z-10">
             <h1 class="text-4xl md:text-6xl font-bold font-en tracking-widest mb-4">WORKS</h1>
-            <p class="text-gray-400 text-sm tracking-widest font-en uppercase">Our Masterpieces</p>
+            <p class="text-gray-400 text-sm tracking-widest font-en uppercase" data-i18n="works_sub">Our Masterpieces</p>
         </div>
         <div class="absolute inset-0 bg-[url('../assets/images/hero.png')] bg-cover bg-center opacity-20"></div>
     </section>
@@ -277,8 +277,8 @@ $categoryBadges = [
                     <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/5 border border-white/10 mb-6">
                         <i class="fas fa-folder-open text-gray-600 text-3xl"></i>
                     </div>
-                    <p class="text-gray-400 text-lg font-bold mb-2">このカテゴリの施工実績はまだありません</p>
-                    <p class="text-gray-600 text-sm">他のカテゴリをご覧いただくか、<br class="md:hidden">新しい実績の追加をお待ちください。</p>
+                    <p class="text-gray-400 text-lg font-bold mb-2" data-i18n="works_empty_title">このカテゴリの施工実績はまだありません</p>
+                    <p class="text-gray-600 text-sm" data-i18n="works_empty_desc">他のカテゴリをご覧いただくか、新しい実績の追加をお待ちください。</p>
                     <a href="works.php" class="inline-flex items-center gap-2 mt-8 text-sm text-primary border border-primary/30 px-6 py-2.5 hover:bg-primary hover:text-black transition-all duration-300 font-en tracking-wider">
                         <i class="fas fa-th-large text-xs"></i> ALL WORKS を見る
                     </a>
@@ -308,11 +308,11 @@ $categoryBadges = [
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
-                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
                     </div>
                 </div>
                 <div>
