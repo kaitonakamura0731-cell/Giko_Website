@@ -72,7 +72,7 @@ $csrf_token = $_SESSION['csrf_token'];
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                 <!-- Left Column: Form (Span 7) -->
-                <div class="lg:col-span-7 space-y-12">
+                <div class="lg:col-span-7 space-y-12 order-2 lg:order-1">
                     <!-- Shipping Info -->
                     <section>
                         <div class="flex items-center gap-4 mb-8">
@@ -279,7 +279,7 @@ $csrf_token = $_SESSION['csrf_token'];
                 </div>
 
                 <!-- Right Column: Order Summary (Span 5) -->
-                <div class="lg:col-span-5 lg:sticky lg:top-32 h-fit">
+                <div class="lg:col-span-5 lg:sticky lg:top-32 h-fit order-1 lg:order-2">
                     <div class="bg-secondary p-8 border border-white/10 rounded-sm relative overflow-hidden shadow-2xl">
                         <div class="absolute -top-20 -right-20 w-60 h-60 bg-primary/10 rounded-full blur-[80px]"></div>
 

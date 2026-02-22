@@ -199,7 +199,7 @@ try {
     </header>
 
     <!-- Hero -->
-    <section class="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden group">
+    <section class="relative h-[70vh] md:h-screen min-h-[500px] md:min-h-[700px] flex items-center justify-center overflow-hidden group">
         <div class="absolute inset-0 z-0 overflow-hidden">
             <img src="./assets/images/hero.jpg" alt="Hero"
                 class="w-full h-full object-cover opacity-60 scale-100 group-hover:scale-110 transition-transform duration-[10s] ease-out">
@@ -292,9 +292,6 @@ try {
                 <div class="lg:w-1/2 relative lg:-mb-20 fade-in" style="transition-delay: 0.2s;">
                     <img src="./assets/images/alphard.jpg" alt="Craftsmanship"
                         class="w-full h-auto rounded-sm shadow-2xl filter brightness-75 hover:brightness-100 transition-all duration-700">
-                    <div
-                        class="absolute -bottom-10 -right-10 w-40 h-40 border border-primary/30 z-[-1] hidden lg:block">
-                    </div>
                 </div>
             </div>
         </div>
@@ -314,7 +311,7 @@ try {
             </div>
 
             <!-- カテゴリタイルメニュー (2行×3列) -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto fade-in">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 max-w-5xl mx-auto fade-in">
 
                 <!-- 部分張替え -->
                 <a href="pages/works.php?category=partial" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
@@ -594,10 +591,10 @@ try {
                 <p class="text-xs text-textLight tracking-wider" data-i18n="flow_sub">フルオーダーの流れ</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                 <!-- Step 1 -->
                 <div
-                    class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in">
+                    class="bg-secondary p-4 md:p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in">
                     <div
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         01</div>
