@@ -55,7 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'company_hours',
             'social_instagram',
             'social_twitter',
-            'social_youtube'
+            'social_youtube',
+            'social_tiktok',
+            'social_line'
         ];
 
         $updated_count = 0;
@@ -169,6 +171,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label class="form-label"><i class="fab fa-youtube mr-2"></i>YouTube URL</label>
                     <input type="text" name="social_youtube" class="form-input"
                         value="<?php echo htmlspecialchars(get_setting('social_youtube')); ?>">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><i class="fab fa-tiktok mr-2"></i>TikTok URL</label>
+                    <input type="text" name="social_tiktok" class="form-input"
+                        value="<?php echo htmlspecialchars(get_setting('social_tiktok')); ?>">
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><i class="fab fa-line mr-2"></i>LINE 公式 URL</label>
+                    <input type="text" name="social_line" class="form-input"
+                        value="<?php echo htmlspecialchars(get_setting('social_line')); ?>">
                 </div>
             </div>
         </div>

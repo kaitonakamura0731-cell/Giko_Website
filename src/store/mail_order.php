@@ -98,13 +98,18 @@ $user_body = <<<EOT
 商品の発送準備が整い次第、改めてご連絡させていただきます。
 万が一、ご注文内容に誤りがある場合は、本メールへ返信にてお知らせください。
 
+【今後のご連絡先】
+ご質問やご相談がございましたら、下記までお気軽にご連絡ください。
+Email: {$ADMIN_EMAIL}
+
 --------------------------------------------------
 技巧 -Giko-
 https://giko-official.com
 --------------------------------------------------
 EOT;
 
-$user_headers = "From: {$ADMIN_EMAIL}\r\n";
+$user_headers = "From: {$NOREPLY_EMAIL}\r\n";
+$user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
 $user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 // 7. Send Emails
@@ -123,7 +128,8 @@ $admin_headers .= "MIME-Version: 1.0\r\n";
 $admin_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $admin_headers .= "Content-Transfer-Encoding: base64\r\n";
 
-$user_headers = "From: {$ADMIN_EMAIL}\r\n";
+$user_headers = "From: {$NOREPLY_EMAIL}\r\n";
+$user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
 $user_headers .= "MIME-Version: 1.0\r\n";
 $user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $user_headers .= "Content-Transfer-Encoding: base64\r\n";
@@ -135,7 +141,7 @@ $user_body_encoded = base64_encode($user_body);
 $mail_admin = mail($ADMIN_EMAIL, $admin_subject_encoded, $admin_body_encoded, $admin_headers, "-f{$NOREPLY_EMAIL}");
 
 // Send to User
-$mail_user = mail($email, $user_subject_encoded, $user_body_encoded, $user_headers, "-f{$ADMIN_EMAIL}");
+$mail_user = mail($email, $user_subject_encoded, $user_body_encoded, $user_headers, "-f{$NOREPLY_EMAIL}");
 
 if ($mail_admin && $mail_user) {
     sendJson(true, 'Mail Sent');

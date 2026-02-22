@@ -284,8 +284,8 @@ $csrf_token = $_SESSION['csrf_token'];
                         <div class="absolute -top-20 -right-20 w-60 h-60 bg-primary/10 rounded-full blur-[80px]"></div>
 
                         <h2
-                            class="text-sm font-bold text-gray-400 mb-8 tracking-widest font-en border-b border-white/10 pb-4">
-                            ORDER SUMMARY</h2>
+                            class="text-sm font-bold text-gray-400 mb-8 tracking-widest border-b border-white/10 pb-4">
+                            ご注文内容</h2>
 
                         <div id="checkout-items"
                             class="space-y-6 mb-8 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
@@ -294,23 +294,23 @@ $csrf_token = $_SESSION['csrf_token'];
 
                         <div class="border-t border-white/10 pt-6 space-y-3">
                             <div class="flex justify-between items-center text-sm">
-                                <span class="text-gray-400 font-en tracking-wider">SUBTOTAL (before discount)</span>
+                                <span class="text-gray-400 tracking-wider">小計（割引前）</span>
                                 <span id="display-subtotal-before" class="font-en font-bold">¥0</span>
                             </div>
                             <div id="discount-row" class="flex justify-between items-center text-sm hidden">
-                                <span class="text-green-400 font-en tracking-wider"><i class="fas fa-tag mr-2"></i>TRADE-IN DISCOUNT</span>
+                                <span class="text-green-400 tracking-wider"><i class="fas fa-tag mr-2"></i>下取り割引</span>
                                 <span id="display-discount" class="font-en font-bold text-green-400">-¥0</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
-                                <span class="text-gray-400 font-en tracking-wider">SUBTOTAL</span>
+                                <span class="text-gray-400 tracking-wider">小計</span>
                                 <span id="display-subtotal" class="font-en font-bold">¥0</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
-                                <span class="text-gray-400 font-en tracking-wider">SHIPPING</span>
+                                <span class="text-gray-400 tracking-wider">送料</span>
                                 <span id="display-shipping" class="font-en font-bold">¥1,000</span>
                             </div>
                             <div class="flex justify-between items-end pt-4 border-t border-white/10 mt-4">
-                                <span class="text-sm font-bold text-gray-400 font-en tracking-widest">TOTAL</span>
+                                <span class="text-sm font-bold text-gray-400 tracking-widest">合計</span>
                                 <span id="checkout-total"
                                     class="text-3xl font-bold text-primary font-en tracking-tighter">¥0</span>
                             </div>
@@ -331,7 +331,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                 <button type="button" id="btn-card-pay" onclick="handleCardPayment()"
                                     class="w-full bg-[#C0A062] text-black font-bold py-4 rounded-sm hover:bg-white transition-all duration-300 tracking-widest font-en shadow-xl uppercase disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[#C0A062]"
                                     disabled>
-                                    PROCEED TO PAYMENT
+                                    決済へ進む
                                 </button>
                                 <p class="text-[10px] text-gray-500 text-center">
                                     <i class="fas fa-lock mr-1"></i> SSL通信と3Dセキュア認証で安全に保護されます
@@ -343,7 +343,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                 <button type="button" id="btn-transfer-pay" onclick="handleBankTransfer()"
                                     class="w-full bg-white text-black font-bold py-4 rounded-sm hover:bg-primary hover:text-white transition-all duration-300 tracking-widest font-en shadow-xl uppercase disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-black"
                                     disabled>
-                                    Place Order
+                                    注文を確定する
                                 </button>
                                 <p class="text-[10px] text-gray-500 mt-4 text-center">
                                     注文確定後、振込先をご案内します

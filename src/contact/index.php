@@ -18,8 +18,11 @@ $company_name = get_setting('company_name', 'GIKO307合同会社');
 $company_address = get_setting('company_address', '〒483-8013 愛知県江南市般若町南山307');
 $company_tel = get_setting('company_tel', '080-8887-2116');
 $company_email = get_setting('company_email', 'info@giko-official.com');
-$instagram_url = get_setting('instagram_url', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
-$twitter_url = get_setting('twitter_url', '#');
+$instagram_url = get_setting('social_instagram', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
+$twitter_url = get_setting('social_twitter', 'https://x.com/giko_0203?s=21&t=wv4xW-XScSAbmdHqDnc6jA');
+$youtube_url = get_setting('social_youtube', 'https://www.youtube.com/@GIKO-307');
+$tiktok_url = get_setting('social_tiktok', 'https://www.tiktok.com/@giko_artisan?_r=1&_t=ZS-946uu1grw5U');
+$line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
 ?>
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
@@ -145,6 +148,22 @@ $twitter_url = get_setting('twitter_url', '#');
                 </div>
             <?php endif; ?>
 
+            <!-- Tab Switcher -->
+            <div class="flex border border-white/10 mb-12 overflow-hidden">
+                <button id="tab-form"
+                    onclick="switchContactTab('form')"
+                    class="flex-1 py-4 text-sm font-bold tracking-widest transition-colors bg-primary text-white">
+                    <i class="fas fa-envelope mr-2"></i>フォームで送る
+                </button>
+                <button id="tab-line"
+                    onclick="switchContactTab('line')"
+                    class="flex-1 py-4 text-sm font-bold tracking-widest transition-colors bg-secondary text-gray-400 hover:text-white">
+                    <i class="fab fa-line mr-2"></i>LINEで連絡する
+                </button>
+            </div>
+
+            <!-- Form Panel -->
+            <div id="panel-form">
             <p class="text-gray-400 text-sm leading-loose mb-12 text-center" data-i18n="contact_intro">
                 お見積もりのご依頼、施工に関するご相談など、お気軽にお問い合わせください。<br>
                 内容を確認次第、担当者よりご連絡させていただきます。
@@ -205,8 +224,56 @@ $twitter_url = get_setting('twitter_url', '#');
                     <p class="text-[10px] text-gray-500 mt-4">確認画面へ進みます</p>
                 </div>
             </form>
+            </div><!-- /panel-form -->
+
+            <!-- LINE Panel -->
+            <div id="panel-line" class="hidden">
+                <p class="text-gray-400 text-sm leading-loose mb-10 text-center">
+                    QRコードを読み取るか、下のボタンから公式LINEで<br>
+                    お気軽にお問い合わせください。
+                </p>
+                <div class="flex flex-col items-center gap-8">
+                    <a href="https://lin.ee/hmaVDuG" target="_blank" rel="noopener noreferrer"
+                        class="block hover:opacity-80 transition-opacity">
+                        <img src="../assets/images/line_qr.png" alt="公式LINE QRコード"
+                            class="w-64 h-64 mx-auto rounded-lg shadow-2xl border border-white/10">
+                    </a>
+                    <p class="text-xs text-gray-500 text-center">QRコードをタップ（クリック）でもLINEへ飛べます。<br>スマホのカメラで読み取ることもできます。</p>
+                    <a href="https://lin.ee/hmaVDuG" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-3 bg-[#06C755] text-white font-bold py-4 px-12 hover:bg-[#05a548] transition-colors rounded-sm text-sm tracking-widest">
+                        <i class="fab fa-line text-xl"></i>
+                        公式LINEで問い合わせる
+                    </a>
+                </div>
+            </div><!-- /panel-line -->
+
         </div>
     </section>
+
+    <script>
+    function switchContactTab(tab) {
+        const tabForm = document.getElementById('tab-form');
+        const tabLine = document.getElementById('tab-line');
+        const panelForm = document.getElementById('panel-form');
+        const panelLine = document.getElementById('panel-line');
+
+        if (tab === 'form') {
+            tabForm.classList.add('bg-primary', 'text-white');
+            tabForm.classList.remove('bg-secondary', 'text-gray-400');
+            tabLine.classList.remove('bg-primary', 'text-white');
+            tabLine.classList.add('bg-secondary', 'text-gray-400');
+            panelForm.classList.remove('hidden');
+            panelLine.classList.add('hidden');
+        } else {
+            tabLine.classList.add('bg-primary', 'text-white');
+            tabLine.classList.remove('bg-secondary', 'text-gray-400');
+            tabForm.classList.remove('bg-primary', 'text-white');
+            tabForm.classList.add('bg-secondary', 'text-gray-400');
+            panelLine.classList.remove('hidden');
+            panelForm.classList.add('hidden');
+        }
+    }
+    </script>
 
     <!-- Footer -->
     <footer id="contact" class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
@@ -216,10 +283,12 @@ $twitter_url = get_setting('twitter_url', '#');
                 <div>
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
-                    <div class="flex space-x-4">
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank"
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
-                                class="fab fa-instagram"></i></a>
+                    <div class="flex space-x-3">
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
                     </div>
                 </div>
                 <div>

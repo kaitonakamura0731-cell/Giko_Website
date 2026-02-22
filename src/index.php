@@ -7,9 +7,11 @@ $company_name = get_setting('company_name', 'GIKO307合同会社');
 $company_address = get_setting('company_address', '〒483-8013 愛知県江南市般若町南山307');
 $company_tel = get_setting('company_tel', '080-8887-2116');
 $company_email = get_setting('company_email', 'info@giko-official.com');
-$instagram_url = get_setting('instagram_url', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
-$twitter_url = get_setting('twitter_url', '#');
-$youtube_url = get_setting('youtube_url', '#');
+$instagram_url = get_setting('social_instagram', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
+$twitter_url = get_setting('social_twitter', 'https://x.com/giko_0203?s=21&t=wv4xW-XScSAbmdHqDnc6jA');
+$youtube_url = get_setting('social_youtube', 'https://www.youtube.com/@GIKO-307');
+$tiktok_url = get_setting('social_tiktok', 'https://www.tiktok.com/@giko_artisan?_r=1&_t=ZS-946uu1grw5U');
+$line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
 
 // Fetch News
 try {
@@ -122,6 +124,15 @@ try {
                 class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">
                 CONTACT
             </a>
+
+            <!-- SNS Icons Desktop -->
+            <div class="hidden lg:flex ml-4 items-center space-x-3">
+                <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
+                <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
+                <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
+                <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="text-white/60 hover:text-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
+                <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="text-white/60 hover:text-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
+            </div>
 
             <!-- Language Switcher Desktop -->
             <button id="lang-toggle-desktop"
@@ -268,10 +279,10 @@ try {
                             「純正超え」の<br>感動品質を。
                         </h2>
                         <p class="text-gray-400 leading-loose mb-8 text-justify" data-i18n="concept_text">
-                            量産車にはない「あなただけ」の特別感。<br>
-                            私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を具現化します。<br>
+                            量産車にはない「あなただけ」の理想を叶える。<br>
+                            私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を提供します。<br>
                             最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>
-                            それが、技巧 -Giko- の流儀です。
+                            それが、技巧 -GIKO- の流儀です。
                         </p>
                         <a href="pages/concept.html"
                             class="inline-block border-b border-primary pb-1 text-sm tracking-widest hover:text-primary transition-colors">READ
@@ -305,57 +316,57 @@ try {
             <!-- カテゴリタイルメニュー (2行×3列) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto fade-in">
 
-                <!-- PARTIAL INTERIOR -->
+                <!-- 部分張替え -->
                 <a href="pages/works.php?category=partial" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_partial.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">PARTIAL INTERIOR</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">部分張替え</span>
                     </div>
                 </a>
 
-                <!-- FULL INTERIOR -->
+                <!-- 全内装張替え -->
                 <a href="pages/works.php?category=full" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_full.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">FULL INTERIOR</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">全内装張替え</span>
                     </div>
                 </a>
 
-                <!-- PACKAGE -->
+                <!-- 補修/リペア -->
                 <a href="pages/works.php?category=package" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_repair.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">PACKAGE</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">補修/リペア</span>
                     </div>
                 </a>
 
-                <!-- AMBIENT LIGHT -->
+                <!-- アンビエントライト -->
                 <a href="pages/works.php?category=ambient" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_ambient.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-lg md:text-xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">AMBIENT LIGHT</span>
+                        <span class="text-lg md:text-xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">アンビエントライト</span>
                     </div>
                 </a>
 
-                <!-- STARLIGHT -->
+                <!-- スターライト -->
                 <a href="pages/works.php?category=starlight" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_starlight.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">STARLIGHT</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">スターライト</span>
                     </div>
                 </a>
 
-                <!-- NEW BUSINESS -->
+                <!-- 新ブランド -->
                 <a href="pages/works.php?category=newbiz" class="works-tile group relative overflow-hidden aspect-[16/10] flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 hover:border-primary/50 transition-all duration-500">
-                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/hero.png');"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_newbiz.jpg');"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-xl md:text-2xl font-bold font-en tracking-wider group-hover:text-primary transition-colors duration-300">NEW BUSINESS</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">新ブランド</span>
                     </div>
                 </a>
 
@@ -440,7 +451,7 @@ try {
                 <div id="index-store-carousel" class="flex gap-3 overflow-x-auto scroll-smooth px-1 py-2 justify-center">
                     <!-- ALL タイル -->
                     <a href="store/index.php"
-                        class="group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border transition-all duration-500 cursor-pointer border-primary">
+                        class="group relative overflow-hidden flex-shrink-0 w-[200px] md:w-[260px] aspect-[4/3] flex items-center justify-center border transition-all duration-500 cursor-pointer border-primary">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30"></div>
                         <div class="active-overlay absolute inset-0 bg-primary/20 border-2 border-primary"></div>
                         <div class="relative z-10 text-center">
@@ -466,7 +477,7 @@ try {
                         }
                     ?>
                     <a href="store/index.php?tag=<?php echo htmlspecialchars($tag); ?>"
-                        class="group relative overflow-hidden flex-shrink-0 w-[140px] md:w-[180px] aspect-[16/10] flex items-center justify-center border border-white/10 hover:border-primary/50 transition-all duration-500 cursor-pointer">
+                        class="group relative overflow-hidden flex-shrink-0 w-[200px] md:w-[260px] aspect-[4/3] flex items-center justify-center border border-white/10 hover:border-primary/50 transition-all duration-500 cursor-pointer">
                         <!-- 背景画像 -->
                         <?php if ($tagImage): ?>
                         <div class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700" style="background-image: url('<?php echo htmlspecialchars($tagImage); ?>');"></div>
@@ -495,26 +506,6 @@ try {
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-black border-t border-white/10 py-12">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-8 md:mb-0">
-                    <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 md:h-10 opacity-80">
-                    <p class="text-gray-500 text-xs mt-4 tracking-widest">HANDMADE BY ARTISAN</p>
-                </div>
-                <div class="text-center md:text-right">
-                    <div class="flex justify-center md:justify-end space-x-6 mb-4">
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram text-xl"></i></a>
-                        <!-- <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter text-xl"></i></a> -->
-                        <!-- <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-youtube text-xl"></i></a> -->
-                    </div>
-                    <p class="text-gray-600 text-xs tracking-wider">&copy; <?php echo date('Y'); ?> <?php echo htmlspecialchars($company_name); ?>. All Rights Reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script>
@@ -555,24 +546,13 @@ try {
             document.head.appendChild(style);
         });
     </script>
-</body>
-</html>
-            
-            <div class="text-center fade-in">
-                <a href="store/index.php"
-                    class="inline-flex items-center gap-2 text-sm tracking-widest border border-white/20 px-10 py-4 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 font-en">
-                    VIEW ONLINE STORE <i class="fas fa-arrow-right text-xs"></i>
-                </a>
-            </div>
-        </div>
-    </section>
 
     <!-- Material -->
     <section id="material" class="py-32 bg-secondary relative overflow-hidden">
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col lg:flex-row gap-16 items-center">
                 <div class="lg:w-1/2 fade-in">
-                    <img src="./assets/images/material_led.jpg"
+                    <img src="./assets/images/material_leather.jpg"
                         class="w-full h-auto rounded-sm shadow-2xl">
                 </div>
                 <div class="lg:w-1/2 fade-in">
@@ -625,7 +605,7 @@ try {
                         <img src="./assets/images/flow_inquiry.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">INQUIRY</h3>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">お問い合わせ</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">お問い合わせフォームまたはお電話にて、ご希望の内容をお知らせください。車種・施工箇所・イメージなど、お決まりの範囲で構いません。
                     </p>
                 </div>
@@ -639,8 +619,7 @@ try {
                         <img src="./assets/images/flow_planning.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">CONSULTATION
-                    </h3>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">打ち合わせ</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。</p>
                 </div>
                 <!-- Step 3 -->
@@ -653,9 +632,8 @@ try {
                         <img src="./assets/images/flow_construction.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">PRODUCTION
-                    </h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により2週間〜2ヶ月程度です。</p>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">製作</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により1日〜2ヶ月程度です。</p>
                 </div>
                 <!-- Step 4 -->
                 <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
@@ -667,8 +645,7 @@ try {
                         <img src="./assets/images/flow_delivery.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold font-en tracking-widest mb-4">DELIVERY
-                    </h3>
+                    <h3 class="text-lg font-bold tracking-widest mb-4">納車</h3>
                     <p class="text-xs text-gray-400 leading-relaxed">仕上がりをご確認いただき、お引き渡し。アフターフォローもご説明いたします。
                     </p>
                 </div>
@@ -691,7 +668,7 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BRAND</div>
-                    <div class="md:w-2/3 py-2">技巧 -Giko- (Giko Artisan)</div>
+                    <div class="md:w-2/3 py-2">技巧　-GIKO-</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">ADDRESS</div>
@@ -699,15 +676,15 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BUSINESS</div>
-                    <div class="md:w-2/3 py-2">自動車内装のカスタム・リペア<br>レザーシート張り替え<br>インテリアパーツ販売</div>
+                    <div class="md:w-2/3 py-2">自動車内装のカスタム/補修リペア<br>シート/ステアリング/天井張替え<br>車種専用インテリアパーツ販売</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">TEL</div>
-                    <div class="md:w-2/3 py-2">080-8887-2116</div>
+                    <div class="md:w-2/3 py-2">会社TEL：0587-22-7344<br>FAX：0587-22-7158<br>代表TEL：080-8887-2116（直通）</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">OPEN</div>
-                    <div class="md:w-2/3 py-2">10:00 - 20:00<br><span class="text-red-400">定休日：木曜日</span></div>
+                    <div class="md:w-2/3 py-2">10:00 - 20:00<br><span class="text-red-400">定休日：不定休　※ご来店時は事前にご連絡願います</span></div>
                 </div>
             </div>
         </div>
@@ -715,53 +692,85 @@ try {
 
     <!-- Footer -->
     <footer id="contact" class="bg-secondary pt-24 pb-12 border-t border-white/5 text-white">
+        <!-- Google Maps -->
+        <div class="w-full mb-16 px-6 max-w-6xl mx-auto">
+            <h3 class="text-xs font-bold font-en tracking-widest mb-4 text-gray-400 border-b border-white/10 pb-3">
+                <i class="fas fa-map-marker-alt text-primary mr-2"></i>ACCESS
+            </h3>
+            <p class="text-xs text-gray-500 mb-4">〒483-8013 愛知県江南市般若町南山307</p>
+            <div class="overflow-hidden rounded-sm border border-white/10" style="height:280px;">
+                <iframe
+                    src="https://maps.google.com/maps?q=愛知県江南市般若町南山307&output=embed&hl=ja&z=15"
+                    width="100%" height="280" style="border:0; filter: grayscale(0.3) invert(0.05);"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                <!-- Col 1 -->
+                <!-- Col 1: Logo & SNS -->
                 <div>
                     <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
-                    <p class="text-xs text-gray-500 leading-loose mb-6">
-                        最高級の素材と技術で、<br>
-                        あなたのカーライフに彩りを。
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank"
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank"
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <div class="flex space-x-3">
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
                     </div>
                 </div>
-                <!-- Col 2, 3, 4 omitted for brevity, similar to header -->
+                <!-- Col 2: Menu -->
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        MENU</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="#concept" class="hover:text-white transition-colors">CONCEPT</a></li>
+                        <li><a href="pages/works.php" class="hover:text-white transition-colors">WORKS</a></li>
+                        <li><a href="store/index.php" class="hover:text-white transition-colors">STORE</a></li>
+                        <li><a href="pages/before_after.html" class="hover:text-white transition-colors">BEFORE & AFTER</a></li>
+                        <li><a href="#material" class="hover:text-white transition-colors">MATERIAL</a></li>
+                        <li><a href="#flow" class="hover:text-white transition-colors">FLOW</a></li>
+                        <li><a href="#company" class="hover:text-white transition-colors">COMPANY</a></li>
+                    </ul>
+                </div>
+                <!-- Col 3: Contact -->
                 <div>
                     <h3
                         class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
                         CONTACT</h3>
                     <ul class="space-y-4 text-xs tracking-wider text-gray-400">
                         <li class="flex items-start gap-4">
-                            <a href="contact/index.php" class="hover:text-white transition-colors"><i
-                                    class="fas fa-envelope mr-2 text-primary"></i> お問い合わせフォーム</a>
+                            <a href="contact/index.php" class="hover:text-white transition-colors">お問い合わせフォーム</a>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="fas fa-phone mt-1 text-primary"></i>
-                            <div>
-                                <div class="text-white font-bold text-lg font-en">
-                                    <?php echo htmlspecialchars($company_tel); ?>
-                                </div>
-                            </div>
-                        </li>
+                    </ul>
+                </div>
+                <!-- Col 4: Legal -->
+                <div>
+                    <h3
+                        class="text-sm font-bold font-en tracking-widest mb-6 border-b border-primary/30 inline-block pb-2">
+                        LEGAL</h3>
+                    <ul class="space-y-4 text-xs tracking-wider text-gray-400">
+                        <li><a href="legal/privacy.html" class="hover:text-white transition-colors">プライバシーポリシー</a></li>
+                        <li><a href="legal/tokusho.html" class="hover:text-white transition-colors">特定商取引法に基づく表記</a></li>
+                        <li><a href="legal/terms.html" class="hover:text-white transition-colors">利用規約</a></li>
                     </ul>
                 </div>
             </div>
             <div
-                class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
+                class="border-t border-white/5 pt-8 flex justify-between items-center text-[10px] text-gray-600 font-en tracking-widest">
                 <p>&copy; 2025 <?php echo htmlspecialchars($company_name); ?>. ALL RIGHTS RESERVED.</p>
+                <div>DESIGNED BY ATLASSHIFT</div>
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn"
+        class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 hover:bg-white hover:text-black">
+        <i class="fas fa-chevron-up"></i>
+    </button>
     <script src="assets/js/main.js"></script>
 </body>
 
