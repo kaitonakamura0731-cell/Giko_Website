@@ -1,12 +1,13 @@
 <?php
 // payment.php
-// PAY.JP Payment Processing Backend (v2 SDK Compatible)
+// PAY.JP Payment Processing Backend with 3D Secure Support
+
+session_start();
 
 // ---------------------------------------------------------
 // CONFIGURATION
 // ---------------------------------------------------------
 
-// Load API keys from config file (not tracked in git)
 require_once __DIR__ . '/../config/api_keys.php';
 $PAYJP_SECRET_KEY = PAYJP_SECRET_KEY;
 
@@ -21,7 +22,6 @@ function sendResponse($success, $data = [], $statusCode = 200) {
     exit;
 }
 
-// Fallback for getting headers (Nginx/FPM sometimes misses getallheaders)
 if (!function_exists('getallheaders')) {
     function getallheaders() {
         $headers = [];
@@ -55,12 +55,17 @@ try {
     // 3. Validation
     $token = $data['token'] ?? null;
     $amount = filter_var($data['amount'] ?? 0, FILTER_VALIDATE_INT);
-    
-    if (!$token || !$amount || $amount < 50) { // PAY.JP min amount is 50
+
+    if (!$token || !$amount || $amount < 50) {
         throw new Exception('Invalid parameters: Token or Amount (Min 50 JPY) is missing/invalid.', 400);
     }
 
-    // 4. Prepare Idempotency Key (Prevent double billing)
+    // 4. Store order data in session for 3DS callback
+    if (!empty($data['order_data'])) {
+        $_SESSION['pending_order'] = $data['order_data'];
+    }
+
+    // 5. Prepare Idempotency Key
     $idempotencyKey = null;
     $headers = getallheaders();
     foreach ($headers as $key => $value) {
@@ -70,27 +75,24 @@ try {
         }
     }
 
-    // 5. Make Request to PAY.JP API
-    // Since we use v2 JS SDK, the token is already 3DS verified if needed.
-    // We just need to capture the charge.
+    // 6. Create Charge with 3D Secure
     $url = 'https://api.pay.jp/v1/charges';
     $fields = [
         'amount' => $amount,
         'currency' => 'jpy',
         'card' => $token,
-        'capture' => 'true'
+        'capture' => 'true',
+        'three_d_secure' => 'true'
     ];
-    
+
     $ch = curl_init();
-    
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_USERPWD, $PAYJP_SECRET_KEY . ':'); // Basic Auth
+    curl_setopt($ch, CURLOPT_USERPWD, $PAYJP_SECRET_KEY . ':');
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30); // Timeout
-    
-    // Set Idempotency Key if valid
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
     if ($idempotencyKey) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Idempotency-Key: ' . $idempotencyKey
@@ -100,32 +102,52 @@ try {
     $response = curl_exec($ch);
     $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlError = curl_error($ch);
-    
     curl_close($ch);
 
-    // 6. Handle Error / Success
+    // 7. Handle Errors
     if ($curlError) {
         throw new Exception('Connection Error: ' . $curlError, 503);
     }
 
     $result = json_decode($response, true);
 
-    if ($httpStatus >= 200 && $httpStatus < 300) {
-        // Success
+    if ($httpStatus < 200 || $httpStatus >= 300) {
+        $msg = $result['error']['message'] ?? 'Unknown payment error';
+        throw new Exception($msg, 400);
+    }
+
+    // 8. Check 3D Secure Status
+    $tdsStatus = $result['three_d_secure_status'] ?? null;
+    $chargeId = $result['id'];
+    $paid = $result['paid'] ?? false;
+
+    if ($paid && ($tdsStatus === 'verified' || $tdsStatus === null)) {
+        // 3DS not required or already verified → Charge complete
         sendResponse(true, [
-            'id' => $result['id'],
+            'id' => $chargeId,
             'amount' => $result['amount'],
-            'status' => 'captured' // v2 immediate capture
+            'status' => 'captured',
+            'requires_3ds' => false
         ]);
     } else {
-        // API Returned Error
-        $msg = $result['error']['message'] ?? 'Unknown payment error';
-        $code = $result['error']['code'] ?? 'unknown_error';
-        
-        // Log error internally if needed
-        // error_log("PAY.JP Error: $msg ($code)");
-        
-        throw new Exception($msg, 400); // Return 400 for bad request logic
+        // 3DS authentication required → Need redirect
+        // Store charge ID in session
+        $_SESSION['pending_charge_id'] = $chargeId;
+
+        // Build 3DS redirect URL
+        $backUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
+                   . '://' . $_SERVER['HTTP_HOST']
+                   . dirname($_SERVER['REQUEST_URI']) . '/tds_callback.php';
+
+        $tdsUrl = 'https://api.pay.jp/v1/tds/' . $chargeId . '/start'
+                . '?publickey=' . urlencode(PAYJP_PUBLIC_KEY)
+                . '&back_url=' . urlencode($backUrl);
+
+        sendResponse(true, [
+            'id' => $chargeId,
+            'requires_3ds' => true,
+            'tds_url' => $tdsUrl
+        ]);
     }
 
 } catch (Exception $e) {
