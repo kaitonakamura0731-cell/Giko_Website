@@ -12,3 +12,4 @@ assets/images/40ヴェルファイア_ステアリング/40ヴェルファイア
 # Config files with secrets (Do not commit)
 src/config/api_keys.php
 src/db_config.php
+.claude/

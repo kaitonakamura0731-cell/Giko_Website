@@ -49,7 +49,7 @@ $default_swatch = '../assets/images/no_image.png';
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
     <script src="../assets/js/cart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 

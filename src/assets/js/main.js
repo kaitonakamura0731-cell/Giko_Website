@@ -25,19 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
             material_sub2_title: '多種多様なマテリアル',
             material_sub2_text:
                 'アルカンターラ、パンチングレザー、カーボンレザーなど、デザイン性と機能性を両立する多彩な素材をご用意。\nステッチの糸一本の色に至るまで、数千通りの組み合わせが可能です。',
-            flow_sub: 'ご納車までの流れ',
+            flow_sub: 'フルオーダーの流れ',
             flow_step1_title: 'お問い合わせ',
             flow_step1_text:
-                'まずはお電話かメールにてご連絡ください。車種やご希望のイメージをお伺いします。',
-            flow_step2_title: 'プランニング',
+                'お問い合わせフォームまたはお電話にて、ご希望の内容をお知らせください。車種・施工箇所・イメージなど、お決まりの範囲で構いません。',
+            flow_step2_title: '打ち合わせ',
             flow_step2_text:
-                'サンプルをご覧いただきながら、詳細なデザインや素材を決定します。',
-            flow_step3_title: '施工・製作',
+                '素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。',
+            flow_step3_title: '製作',
             flow_step3_text:
-                '熟練の職人が一針一針、丁寧に仕上げていきます。進捗のご報告も可能です。',
-            flow_step4_title: 'ご納車',
+                '熟練の職人が一つひとつ丁寧に製作。製作期間は内容により1日〜2ヶ月程度です。',
+            flow_step4_title: '納車',
             flow_step4_text:
-                '仕上がりをご確認いただき、納車となります。アフターフォローもお任せください。',
+                '仕上がりをご確認いただき、お引き渡し。アフターフォローもご説明いたします。',
+            // Company
+            company_sub: '会社概要',
+            company_address: '〒483-8013 愛知県江南市般若町南山307',
+            company_business: '自動車内装のカスタム/補修リペア<br>シート/ステアリング/天井張替え<br>車種専用インテリアパーツ販売',
+            company_open: '10:00 - 20:00<br><span class="text-red-400">定休日：不定休　※ご来店時は事前にご連絡願います</span>',
             contact_intro:
                 'お見積もりのご依頼、施工に関するご相談など、お気軽にお問い合わせください。<br>内容を確認次第、担当者よりご連絡させていただきます。',
 
@@ -112,19 +117,24 @@ document.addEventListener('DOMContentLoaded', () => {
             material_sub2_title: 'Diverse Materials',
             material_sub2_text:
                 'We offer a variety of materials that balance design and functionality, such as Alcantara, punched leather, and carbon leather.\nThousands of combinations are possible, down to the color of a single stitch thread.',
-            flow_sub: 'Flow to Delivery',
+            flow_sub: 'Full Order Process',
             flow_step1_title: 'Inquiry',
             flow_step1_text:
-                'Please contact us by phone or email first. We will ask about your car model and desired image.',
-            flow_step2_title: 'Planning',
+                'Contact us via our inquiry form or by phone. Please share your vehicle model, desired area, and any images or ideas you have in mind.',
+            flow_step2_title: 'Consultation',
             flow_step2_text:
-                'We will decide on detailed designs and materials while viewing samples.',
-            flow_step3_title: 'Construction',
+                'We will review material samples together, finalize the design, specifications, and stitch colors, and provide you with a detailed estimate.',
+            flow_step3_title: 'Production',
             flow_step3_text:
-                'Skilled craftsmen finish it carefully, stitch by stitch. Progress reports are also possible.',
+                'Our skilled craftsmen carefully handcraft each piece. Production takes approximately 1 day to 2 months depending on the scope.',
             flow_step4_title: 'Delivery',
             flow_step4_text:
-                'Check the finish and we will deliver it. Leave the after-sales follow-up to us.',
+                'After confirming the finished work, we hand over your vehicle. We will also explain our aftercare support.',
+            // Company
+            company_sub: 'Company Overview',
+            company_address: '307 Minamiyama, Hannya-cho, Konan City, Aichi 483-8013, Japan',
+            company_business: 'Automotive Interior Custom / Repair<br>Seat / Steering / Headliner Reupholstery<br>Vehicle-Specific Interior Parts Sales',
+            company_open: '10:00 - 20:00<br><span class="text-red-400">Irregular holidays. Please contact us before visiting.</span>',
             contact_intro:
                 'Please feel free to contact us for quote requests or consultation regarding construction.<br>Our representative will contact you as soon as we check the content.',
 

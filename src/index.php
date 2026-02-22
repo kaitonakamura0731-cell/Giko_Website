@@ -67,7 +67,7 @@ try {
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script>document.documentElement.classList.add('js-loading');</script>
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -591,7 +591,7 @@ try {
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">FLOW</h2>
-                <p class="text-xs text-textLight tracking-wider">フルオーダーの流れ</p>
+                <p class="text-xs text-textLight tracking-wider" data-i18n="flow_sub">フルオーダーの流れ</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -605,8 +605,8 @@ try {
                         <img src="./assets/images/flow_inquiry.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold tracking-widest mb-4">お問い合わせ</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">お問い合わせフォームまたはお電話にて、ご希望の内容をお知らせください。車種・施工箇所・イメージなど、お決まりの範囲で構いません。
+                    <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step1_title">お問い合わせ</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step1_text">お問い合わせフォームまたはお電話にて、ご希望の内容をお知らせください。車種・施工箇所・イメージなど、お決まりの範囲で構いません。
                     </p>
                 </div>
                 <!-- Step 2 -->
@@ -619,8 +619,8 @@ try {
                         <img src="./assets/images/flow_planning.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold tracking-widest mb-4">打ち合わせ</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。</p>
+                    <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step2_title">打ち合わせ</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step2_text">素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。</p>
                 </div>
                 <!-- Step 3 -->
                 <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
@@ -632,8 +632,8 @@ try {
                         <img src="./assets/images/flow_construction.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold tracking-widest mb-4">製作</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により1日〜2ヶ月程度です。</p>
+                    <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step3_title">製作</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step3_text">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により1日〜2ヶ月程度です。</p>
                 </div>
                 <!-- Step 4 -->
                 <div class="bg-secondary p-8 border border-white/5 hover:border-primary/50 transition-colors duration-300 group fade-in"
@@ -645,8 +645,8 @@ try {
                         <img src="./assets/images/flow_delivery.png"
                             class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
-                    <h3 class="text-lg font-bold tracking-widest mb-4">納車</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed">仕上がりをご確認いただき、お引き渡し。アフターフォローもご説明いたします。
+                    <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step4_title">納車</h3>
+                    <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step4_text">仕上がりをご確認いただき、お引き渡し。アフターフォローもご説明いたします。
                     </p>
                 </div>
             </div>
@@ -659,7 +659,7 @@ try {
         <div class="container mx-auto px-6 max-w-4xl">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-3xl md:text-5xl font-bold font-en tracking-widest mb-4">COMPANY</h2>
-                <p class="text-xs text-textLight tracking-wider">会社概要</p>
+                <p class="text-xs text-textLight tracking-wider" data-i18n="company_sub">会社概要</p>
             </div>
             <div class="border-t border-white/10 fade-in">
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
@@ -672,11 +672,11 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">ADDRESS</div>
-                    <div class="md:w-2/3 py-2">〒483-8013 愛知県江南市般若町南山307</div>
+                    <div class="md:w-2/3 py-2" data-i18n="company_address">〒483-8013 愛知県江南市般若町南山307</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BUSINESS</div>
-                    <div class="md:w-2/3 py-2">自動車内装のカスタム/補修リペア<br>シート/ステアリング/天井張替え<br>車種専用インテリアパーツ販売</div>
+                    <div class="md:w-2/3 py-2" data-i18n="company_business">自動車内装のカスタム/補修リペア<br>シート/ステアリング/天井張替え<br>車種専用インテリアパーツ販売</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">TEL</div>
@@ -684,7 +684,7 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">OPEN</div>
-                    <div class="md:w-2/3 py-2">10:00 - 20:00<br><span class="text-red-400">定休日：不定休　※ご来店時は事前にご連絡願います</span></div>
+                    <div class="md:w-2/3 py-2" data-i18n="company_open">10:00 - 20:00<br><span class="text-red-400">定休日：不定休　※ご来店時は事前にご連絡願います</span></div>
                 </div>
             </div>
         </div>
