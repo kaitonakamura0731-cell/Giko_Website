@@ -18,8 +18,11 @@ $company_name = get_setting('company_name', 'GIKO307合同会社');
 $company_address = get_setting('company_address', '〒483-8013 愛知県江南市般若町南山307');
 $company_tel = get_setting('company_tel', '080-8887-2116');
 $company_email = get_setting('company_email', 'info@giko-official.com');
-$instagram_url = get_setting('instagram_url', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
-$twitter_url = get_setting('twitter_url', '#');
+$instagram_url = get_setting('social_instagram', 'https://www.instagram.com/giko_artisan?igsh=MWRuenVqMzBkNzA3bw==');
+$twitter_url = get_setting('social_twitter', 'https://x.com/giko_0203?s=21&t=wv4xW-XScSAbmdHqDnc6jA');
+$youtube_url = get_setting('social_youtube', 'https://www.youtube.com/@GIKO-307');
+$tiktok_url = get_setting('social_tiktok', 'https://www.tiktok.com/@giko_artisan?_r=1&_t=ZS-946uu1grw5U');
+$line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
 ?>
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
@@ -280,10 +283,12 @@ $twitter_url = get_setting('twitter_url', '#');
                 <div>
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
-                    <div class="flex space-x-4">
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank"
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"><i
-                                class="fab fa-instagram"></i></a>
+                    <div class="flex space-x-3">
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-sm"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-sm"><i class="fab fa-line"></i></a>
                     </div>
                 </div>
                 <div>
