@@ -28,10 +28,6 @@ foreach ($products as $p) {
         }
     }
 }
-// アルファードタグを強制追加（ユーザー要望）
-if (!in_array('Alphard', $allTags)) {
-    array_unshift($allTags, 'Alphard');
-}
 sort($allTags);
 
 function getFirstImage($json)
@@ -209,21 +205,14 @@ function getFirstImage($json)
                             <div class="text-[8px] md:text-[9px] font-en tracking-widest text-gray-400 mt-1">ALL PRODUCTS</div>
                         </div>
                     </button>
-                    <?php foreach ($allTags as $tag): 
+                    <?php foreach ($allTags as $tag):
                         // このタグに対応する最初の商品画像を取得
                         $tagImage = '';
-                        
-                        // アルファードの場合は固定画像を使用（商品がなくても表示するため）
-                        if (strtolower($tag) === 'alphard' || $tag === 'アルファード') {
-                            $tagImage = '../assets/images/alphard.jpg';
-                        } else {
-                            // その他のタグは商品画像から取得
-                            foreach ($products as $p) {
-                                $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
-                                if (in_array($tag, $pTags)) {
-                                    $tagImage = getFirstImage($p['images']);
-                                    break;
-                                }
+                        foreach ($products as $p) {
+                            $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
+                            if (in_array($tag, $pTags)) {
+                                $tagImage = getFirstImage($p['images']);
+                                break;
                             }
                         }
                     ?>
