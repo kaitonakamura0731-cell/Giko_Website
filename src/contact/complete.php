@@ -6,6 +6,7 @@ session_start();
 // ---------------------------------------------------------
 // Set your admin email address here
 $ADMIN_EMAIL = 'kaitonakamura0731@gmail.com';
+$ADMIN_CC = 'info@giko-official.com';
 
 // ---------------------------------------------------------
 // SECURITY CHECKS
@@ -99,6 +100,7 @@ EOT;
 // Safer: From: noreply@server, Reply-To: user@email
 $admin_headers = "From: {$noreply_email}\r\n";
 $admin_headers .= "Reply-To: {$email_safe}\r\n";
+$admin_headers .= "Cc: {$ADMIN_CC}\r\n";
 $admin_headers .= "X-Mailer: PHP/" . phpversion();
 
 // Try sending

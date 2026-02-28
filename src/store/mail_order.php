@@ -3,7 +3,8 @@
 // Handles Order Confirmation Emails (Admin + User)
 
 // Configuration
-$ADMIN_EMAIL = 'kaitonakamura0731@gmail.com'; 
+$ADMIN_EMAIL = 'kaitonakamura0731@gmail.com';
+$ADMIN_CC = 'info@giko-official.com';
 $SERVER_DOMAIN = 'giko-official.com'; 
 $NOREPLY_EMAIL = "noreply@{$SERVER_DOMAIN}";
 
@@ -124,6 +125,7 @@ $user_subject_encoded = '=?UTF-8?B?' . base64_encode($user_subject) . '?=';
 // Update headers with proper encoding
 $admin_headers = "From: {$NOREPLY_EMAIL}\r\n";
 $admin_headers .= "Reply-To: {$email}\r\n";
+$admin_headers .= "Cc: {$ADMIN_CC}\r\n";
 $admin_headers .= "MIME-Version: 1.0\r\n";
 $admin_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $admin_headers .= "Content-Transfer-Encoding: base64\r\n";
