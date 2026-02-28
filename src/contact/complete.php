@@ -75,6 +75,10 @@ if (!filter_var($email_safe, FILTER_VALIDATE_EMAIL)) {
 $server_domain = 'giko-official.com'; // Explicitly set user's domain
 $noreply_email = "noreply@{$server_domain}";
 
+// mbstring設定（メール送信のエンコーディング用）
+mb_language('Japanese');
+mb_internal_encoding('UTF-8');
+
 // A. Notification to Admin
 $admin_subject = "【技巧 -Giko-】お問い合わせ: " . mb_substr($subject_txt, 0, 20);
 $admin_body = <<<EOT
@@ -95,7 +99,6 @@ EOT;
 // Safer: From: noreply@server, Reply-To: user@email
 $admin_headers = "From: {$noreply_email}\r\n";
 $admin_headers .= "Reply-To: {$email_safe}\r\n";
-$admin_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $admin_headers .= "X-Mailer: PHP/" . phpversion();
 
 // Try sending
@@ -137,7 +140,6 @@ EOT;
 
     $user_headers = "From: {$noreply_email}\r\n";
     $user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
-    $user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $user_headers .= "X-Mailer: PHP/" . phpversion();
 
     @mb_send_mail($email_safe, $user_subject, $user_body, $user_headers, "-f{$noreply_email}");
