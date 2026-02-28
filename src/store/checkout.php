@@ -178,16 +178,16 @@ $csrf_token = $_SESSION['csrf_token'];
                                         <div class="bg-black/40 border border-primary/30 p-4 rounded-sm">
                                             <div class="flex items-center gap-2 mb-1">
                                                 <i class="fas fa-exchange-alt text-primary text-sm"></i>
-                                                <span class="font-bold text-sm text-primary">技巧に買取を依頼する場合（割引あり）</span>
+                                                <span class="font-bold text-sm text-primary">技巧に買取を依頼する場合（追加費用なし）</span>
                                             </div>
-                                            <p class="text-xs text-gray-400 ml-6">取り外した旧パーツを技巧へご返送いただくと、買取割引が適用されます。</p>
+                                            <p class="text-xs text-gray-400 ml-6">取り外した旧パーツを技巧へご返送いただければ、追加費用はかかりません。</p>
                                         </div>
                                         <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
                                             <div class="flex items-center gap-2 mb-1">
                                                 <i class="fas fa-box text-gray-400 text-sm"></i>
                                                 <span class="font-bold text-sm text-white">買取依頼しない場合（手元に保管）</span>
                                             </div>
-                                            <p class="text-xs text-gray-400 ml-6">旧パーツをお手元に残される場合は、買取割引は適用されません。</p>
+                                            <p class="text-xs text-gray-400 ml-6">旧パーツをお手元に残される場合は、追加費用がかかります。</p>
                                         </div>
                                     </div>
                                 </div>
@@ -294,12 +294,12 @@ $csrf_token = $_SESSION['csrf_token'];
 
                         <div class="border-t border-white/10 pt-6 space-y-3">
                             <div class="flex justify-between items-center text-sm">
-                                <span class="text-gray-400 tracking-wider">小計（割引前）</span>
+                                <span class="text-gray-400 tracking-wider">商品小計</span>
                                 <span id="display-subtotal-before" class="font-en font-bold">¥0</span>
                             </div>
                             <div id="discount-row" class="flex justify-between items-center text-sm hidden">
-                                <span class="text-green-400 tracking-wider"><i class="fas fa-tag mr-2"></i>買取依頼割引</span>
-                                <span id="display-discount" class="font-en font-bold text-green-400">-¥0</span>
+                                <span class="text-yellow-400 tracking-wider"><i class="fas fa-plus-circle mr-2"></i>元パーツ未買取追加費用</span>
+                                <span id="display-discount" class="font-en font-bold text-yellow-400">+¥0</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
                                 <span class="text-gray-400 tracking-wider">小計</span>
@@ -539,7 +539,7 @@ $csrf_token = $_SESSION['csrf_token'];
             // Display discount if applicable
             if (totalDiscount > 0) {
                 document.getElementById('discount-row').classList.remove('hidden');
-                document.getElementById('display-discount').innerText = '-¥' + totalDiscount.toLocaleString();
+                document.getElementById('display-discount').innerText = '+¥' + totalDiscount.toLocaleString();
             }
 
             // Display subtotal after discount
@@ -580,12 +580,12 @@ $csrf_token = $_SESSION['csrf_token'];
                          <div class="flex-1 min-w-0">
                              <h4 class="font-bold text-sm truncate pr-4">${item.name}</h4>
                              <p class="text-xs text-gray-400 mt-1 font-en">${Object.values(item.options || {}).join(' / ')}</p>
-                             ${hasDiscount ? `<p class="text-xs text-green-400 mt-1"><i class="fas fa-tag mr-1"></i>下取り割引：-¥${discount.toLocaleString()}</p>` : ''}
+                             ${hasDiscount ? `<p class="text-xs text-yellow-400 mt-1"><i class="fas fa-plus-circle mr-1"></i>元パーツ未買取追加費用：+¥${discount.toLocaleString()}</p>` : ''}
                          </div>
                          <div class="text-right">
                              ${hasDiscount ? `
-                                 <div class="text-xs text-gray-500 line-through font-en">¥${originalPrice.toLocaleString()}</div>
-                                 <div class="font-en font-bold text-sm text-primary">¥${finalPrice.toLocaleString()}</div>
+                                 <div class="text-xs text-gray-500 font-en">¥${originalPrice.toLocaleString()}</div>
+                                 <div class="font-en font-bold text-sm text-yellow-400">¥${finalPrice.toLocaleString()}</div>
                              ` : `
                                  <div class="font-en font-bold text-sm">¥${finalPrice.toLocaleString()}</div>
                              `}
@@ -735,8 +735,8 @@ $csrf_token = $_SESSION['csrf_token'];
                         </div>
                         ${hasDiscount ? `
                             <div class="flex justify-between text-xs mt-1">
-                                <span class="text-green-400"><i class="fas fa-tag mr-1"></i>下取り割引</span>
-                                <span class="text-green-400 font-en">-¥${discount.toLocaleString()}</span>
+                                <span class="text-yellow-400"><i class="fas fa-plus-circle mr-1"></i>元パーツ未買取追加費用</span>
+                                <span class="text-yellow-400 font-en">+¥${discount.toLocaleString()}</span>
                             </div>
                         ` : ''}
                     </div>

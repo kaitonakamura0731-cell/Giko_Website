@@ -43,7 +43,7 @@ const Cart = {
         this.updateBadge();
     },
 
-    // Get total price (with trade-in discount)
+    // Get total price (with additional cost for no-buyback)
     getTotal: function () {
         const items = this.getItems();
         return items.reduce((total, item) => {
@@ -53,17 +53,34 @@ const Cart = {
                     ? parseInt(item.price.replace(/,/g, ''))
                     : item.price;
 
-            // Apply discount if trade-in option is selected
-            if (this.hasTradeIn(item)) {
-                const discount = this.getTradeInAmount(item);
-                price = Math.max(0, price - discount);
+            // Add additional cost if trade-in option exists but buyback is NOT selected
+            if (this.hasTradeInOption(item) && !this.hasTradeIn(item)) {
+                const additionalCost = this.getTradeInAmount(item);
+                price = price + additionalCost;
             }
 
             return total + price;
         }, 0);
     },
 
-    // Check if item has trade-in option selected
+    // Check if item has a trade-in option key at all (regardless of value)
+    hasTradeInOption: function (item) {
+        if (!item.options) return false;
+        const tradeInKeys = [
+            '下取り交換',
+            '下取り',
+            'トレードイン',
+            '下取交換'
+        ];
+        for (const key of tradeInKeys) {
+            if (item.options[key] !== undefined) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    // Check if item has trade-in buyback selected (あり)
     hasTradeIn: function (item) {
         if (!item.options) return false;
         // Check for various possible key names and values
@@ -88,32 +105,40 @@ const Cart = {
         return false;
     },
 
-    // Get the trade-in discount amount for an item
+    // Get the additional cost amount for an item (when buyback not selected)
     getTradeInAmount: function (item) {
-        // Use per-product discount amount, fallback to 10000
+        // Use per-product amount, fallback to 10000
         if (item.tradeInDiscount !== undefined && item.tradeInDiscount !== null) {
             return parseInt(item.tradeInDiscount) || 0;
         }
         return 10000; // Legacy fallback
     },
 
-    // Get item price with discount applied
+    // Get item price (with additional cost applied if no buyback)
     getItemPrice: function (item) {
         let price =
             typeof item.price === 'string'
                 ? parseInt(item.price.replace(/,/g, ''))
                 : item.price;
 
-        if (this.hasTradeIn(item)) {
-            const discount = this.getTradeInAmount(item);
-            return Math.max(0, price - discount);
+        if (this.hasTradeInOption(item) && !this.hasTradeIn(item)) {
+            const additionalCost = this.getTradeInAmount(item);
+            return price + additionalCost;
         }
         return price;
     },
 
-    // Get discount amount for item
+    // Get additional cost amount for item (0 if buyback selected or no option)
+    getItemAdditionalCost: function (item) {
+        if (this.hasTradeInOption(item) && !this.hasTradeIn(item)) {
+            return this.getTradeInAmount(item);
+        }
+        return 0;
+    },
+
+    // Legacy alias for backward compatibility
     getItemDiscount: function (item) {
-        return this.hasTradeIn(item) ? this.getTradeInAmount(item) : 0;
+        return this.getItemAdditionalCost(item);
     },
 
     // Update cart count badge in header (if exists)

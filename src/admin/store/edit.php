@@ -40,6 +40,7 @@ $copy_from = $_GET['copy_from'] ?? null;
 $product = null;
 $error = '';
 $success = '';
+$info = '';
 
 // Default data
 $default_product = [
@@ -86,7 +87,7 @@ if ($id) {
             $product['name'] = $source_product['name'] . ' (コピー)';
             // Clear images to avoid duplication (user can re-upload if needed)
             // Or keep them if you want to copy images too
-            $success = "商品データをコピーしました。必要に応じて編集してください。";
+            $info = "商品データをコピーしました。内容を確認し「SAVE PRODUCT」ボタンで保存してください。";
         } else {
             $product = $default_product;
             $error = "コピー元の商品が見つかりませんでした。";
@@ -352,7 +353,7 @@ require_once '../includes/header.php';
 <div class="max-w-4xl mx-auto">
     <div class="mb-6 flex justify-between items-center">
         <h1 class="text-2xl font-bold font-en tracking-widest text-white">
-            <?php echo $id ? 'EDIT PRODUCT' : 'NEW PRODUCT'; ?>
+            <?php echo $id ? 'EDIT PRODUCT' : ($copy_from ? 'COPY PRODUCT' : 'NEW PRODUCT'); ?>
         </h1>
         <div class="flex gap-3">
             <?php if ($id): ?>
@@ -367,9 +368,14 @@ require_once '../includes/header.php';
         </div>
     </div>
 
+    <?php if ($info): ?>
+        <div class="bg-blue-900 border border-blue-700 text-blue-300 px-4 py-3 rounded mb-6">
+            <?php echo htmlspecialchars($info); ?>
+        </div>
+    <?php endif; ?>
     <?php if ($success || isset($_GET['created'])): ?>
         <div class="bg-green-900 border border-green-700 text-green-300 px-4 py-3 rounded mb-6">
-            保存しました。
+            <?php echo htmlspecialchars($success ?: '保存しました。'); ?>
         </div>
     <?php endif; ?>
 
@@ -404,9 +410,10 @@ require_once '../includes/header.php';
                             value="<?php echo htmlspecialchars($product['shipping_fee']); ?>" required min="0">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">下取り割引金額 (Trade-in Discount)</label>
+                        <label class="form-label">元パーツ未買取時の追加費用</label>
                         <input type="number" name="trade_in_discount" class="form-input"
                             value="<?php echo htmlspecialchars($product['trade_in_discount'] ?? 10000); ?>" min="0">
+                        <p class="text-xs text-gray-500 mt-1">買取依頼しない場合に商品価格に加算される金額</p>
                         <p class="text-xs text-gray-500 mt-1">※買取依頼（下取り）時に適用される割引金額（円）。0で下取りオプション非表示。</p>
                     </div>
                     <div class="form-group">

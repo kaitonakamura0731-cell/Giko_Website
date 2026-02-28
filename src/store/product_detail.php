@@ -322,31 +322,31 @@ $default_swatch = '../assets/images/no_image.png';
                                 <?php endforeach; ?>
                             <?php endif; ?>
 
-                            <!-- 下取り（買取）オプション -->
+                            <!-- 元パーツ買取オプション -->
                             <?php
-                            $trade_in_discount = (int)($product['trade_in_discount'] ?? 10000);
-                            if ($trade_in_discount > 0):
+                            $trade_in_cost = (int)($product['trade_in_discount'] ?? 10000);
+                            if ($trade_in_cost > 0):
                             ?>
                             <div class="bg-white/5 border border-white/10 rounded-sm p-4">
                                 <label class="block text-sm font-bold tracking-widest text-gray-300 mb-1">お車から外した元パーツについて</label>
-                                <p class="text-xs text-primary font-bold mb-3">割引金額：¥<?php echo number_format($trade_in_discount); ?></p>
+                                <p class="text-xs text-yellow-400 font-bold mb-3">買取依頼しない場合の追加費用：+¥<?php echo number_format($trade_in_cost); ?></p>
                                 <div class="space-y-2">
                                     <label class="flex items-center gap-3 cursor-pointer p-3 rounded-sm border border-primary/50 bg-primary/10 hover:bg-primary/20 transition-colors">
                                         <input type="radio" name="option_trade_in" data-label="下取り交換" value="あり" class="accent-primary w-4 h-4" checked>
-                                        <span class="text-sm text-primary font-bold">技巧に買取を依頼（割引あり）</span>
+                                        <span class="text-sm text-primary font-bold">技巧に買取を依頼（追加費用なし）</span>
                                     </label>
                                     <label class="flex items-center gap-3 cursor-pointer p-3 rounded-sm border border-white/10 hover:border-white/30 transition-colors">
                                         <input type="radio" name="option_trade_in" data-label="下取り交換" value="なし" class="accent-primary w-4 h-4">
-                                        <span class="text-sm text-gray-400">買取依頼しない（割引なし／手元に保管）</span>
+                                        <span class="text-sm text-yellow-400">買取依頼しない（+¥<?php echo number_format($trade_in_cost); ?>／手元に保管）</span>
                                     </label>
                                 </div>
                                 <p class="text-[11px] text-gray-500 mt-3 leading-relaxed">
                                     <i class="fas fa-info-circle text-primary mr-1"></i>
-                                    張り替え済みパーツをお届け後、取り外した旧パーツをご返送いただくと割引になります。旧パーツを手元に残したい場合は"買取依頼しない"を選択してください。
+                                    張り替え済みパーツをお届け後、取り外した旧パーツをご返送いただければ追加費用はかかりません。旧パーツを手元に残したい場合は追加費用が発生します。
                                 </p>
                             </div>
                             <?php else: ?>
-                            <input type="hidden" name="option_trade_in" data-label="下取り交換" value="なし">
+                            <input type="hidden" name="option_trade_in" data-label="下取り交換" value="あり">
                             <?php endif; ?>
 
                             <!-- 送料案内 -->
