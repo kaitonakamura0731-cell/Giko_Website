@@ -413,8 +413,7 @@ require_once '../includes/header.php';
                         <label class="form-label">元パーツ未買取時の追加費用</label>
                         <input type="number" name="trade_in_discount" class="form-input"
                             value="<?php echo htmlspecialchars($product['trade_in_discount'] ?? 10000); ?>" min="0">
-                        <p class="text-xs text-gray-500 mt-1">買取依頼しない場合に商品価格に加算される金額</p>
-                        <p class="text-xs text-gray-500 mt-1">※買取依頼（下取り）時に適用される割引金額（円）。0で下取りオプション非表示。</p>
+                        <p class="text-xs text-gray-500 mt-1">買取依頼しない場合に商品価格に加算される金額（円）。0で買取オプション非表示。</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">在庫状況 (Stock Status)</label>
