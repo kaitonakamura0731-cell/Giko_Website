@@ -4,14 +4,16 @@ require_once '../includes/db.php';
 checkAuth();
 
 // ===== 自動マイグレーション: 不足カラムを自動追加 =====
+// ※ AFTER句を使わず安全に追加（参照先カラム不在でも失敗しない）
 $auto_migrate_columns = [
-    'lead_text'            => "ALTER TABLE products ADD COLUMN lead_text TEXT AFTER short_description",
-    'product_summary_json' => "ALTER TABLE products ADD COLUMN product_summary_json JSON AFTER lead_text",
-    'vehicle_type'         => "ALTER TABLE products ADD COLUMN vehicle_type VARCHAR(255) AFTER model_code",
-    'detail_image_path'    => "ALTER TABLE products ADD COLUMN detail_image_path VARCHAR(255) AFTER vehicle_type",
-    'option_detail_image'  => "ALTER TABLE products ADD COLUMN option_detail_image VARCHAR(255) AFTER detail_image_path",
-    'vehicle_tags'         => "ALTER TABLE products ADD COLUMN vehicle_tags VARCHAR(500) AFTER option_detail_image",
-    'trade_in_discount'    => "ALTER TABLE products ADD COLUMN trade_in_discount INT DEFAULT 10000 AFTER vehicle_tags",
+    'short_description'    => "ALTER TABLE products ADD COLUMN short_description TEXT",
+    'lead_text'            => "ALTER TABLE products ADD COLUMN lead_text TEXT",
+    'product_summary_json' => "ALTER TABLE products ADD COLUMN product_summary_json JSON",
+    'vehicle_type'         => "ALTER TABLE products ADD COLUMN vehicle_type VARCHAR(255)",
+    'detail_image_path'    => "ALTER TABLE products ADD COLUMN detail_image_path VARCHAR(255)",
+    'option_detail_image'  => "ALTER TABLE products ADD COLUMN option_detail_image VARCHAR(255)",
+    'vehicle_tags'         => "ALTER TABLE products ADD COLUMN vehicle_tags VARCHAR(500)",
+    'trade_in_discount'    => "ALTER TABLE products ADD COLUMN trade_in_discount INT DEFAULT 10000",
 ];
 try {
     $existing_cols = [];
@@ -21,7 +23,11 @@ try {
     }
     foreach ($auto_migrate_columns as $col_name => $alter_sql) {
         if (!in_array($col_name, $existing_cols)) {
-            $pdo->exec($alter_sql);
+            try {
+                $pdo->exec($alter_sql);
+            } catch (PDOException $e) {
+                // 個別カラム追加失敗は無視して次へ
+            }
         }
     }
 } catch (PDOException $e) {
@@ -97,6 +103,47 @@ if ($id) {
 require_once '../includes/upload_helper.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // ===== POST データ検証: サイズ超過・空データ保護 =====
+    // PHP の post_max_size を超えると $_POST と $_FILES が空になる
+    $content_length = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
+    $post_max_size = ini_get('post_max_size');
+    $post_max_bytes = 0;
+    if ($post_max_size) {
+        $unit = strtoupper(substr($post_max_size, -1));
+        $val = (int) $post_max_size;
+        switch ($unit) {
+            case 'G': $post_max_bytes = $val * 1024 * 1024 * 1024; break;
+            case 'M': $post_max_bytes = $val * 1024 * 1024; break;
+            case 'K': $post_max_bytes = $val * 1024; break;
+            default: $post_max_bytes = $val; break;
+        }
+    }
+
+    // POSTデータが空（サイズ超過で消失した可能性）
+    if (empty($_POST) || ($post_max_bytes > 0 && $content_length > $post_max_bytes)) {
+        $error = "エラー: 送信データが大きすぎます（上限: {$post_max_size}）。画像ファイルのサイズを小さくしてから再度お試しください。";
+        // 編集中の商品データを保持（DBから再読み込み）
+        if ($id) {
+            $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+            $stmt->execute([$id]);
+            $product = $stmt->fetch();
+        }
+        // INSERT/UPDATE を実行せずフォーム再表示へ
+        goto render_form;
+    }
+
+    // 商品名が空の場合はデータ消失の可能性が高い（保護）
+    if (empty(trim($_POST['name'] ?? ''))) {
+        $error = "エラー: 商品名が空です。データが正しく送信されていない可能性があります。ページを再読み込みして再度お試しください。";
+        if ($id) {
+            $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+            $stmt->execute([$id]);
+            $product = $stmt->fetch();
+        }
+        goto render_form;
+    }
+    // ===== END POST データ検証 =====
+
     // Basic Sanitation
     $name = trim($_POST['name'] ?? '');
     $price = (int) ($_POST['price'] ?? 0);
@@ -298,6 +345,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+render_form:
 require_once '../includes/header.php';
 ?>
 
@@ -332,6 +380,8 @@ require_once '../includes/header.php';
     <?php endif; ?>
 
     <form method="POST" class="admin-card" enctype="multipart/form-data">
+        <!-- detail_image_path を保持（フォームに専用UIがないため hidden で保存） -->
+        <input type="hidden" name="detail_image_current" value="<?php echo htmlspecialchars($product['detail_image_path'] ?? ''); ?>">
         <div class="admin-card-body space-y-8">
 
             <!-- General Info -->
