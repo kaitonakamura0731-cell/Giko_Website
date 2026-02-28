@@ -251,12 +251,22 @@ function getFirstImage($json)
                             <!-- 商品画像 -->
                             <div class="aspect-square w-full overflow-hidden bg-gray-900 border border-white/10 relative mb-4">
                                 <?php if ($img): ?>
-                                <img src="<?php echo htmlspecialchars($img); ?>" 
-                                     alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                                <img src="<?php echo htmlspecialchars($img); ?>"
+                                     alt="<?php echo htmlspecialchars($product['name']); ?>"
                                      class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
                                 <?php else: ?>
                                 <div class="w-full h-full flex items-center justify-center text-gray-600 font-en text-xs tracking-widest">
                                     NO IMAGE
+                                </div>
+                                <?php endif; ?>
+                                <?php
+                                $tagList = array_filter(array_map('trim', explode(',', $productTags)));
+                                if (!empty($tagList)):
+                                ?>
+                                <div class="absolute top-2 left-2 flex flex-col gap-1 z-10">
+                                    <?php foreach ($tagList as $t): ?>
+                                    <span class="bg-black/70 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 border border-white/20 tracking-wide"><?php echo htmlspecialchars($t); ?></span>
+                                    <?php endforeach; ?>
                                 </div>
                                 <?php endif; ?>
                             </div>
