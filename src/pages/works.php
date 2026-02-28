@@ -11,12 +11,12 @@ $line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
 // カテゴリ定義（ラベル、英語名、背景画像）
 $categories = [
     'all'       => ['label' => 'ALL',              'en' => 'ALL WORKS',        'image' => '../assets/images/hero.png'],
-    'partial'   => ['label' => 'Partial Interior',  'en' => 'PARTIAL INTERIOR', 'image' => '../assets/images/tile_partial.jpg'],
-    'full'      => ['label' => 'Full Interior',     'en' => 'FULL INTERIOR',    'image' => '../assets/images/tile_full.jpg'],
-    'package'   => ['label' => 'Package',           'en' => 'PACKAGE',          'image' => '../assets/images/tile_repair.jpg'],
-    'ambient'   => ['label' => 'Ambient Light',     'en' => 'AMBIENT LIGHT',    'image' => '../assets/images/tile_ambient.jpg'],
-    'starlight' => ['label' => 'Starlight',         'en' => 'STARLIGHT',        'image' => '../assets/images/tile_starlight.jpg'],
-    'newbiz'    => ['label' => 'New Business',      'en' => 'NEW BUSINESS',     'image' => '../assets/images/tile_newbiz.jpg'],
+    'partial'   => ['label' => '部分張替え',         'en' => 'PARTIAL INTERIOR', 'image' => '../assets/images/tile_partial.jpg'],
+    'full'      => ['label' => '全内装張替え',       'en' => 'FULL INTERIOR',    'image' => '../assets/images/tile_full.jpg'],
+    'package'   => ['label' => '補修/リペア',        'en' => 'PACKAGE',          'image' => '../assets/images/tile_repair.jpg'],
+    'ambient'   => ['label' => 'アンビエントライト',  'en' => 'AMBIENT LIGHT',    'image' => '../assets/images/tile_ambient.jpg'],
+    'starlight' => ['label' => 'スターライト',       'en' => 'STARLIGHT',        'image' => '../assets/images/tile_starlight.jpg'],
+    'newbiz'    => ['label' => '新ブランド',         'en' => 'NEW BUSINESS',     'image' => '../assets/images/tile_newbiz.jpg'],
 ];
 
 // URLパラメータからカテゴリを取得
