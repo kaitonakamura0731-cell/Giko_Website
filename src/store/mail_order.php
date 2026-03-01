@@ -19,11 +19,11 @@ $NOREPLY_EMAIL = "noreply@{$SERVER_DOMAIN}";
 
 // 銀行振込先情報（order_complete.html と合わせて更新してください）
 $BANK_INFO = [
-    'bank_name'    => 'テスト銀行',
-    'branch_name'  => 'サンプル支店（999）',
+    'bank_name'    => '住信SBIネット銀行',
+    'branch_name'  => '法人第一支店',
     'account_type' => '普通',
-    'account_no'   => '1234567',
-    'account_holder' => 'カ）テストカイシャ',
+    'account_no'   => '2802643',
+    'account_holder' => 'ギコウサンゼロナナ（ド',
 ];
 
 // Headers helpers
