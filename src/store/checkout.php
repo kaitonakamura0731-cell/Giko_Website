@@ -1,4 +1,8 @@
 <?php
+// セッションセキュリティ設定
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1);
+ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require_once __DIR__ . '/../config/api_keys.php';
 
@@ -825,7 +829,7 @@ $csrf_token = $_SESSION['csrf_token'];
                     body: JSON.stringify(orderData)
                 });
             } catch (e) {
-                console.error("Email sending warning:", e);
+                // メール送信エラーは注文完了をブロックしない
             }
 
             Cart.clear();

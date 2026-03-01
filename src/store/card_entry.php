@@ -8,7 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// 2. Validate essential data
+// 2. CSRF Token Validation
+$postedToken = $_POST['csrf_token'] ?? '';
+if (empty($postedToken) || !hash_equals($_SESSION['csrf_token'] ?? '', $postedToken)) {
+    header('Location: checkout.php?error=' . urlencode('不正なリクエストです。ページを再読み込みしてお試しください。'));
+    exit;
+}
+
+// 3. Validate essential data
 $required_fields = ['name', 'email', 'phone', 'amount', 'cart_items'];
 foreach ($required_fields as $field) {
     if (empty($_POST[$field])) {
@@ -17,11 +24,12 @@ foreach ($required_fields as $field) {
     }
 }
 
-$name = htmlspecialchars($_POST['name']);
-$email = htmlspecialchars($_POST['email']);
-$phone = htmlspecialchars($_POST['phone']);
-$zip = htmlspecialchars($_POST['zip'] ?? '');
-$address = htmlspecialchars($_POST['address'] ?? '');
+// セッションにはrawデータを保存（メール等で使うため）
+$name = $_POST['name'];
+$email = $_POST['email'];
+$phone = $_POST['phone'];
+$zip = $_POST['zip'] ?? '';
+$address = $_POST['address'] ?? '';
 $amount = (int)$_POST['amount'];
 $cart_items = $_POST['cart_items'];
 
@@ -35,6 +43,11 @@ $_SESSION['pending_order'] = [
     'amount' => $amount,
     'cart_items' => $cart_items
 ];
+
+// HTML出力用にエスケープ
+function esc($str) {
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -65,7 +78,7 @@ if (empty($_SESSION['csrf_token'])) {
         
         <div class="mb-10 text-center">
              <h1 class="text-2xl font-bold font-en tracking-widest mb-2">PAYMENT AMOUNT</h1>
-             <div class="text-4xl font-bold text-primary font-en">¥<?php echo number_format($amount); ?></div>
+             <div class="text-4xl font-bold text-primary font-en">¥<?php echo esc(number_format($amount)); ?></div>
              <p class="text-xs text-gray-400 mt-2 font-en">TOTAL (TAX INCLUDED)</p>
         </div>
 
@@ -124,13 +137,13 @@ if (empty($_SESSION['csrf_token'])) {
         </div>
     </div>
 
-    <input type="hidden" id="data-name" value="<?php echo $name; ?>">
-    <input type="hidden" id="data-email" value="<?php echo $email; ?>">
-    <input type="hidden" id="data-phone" value="<?php echo $phone; ?>">
-    <input type="hidden" id="data-zip" value="<?php echo $zip; ?>">
-    <input type="hidden" id="data-address" value="<?php echo $address; ?>">
-    <input type="hidden" id="data-amount" value="<?php echo $amount; ?>">
-    <input type="hidden" id="data-items" value="<?php echo htmlspecialchars($cart_items, ENT_QUOTES, 'UTF-8'); ?>">
+    <input type="hidden" id="data-name" value="<?php echo esc($name); ?>">
+    <input type="hidden" id="data-email" value="<?php echo esc($email); ?>">
+    <input type="hidden" id="data-phone" value="<?php echo esc($phone); ?>">
+    <input type="hidden" id="data-zip" value="<?php echo esc($zip); ?>">
+    <input type="hidden" id="data-address" value="<?php echo esc($address); ?>">
+    <input type="hidden" id="data-amount" value="<?php echo esc((string)$amount); ?>">
+    <input type="hidden" id="data-items" value="<?php echo esc($cart_items); ?>">
 
     <script src="https://js.pay.jp/v2/pay.js"></script>
     <script>
@@ -255,7 +268,7 @@ if (empty($_SESSION['csrf_token'])) {
                         items: JSON.parse(document.getElementById('data-items').value)
                     })
                 });
-            } catch (e) { console.warn(e); }
+            } catch (e) { /* メール送信エラーは注文完了をブロックしない */ }
             localStorage.removeItem('giko_cart');
             window.location.href = `order_complete.html?order_id=${orderId}&payment_method=card`;
         }

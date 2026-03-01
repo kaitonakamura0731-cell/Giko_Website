@@ -2,6 +2,15 @@
 // store/mail_order.php
 // Handles Order Confirmation Emails (Admin + User)
 
+session_start();
+
+// セッションに保留中の注文がない場合は不正リクエストとして拒否
+if (empty($_SESSION['pending_order'])) {
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+    exit;
+}
+
 // Configuration
 $ADMIN_EMAIL = 'kaitonakamura0731@gmail.com';
 $ADMIN_CC = 'info@giko-official.com';
@@ -139,13 +148,12 @@ $mail_admin = mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_hea
 // Send to User
 $mail_user = mb_send_mail($email, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
 
+// メール送信後にセッションの注文データをクリア（再利用防止）
+unset($_SESSION['pending_order']);
+
 if ($mail_admin && $mail_user) {
     sendJson(true, 'Mail Sent');
 } else {
-    // Even if one fails, we often return true to front-end to not block UX, 
-    // but here let's be strict for debugging.
-    // However, on some dev environments mail fails. 
-    // We will return success but log error internally if we could.
     sendJson(true, 'Processed (Mail status uncertain)');
 }
 ?>
