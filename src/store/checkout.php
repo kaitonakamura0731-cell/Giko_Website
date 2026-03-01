@@ -798,43 +798,11 @@ $csrf_token = $_SESSION['csrf_token'];
         }
 
         async function processBankTransfer() {
-            await new Promise(r => setTimeout(r, 1000));
-            await finalizeOrder('BANK TRANSFER');
-        }
-
-        async function finalizeOrder(paymentMethod, extraData = {}) {
+            // 銀行振込もサーバーサイドで価格検証を行う（process_transfer.php）
             const form = document.getElementById('checkout-form');
-            const data = new FormData(form);
-            const items = Cart.getItems();
-
-            const orderId = extraData.orderId || 'ORD-' + Date.now();
-            const orderAmount = '¥' + parseInt(data.get('amount')).toLocaleString();
-
-            const orderData = {
-                name: data.get('name'),
-                email: data.get('email'),
-                phone: data.get('phone'),
-                zip: data.get('zip'),
-                address: data.get('address'),
-                orderId: orderId,
-                amount: orderAmount,
-                paymentMethod: paymentMethod,
-                items: items
-            };
-
-            try {
-                await fetch('./mail_order.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderData)
-                });
-            } catch (e) {
-                // メール送信エラーは注文完了をブロックしない
-            }
-
-            Cart.clear();
-            const pmParam = paymentMethod === 'CREDIT CARD' ? 'card' : 'transfer';
-            window.location.href = `order_complete.html?order_id=${orderId}&payment_method=${pmParam}`;
+            form.action = "process_transfer.php";
+            form.method = "POST";
+            form.submit();
         }
 
         function formatPhoneNumberToE164(phone) {

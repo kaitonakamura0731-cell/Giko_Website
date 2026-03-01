@@ -54,22 +54,26 @@ try {
 
     // 3. Validation
     $token = $data['token'] ?? null;
-    $amount = filter_var($data['amount'] ?? 0, FILTER_VALIDATE_INT);
+    $clientAmount = filter_var($data['amount'] ?? 0, FILTER_VALIDATE_INT);
 
-    if (!$token || !$amount || $amount < 50) {
+    if (!$token || !$clientAmount || $clientAmount < 50) {
         throw new Exception('Invalid parameters: Token or Amount (Min 50 JPY) is missing/invalid.', 400);
     }
 
-    // 3b. Validate amount against session (prevent client-side tampering)
-    $sessionAmount = $_SESSION['pending_order']['amount'] ?? null;
-    if ($sessionAmount !== null && (int)$sessionAmount !== $amount) {
+    // 3b. セッションの検証済み金額（card_entry.php でDB照合済み）を使用
+    //     クライアント側の金額改ざんを完全に防止
+    if (empty($_SESSION['pending_order']['amount'])) {
+        throw new Exception('不正なリクエストです。もう一度お試しください。', 403);
+    }
+    $sessionAmount = (int)$_SESSION['pending_order']['amount'];
+    if ($sessionAmount !== $clientAmount) {
         throw new Exception('金額が一致しません。もう一度お試しください。', 400);
     }
+    // DB検証済みのセッション金額を決済に使用（クライアント金額は信用しない）
+    $amount = $sessionAmount;
 
-    // 4. Store order data in session for 3DS callback
-    if (!empty($data['order_data'])) {
-        $_SESSION['pending_order'] = $data['order_data'];
-    }
+    // 4. セッションの order_data はクライアントからの上書きを許可しない
+    //    card_entry.php で検証・設定済みのデータのみ使用する
 
     // 5. Prepare Idempotency Key (generate server-side if not provided)
     $idempotencyKey = null;
@@ -84,9 +88,9 @@ try {
         $idempotencyKey = 'srv_' . bin2hex(random_bytes(16));
     }
 
-    // 6. Create Customer in PAY.JP
-    $customerEmail = $data['order_data']['email'] ?? null;
-    $customerName = $data['order_data']['name'] ?? null;
+    // 6. Create Customer in PAY.JP（セッションの検証済みデータを使用）
+    $customerEmail = $_SESSION['pending_order']['email'] ?? null;
+    $customerName = $_SESSION['pending_order']['name'] ?? null;
 
     $customerId = null;
     if ($customerEmail) {

@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/api_keys.php';
+require_once __DIR__ . '/../admin/includes/db.php';
+require_once __DIR__ . '/validate_cart.php';
 
 // 1. Receive POST data from checkout.php
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -30,10 +32,32 @@ $email = $_POST['email'];
 $phone = $_POST['phone'];
 $zip = $_POST['zip'] ?? '';
 $address = $_POST['address'] ?? '';
-$amount = (int)$_POST['amount'];
+$clientAmount = (int)$_POST['amount'];
 $cart_items = $_POST['cart_items'];
 
-// Store order data in session for 3DS callback
+// 4. サーバーサイドで商品価格をDB照合（クライアント側の改ざん防止）
+try {
+    $cartItemsArray = json_decode($cart_items, true);
+    if (!is_array($cartItemsArray) || empty($cartItemsArray)) {
+        throw new Exception('カート情報が無効です。');
+    }
+    $validated = validateCartPrices($pdo, $cartItemsArray);
+    // カード決済 = 送料 ¥1,000
+    $shipping = 1000;
+    $serverAmount = $validated['subtotal'] + $shipping;
+
+    // クライアントから送信された金額とサーバー計算金額を照合
+    if ($serverAmount !== $clientAmount) {
+        header('Location: checkout.php?error=' . urlencode('金額に不整合があります。カートを確認のうえ再度お試しください。'));
+        exit;
+    }
+    $amount = $serverAmount;
+} catch (Exception $e) {
+    header('Location: checkout.php?error=' . urlencode($e->getMessage()));
+    exit;
+}
+
+// Store order data in session for 3DS callback（検証済みの金額を使用）
 $_SESSION['pending_order'] = [
     'name' => $name,
     'email' => $email,
