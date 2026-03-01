@@ -75,10 +75,6 @@ Email: {$email}
 PAY.JP等の管理画面で決済状況を確認してください。
 EOT;
 
-$admin_headers = "From: {$NOREPLY_EMAIL}\r\n";
-$admin_headers .= "Reply-To: {$email}\r\n";
-$admin_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
 // 6. User Email Content
 $user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
 $user_body = <<<EOT
@@ -109,41 +105,24 @@ https://giko-official.com
 --------------------------------------------------
 EOT;
 
-$user_headers = "From: {$NOREPLY_EMAIL}\r\n";
-$user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
-$user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
 // 7. Send Emails
-// Send to Admin
 mb_language("Japanese");
 mb_internal_encoding("UTF-8");
 
-// Encode subjects for proper Japanese display
-$admin_subject_encoded = '=?UTF-8?B?' . base64_encode($admin_subject) . '?=';
-$user_subject_encoded = '=?UTF-8?B?' . base64_encode($user_subject) . '?=';
-
-// Update headers with proper encoding
+// Admin headers (mb_send_mailがContent-Typeを自動設定)
 $admin_headers = "From: {$NOREPLY_EMAIL}\r\n";
 $admin_headers .= "Reply-To: {$email}\r\n";
 $admin_headers .= "Cc: {$ADMIN_CC}\r\n";
-$admin_headers .= "MIME-Version: 1.0\r\n";
-$admin_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$admin_headers .= "Content-Transfer-Encoding: base64\r\n";
 
+// User headers
 $user_headers = "From: {$NOREPLY_EMAIL}\r\n";
 $user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
-$user_headers .= "MIME-Version: 1.0\r\n";
-$user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$user_headers .= "Content-Transfer-Encoding: base64\r\n";
 
-// Encode body as base64
-$admin_body_encoded = base64_encode($admin_body);
-$user_body_encoded = base64_encode($user_body);
-
-$mail_admin = mail($ADMIN_EMAIL, $admin_subject_encoded, $admin_body_encoded, $admin_headers, "-f{$NOREPLY_EMAIL}");
+// Send to Admin
+$mail_admin = mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
 
 // Send to User
-$mail_user = mail($email, $user_subject_encoded, $user_body_encoded, $user_headers, "-f{$NOREPLY_EMAIL}");
+$mail_user = mb_send_mail($email, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
 
 if ($mail_admin && $mail_user) {
     sendJson(true, 'Mail Sent');

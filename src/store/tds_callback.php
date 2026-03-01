@@ -77,30 +77,42 @@ $orderData = $_SESSION['pending_order'] ?? null;
 $orderId = $chargeId;
 
 if ($orderData) {
-    // Send order confirmation email
-    $emailPayload = [
-        'name' => $orderData['name'] ?? '',
-        'email' => $orderData['email'] ?? '',
-        'orderId' => $orderId,
-        'amount' => '¥' . number_format($charge['amount']),
-        'paymentMethod' => 'CREDIT CARD (3D Secure)',
-        'items' => json_decode($orderData['cart_items'] ?? '[]', true) ?: []
-    ];
+    $ADMIN_EMAIL = 'kaitonakamura0731@gmail.com';
+    $ADMIN_CC = 'info@giko-official.com';
+    $SERVER_DOMAIN = 'giko-official.com';
+    $NOREPLY_EMAIL = "noreply@{$SERVER_DOMAIN}";
 
-    // Internal request to mail_order.php
-    $mailCh = curl_init();
-    $mailUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
-               . '://' . $_SERVER['HTTP_HOST']
-               . dirname($_SERVER['REQUEST_URI']) . '/mail_order.php';
+    $custName = $orderData['name'] ?? '';
+    $custEmail = $orderData['email'] ?? '';
+    $orderAmount = '¥' . number_format($charge['amount']);
+    $payMethod = 'CREDIT CARD (3D Secure)';
+    $items = json_decode($orderData['cart_items'] ?? '[]', true) ?: [];
 
-    curl_setopt($mailCh, CURLOPT_URL, $mailUrl);
-    curl_setopt($mailCh, CURLOPT_POST, true);
-    curl_setopt($mailCh, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($mailCh, CURLOPT_POSTFIELDS, json_encode($emailPayload));
-    curl_setopt($mailCh, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($mailCh, CURLOPT_TIMEOUT, 10);
-    curl_exec($mailCh);
-    curl_close($mailCh);
+    // Build item list
+    $itemsText = "";
+    foreach ($items as $item) {
+        $opt = isset($item['options']) ? " (" . implode('/', $item['options']) . ")" : "";
+        $price = number_format($item['price'] ?? 0);
+        $qty = $item['quantity'] ?? 1;
+        $itemsText .= "- {$item['name']}{$opt} x {$qty} : ¥{$price}\n";
+    }
+
+    mb_language("Japanese");
+    mb_internal_encoding("UTF-8");
+
+    // Admin email
+    $admin_subject = "【技巧 -Giko-】新規注文受信 ({$orderId})";
+    $admin_body = "新規の注文が入りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n名前: {$custName}\nEmail: {$custEmail}\n\n【注文商品】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\nPAY.JP管理画面で決済状況を確認してください。";
+    $admin_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$custEmail}\r\nCc: {$ADMIN_CC}\r\n";
+    mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
+
+    // User email
+    if ($custEmail && filter_var($custEmail, FILTER_VALIDATE_EMAIL)) {
+        $user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
+        $user_body = "{$custName} 様\n\nこの度は「技巧 -Giko-」にてご注文いただき、誠にありがとうございます。\n以下の内容で承りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【ご注文内容】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\n商品の発送準備が整い次第、改めてご連絡させていただきます。\n万が一、ご注文内容に誤りがある場合は、本メールへ返信にてお知らせください。\n\n--------------------------------------------------\n技巧 -Giko-\nhttps://giko-official.com\n--------------------------------------------------";
+        $user_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$ADMIN_EMAIL}\r\n";
+        mb_send_mail($custEmail, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
+    }
 }
 
 // ---------------------------------------------------------
