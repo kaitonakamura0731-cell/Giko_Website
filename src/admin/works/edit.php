@@ -17,7 +17,7 @@ $default_work = [
     'description' => '',
     'concept_text' => '',
     'specs' => json_encode(['seat' => '', 'material' => '', 'color' => '', 'period' => ''], JSON_UNESCAPED_UNICODE),
-    'data_info' => json_encode(['model' => '', 'menu' => '', 'material' => '', 'content' => '', 'price' => ''], JSON_UNESCAPED_UNICODE)
+    'data_info' => json_encode(['model' => '', 'model_code' => '', 'material' => '', 'content' => '', 'price' => ''], JSON_UNESCAPED_UNICODE)
 ];
 
 if ($id) {
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data_info = json_encode([
         'model' => $_POST['data_model'] ?? '',
-        'menu' => $_POST['data_menu'] ?? '',
+        'model_code' => $_POST['data_model_code'] ?? '',
         'material' => $_POST['data_material'] ?? '',
         'content' => $_POST['data_content'] ?? '',
         'price' => $_POST['data_price'] ?? ''
@@ -241,36 +241,133 @@ require_once '../includes/header.php';
                     <!-- Gallery Images -->
                     <div class="form-group">
                         <label class="form-label">ギャラリー画像 (Gallery Images)</label>
-                        <p class="text-xs text-gray-500 mb-2">※1行に1つの画像パスを入力（assets/...）</p>
+
                         <?php
-                        $gallery_lines = '';
                         $gallery_json = $work['gallery_images'] ?? '[]';
                         $gallery_arr = json_decode($gallery_json, true);
-                        if (is_array($gallery_arr)) {
-                            $gallery_lines = implode("\n", $gallery_arr);
-                        }
+                        if (!is_array($gallery_arr)) $gallery_arr = [];
+                        $gallery_lines = implode("\n", $gallery_arr);
                         ?>
-                        <textarea name="gallery_images" class="form-input h-32 mb-2"
-                            placeholder="assets/images/example1.jpg&#10;assets/images/example2.jpg"><?php echo htmlspecialchars($gallery_lines); ?></textarea>
 
-                        <div class="mt-4 p-4 bg-gray-800 rounded border border-gray-700">
-                            <label class="text-sm font-bold text-gray-300 mb-2 block">画像追加アップロード (複数可)</label>
-                            <input type="file" name="gallery_files[]" multiple class="text-gray-300 text-sm w-full">
-                        </div>
+                        <!-- Hidden textarea (keeps form submission working) -->
+                        <textarea name="gallery_images" id="gallery-paths" class="hidden"><?php echo htmlspecialchars($gallery_lines); ?></textarea>
 
-                        <!-- Gallery Preview -->
-                        <?php if (is_array($gallery_arr) && count($gallery_arr) > 0): ?>
-                            <div class="mt-4 grid grid-cols-4 gap-2">
-                                <?php foreach ($gallery_arr as $img): ?>
-                                    <a href="<?php echo '../../' . htmlspecialchars($img); ?>" target="_blank"
-                                        class="block border border-gray-600 rounded overflow-hidden hover:opacity-75 transition-opacity">
-                                        <img src="<?php echo '../../' . htmlspecialchars($img); ?>"
-                                            class="w-full h-20 object-cover">
-                                    </a>
-                                <?php endforeach; ?>
+                        <!-- Current Images Preview -->
+                        <?php if (count($gallery_arr) > 0): ?>
+                            <div class="mb-4">
+                                <p class="text-xs text-gray-400 mb-2"><i class="fas fa-images mr-1"></i>登録済み画像 (<?php echo count($gallery_arr); ?>枚)</p>
+                                <div id="gallery-preview" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                    <?php foreach ($gallery_arr as $idx => $img):
+                                        $imgPath = htmlspecialchars($img);
+                                        // Handle both "assets/..." and "../assets/..." patterns
+                                        $displayPath = (strpos($img, '../') === 0) ? '../../' . substr($img, 3) : '../../' . $img;
+                                    ?>
+                                        <div class="gallery-item group relative" data-path="<?php echo $imgPath; ?>">
+                                            <a href="<?php echo $displayPath; ?>" target="_blank" class="block">
+                                                <div class="aspect-[4/3] bg-gray-800 rounded-lg border border-gray-700 overflow-hidden group-hover:border-primary/50 transition-colors">
+                                                    <img src="<?php echo $displayPath; ?>"
+                                                        class="w-full h-full object-cover"
+                                                        onerror="this.parentElement.innerHTML='<div class=\'flex items-center justify-center h-full text-gray-600\'><i class=\'fas fa-image text-2xl\'></i></div>'">
+                                                </div>
+                                            </a>
+                                            <button type="button" onclick="removeGalleryImage(this)"
+                                                class="absolute -top-2 -right-2 w-6 h-6 bg-red-600 hover:bg-red-500 text-white rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                                                title="削除">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                            <p class="text-[10px] text-gray-500 mt-1 truncate"><?php echo basename($img); ?></p>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div id="gallery-preview" class="mb-4">
+                                <p class="text-xs text-gray-500 py-4 text-center"><i class="fas fa-image mr-1"></i>ギャラリー画像はまだ登録されていません</p>
                             </div>
                         <?php endif; ?>
+
+                        <!-- Upload Area -->
+                        <div class="border-2 border-dashed border-gray-700 hover:border-primary/50 rounded-lg p-6 text-center transition-colors cursor-pointer"
+                            onclick="document.getElementById('gallery-upload').click()">
+                            <i class="fas fa-cloud-upload-alt text-2xl text-gray-500 mb-2"></i>
+                            <p class="text-sm text-gray-400">クリックして画像を追加</p>
+                            <p class="text-[10px] text-gray-600 mt-1">JPG, PNG, WebP（複数選択可）</p>
+                            <input type="file" id="gallery-upload" name="gallery_files[]" multiple accept="image/*"
+                                class="hidden" onchange="previewNewFiles(this)">
+                        </div>
+
+                        <!-- New uploads preview -->
+                        <div id="new-uploads-preview" class="hidden mt-3">
+                            <p class="text-xs text-green-400 mb-2"><i class="fas fa-plus-circle mr-1"></i>追加予定</p>
+                            <div id="new-uploads-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
+                        </div>
+
+                        <!-- Manual Path Input (collapsible) -->
+                        <details class="mt-3">
+                            <summary class="text-xs text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                                <i class="fas fa-code mr-1"></i>パスを直接入力する（上級者向け）
+                            </summary>
+                            <textarea id="gallery-paths-manual" class="form-input h-24 mt-2 text-xs font-mono"
+                                placeholder="assets/images/example1.jpg&#10;assets/images/example2.jpg"
+                                onchange="syncGalleryPaths()"><?php echo htmlspecialchars($gallery_lines); ?></textarea>
+                        </details>
                     </div>
+
+                    <script>
+                    function removeGalleryImage(btn) {
+                        const item = btn.closest('.gallery-item');
+                        const path = item.dataset.path;
+                        item.remove();
+                        updateGalleryHiddenField();
+                        // Update count text
+                        const remaining = document.querySelectorAll('.gallery-item').length;
+                        const countEl = document.querySelector('#gallery-preview')?.previousElementSibling;
+                        if (countEl && countEl.querySelector('p')) {
+                            if (remaining > 0) {
+                                countEl.querySelector('p').innerHTML = '<i class="fas fa-images mr-1"></i>登録済み画像 (' + remaining + '枚)';
+                            } else {
+                                countEl.querySelector('p').innerHTML = '<i class="fas fa-image mr-1"></i>ギャラリー画像はまだ登録されていません';
+                            }
+                        }
+                    }
+
+                    function updateGalleryHiddenField() {
+                        const items = document.querySelectorAll('.gallery-item');
+                        const paths = Array.from(items).map(el => el.dataset.path);
+                        document.getElementById('gallery-paths').value = paths.join('\n');
+                        document.getElementById('gallery-paths-manual').value = paths.join('\n');
+                    }
+
+                    function syncGalleryPaths() {
+                        document.getElementById('gallery-paths').value = document.getElementById('gallery-paths-manual').value;
+                    }
+
+                    function previewNewFiles(input) {
+                        const container = document.getElementById('new-uploads-preview');
+                        const grid = document.getElementById('new-uploads-grid');
+                        if (input.files.length === 0) {
+                            container.classList.add('hidden');
+                            return;
+                        }
+                        container.classList.remove('hidden');
+                        grid.innerHTML = '';
+                        Array.from(input.files).forEach(file => {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                const div = document.createElement('div');
+                                div.className = 'relative';
+                                div.innerHTML = `
+                                    <div class="aspect-[4/3] bg-gray-800 rounded-lg border border-green-700/50 overflow-hidden">
+                                        <img src="${e.target.result}" class="w-full h-full object-cover">
+                                    </div>
+                                    <p class="text-[10px] text-gray-500 mt-1 truncate">${file.name}</p>
+                                `;
+                                grid.appendChild(div);
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    }
+                    </script>
                 </div>
 
                 <!-- Specs -->
@@ -278,7 +375,7 @@ require_once '../includes/header.php';
                     <h3 class="text-lg font-bold text-primary mb-4 border-b border-gray-700 pb-2">スペック (Specs)</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="form-group">
-                            <label class="form-label text-xs">SEAT</label>
+                            <label class="form-label text-xs">PRICE</label>
                             <input type="text" name="spec_seat" class="form-input"
                                 value="<?php echo htmlspecialchars(getJsonVal($work['specs'], 'seat')); ?>">
                         </div>
@@ -307,27 +404,32 @@ require_once '../includes/header.php';
                         <div class="form-group">
                             <label class="form-label">CAR MODEL</label>
                             <input type="text" name="data_model" class="form-input"
-                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'model')); ?>">
+                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'model')); ?>"
+                                placeholder="例: NISSAN GT-R (BNR32)">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">MENU</label>
-                            <input type="text" name="data_menu" class="form-input"
-                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'menu')); ?>">
+                            <label class="form-label">型式 (Model Code)</label>
+                            <input type="text" name="data_model_code" class="form-input"
+                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'model_code')); ?>"
+                                placeholder="例: BNR32">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">MATERIAL Details</label>
+                            <label class="form-label">MATERIAL</label>
                             <input type="text" name="data_material" class="form-input"
-                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'material')); ?>">
+                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'material')); ?>"
+                                placeholder="例: Genuine Leather / Fabric">
                         </div>
                         <div class="form-group">
                             <label class="form-label">PRICE</label>
                             <input type="text" name="data_price" class="form-input"
-                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'price')); ?>">
+                                value="<?php echo htmlspecialchars(getJsonVal($work['data_info'], 'price')); ?>"
+                                placeholder="例: ¥1,500,000 ~">
                         </div>
                         <div class="form-group md:col-span-2">
                             <label class="form-label">CONTENT (施工内容)</label>
                             <textarea name="data_content"
-                                class="form-input h-24"><?php echo htmlspecialchars(getJsonVal($work['data_info'], 'content')); ?></textarea>
+                                class="form-input h-24"
+                                placeholder="例:&#10;全席シート張り替え&#10;ダッシュボード補修"><?php echo htmlspecialchars(getJsonVal($work['data_info'], 'content')); ?></textarea>
                         </div>
                     </div>
                 </div>
