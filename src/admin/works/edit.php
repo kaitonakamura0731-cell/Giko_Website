@@ -206,24 +206,51 @@ require_once '../includes/header.php';
                 <h3 class="text-lg font-bold text-primary mb-4 border-b border-gray-700 pb-2">画像・説明</h3>
                 <div class="form-group mb-4">
                     <label class="form-label">メイン画像 (Main Image)</label>
-                    <div class="flex flex-col gap-2">
-                        <!-- Preview -->
-                        <?php if ($work['main_image']): ?>
-                            <div class="mb-2">
-                                <img src="<?php echo '../../' . htmlspecialchars($work['main_image']); ?>"
-                                    class="h-32 object-cover border border-gray-600 rounded">
+                    <!-- Hidden field to keep current path -->
+                    <input type="hidden" name="main_image" value="<?php echo htmlspecialchars($work['main_image']); ?>">
+
+                    <?php if ($work['main_image']): ?>
+                        <!-- Current Image Preview -->
+                        <div class="mb-3 relative inline-block group">
+                            <img src="<?php echo '../../' . htmlspecialchars($work['main_image']); ?>"
+                                class="h-40 object-cover rounded-lg border border-gray-700"
+                                onerror="this.parentElement.innerHTML='<div class=\'h-40 w-60 bg-gray-800 rounded-lg border border-gray-700 flex items-center justify-center text-gray-600\'><i class=\'fas fa-image text-3xl\'></i></div>'">
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                                <span class="text-xs text-white font-en">CURRENT IMAGE</span>
                             </div>
-                        <?php endif; ?>
-
-                        <input type="text" name="main_image" class="form-input text-xs text-gray-500"
-                            value="<?php echo htmlspecialchars($work['main_image']); ?>"
-                            placeholder="assets/images/...">
-
-                        <div class="mt-2">
-                            <label class="text-xs text-gray-400 mb-1 block">新規アップロード:</label>
-                            <input type="file" name="main_image_file" class="text-gray-300 text-sm">
                         </div>
+                    <?php endif; ?>
+
+                    <!-- Upload Area -->
+                    <div class="border-2 border-dashed border-gray-700 hover:border-primary/50 rounded-lg p-6 text-center transition-colors cursor-pointer"
+                        onclick="document.getElementById('main-image-upload').click()">
+                        <i class="fas fa-cloud-upload-alt text-2xl text-gray-500 mb-2"></i>
+                        <p class="text-sm text-gray-400"><?php echo $work['main_image'] ? '新しい画像に差し替える' : 'クリックして画像をアップロード'; ?></p>
+                        <p class="text-[10px] text-gray-600 mt-1">JPG, PNG, WebP</p>
+                        <input type="file" id="main-image-upload" name="main_image_file" accept="image/*"
+                            class="hidden" onchange="previewMainImage(this)">
                     </div>
+
+                    <!-- New image preview -->
+                    <div id="main-image-new-preview" class="hidden mt-3">
+                        <p class="text-xs text-green-400 mb-1"><i class="fas fa-check-circle mr-1"></i>新しい画像が選択されました</p>
+                        <img id="main-image-new-img" class="h-40 object-cover rounded-lg border border-green-700/50">
+                    </div>
+
+                    <script>
+                    function previewMainImage(input) {
+                        const preview = document.getElementById('main-image-new-preview');
+                        const img = document.getElementById('main-image-new-img');
+                        if (input.files && input.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                img.src = e.target.result;
+                                preview.classList.remove('hidden');
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                    </script>
                 </div>
                 <!-- Description -->
                 <div class="form-group">
