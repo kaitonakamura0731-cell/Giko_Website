@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/../config/api_keys.php';
 
 // Generate CSRF Token for future use or validation
 if (empty($_SESSION['csrf_token'])) {
@@ -499,7 +500,7 @@ $csrf_token = $_SESSION['csrf_token'];
     <script>
         // Init total amount
         let payjp, elements, cardElement;
-        const PUBLIC_KEY = 'pk_test_9deadd0cb5a5d94b4cd785dc';
+        const PUBLIC_KEY = '<?php echo PAYJP_PUBLIC_KEY; ?>';
         let currentPaymentMethod = 'card';
 
         document.addEventListener('DOMContentLoaded', () => {
