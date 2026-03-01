@@ -809,6 +809,9 @@ $csrf_token = $_SESSION['csrf_token'];
             const orderData = {
                 name: data.get('name'),
                 email: data.get('email'),
+                phone: data.get('phone'),
+                zip: data.get('zip'),
+                address: data.get('address'),
                 orderId: orderId,
                 amount: orderAmount,
                 paymentMethod: paymentMethod,

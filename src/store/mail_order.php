@@ -36,6 +36,9 @@ if (!$data) {
 // 3. Extract & Sanitize
 $name = isset($data['name']) ? $data['name'] : '';
 $email = isset($data['email']) ? clean_header($data['email']) : '';
+$phone = isset($data['phone']) ? $data['phone'] : '';
+$zip = isset($data['zip']) ? $data['zip'] : '';
+$address = isset($data['address']) ? $data['address'] : '';
 $orderId = isset($data['orderId']) ? $data['orderId'] : '';
 $amount = isset($data['amount']) ? $data['amount'] : '';
 $paymentMethod = isset($data['paymentMethod']) ? $data['paymentMethod'] : '';
@@ -66,6 +69,9 @@ $admin_body = <<<EOT
 【お客様情報】
 名前: {$name}
 Email: {$email}
+電話番号: {$phone}
+郵便番号: {$zip}
+住所: {$address}
 
 【注文商品】
 --------------------------------------------------
@@ -76,6 +82,15 @@ PAY.JP等の管理画面で決済状況を確認してください。
 EOT;
 
 // 6. User Email Content
+$CONTACT_EMAIL = 'info@giko-official.com';
+
+// Build customer info block
+$customerInfo = "お名前: {$name}\n";
+$customerInfo .= "メール: {$email}\n";
+if (!empty($phone)) $customerInfo .= "電話番号: {$phone}\n";
+if (!empty($zip)) $customerInfo .= "郵便番号: {$zip}\n";
+if (!empty($address)) $customerInfo .= "ご住所: {$address}\n";
+
 $user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
 $user_body = <<<EOT
 {$name} 様
@@ -87,17 +102,17 @@ $user_body = <<<EOT
 【決済方法】 {$paymentMethod}
 【合計金額】 {$amount}
 
+【お客様情報】
+--------------------------------------------------
+{$customerInfo}--------------------------------------------------
+
 【ご注文内容】
 --------------------------------------------------
-{$itemsText}
---------------------------------------------------
+{$itemsText}--------------------------------------------------
 
 商品の発送準備が整い次第、改めてご連絡させていただきます。
-万が一、ご注文内容に誤りがある場合は、本メールへ返信にてお知らせください。
-
-【今後のご連絡先】
-ご質問やご相談がございましたら、下記までお気軽にご連絡ください。
-Email: {$ADMIN_EMAIL}
+万が一、ご注文内容に誤りがある場合は、以下のメールにてご連絡ください。
+{$CONTACT_EMAIL}
 
 --------------------------------------------------
 技巧 -Giko-

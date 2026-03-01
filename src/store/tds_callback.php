@@ -84,8 +84,12 @@ if ($orderData) {
 
     $custName = $orderData['name'] ?? '';
     $custEmail = $orderData['email'] ?? '';
+    $custPhone = $orderData['phone'] ?? '';
+    $custZip = $orderData['zip'] ?? '';
+    $custAddress = $orderData['address'] ?? '';
     $orderAmount = '¥' . number_format($charge['amount']);
     $payMethod = 'CREDIT CARD (3D Secure)';
+    $CONTACT_EMAIL = 'info@giko-official.com';
     $items = json_decode($orderData['cart_items'] ?? '[]', true) ?: [];
 
     // Build item list
@@ -97,19 +101,26 @@ if ($orderData) {
         $itemsText .= "- {$item['name']}{$opt} x {$qty} : ¥{$price}\n";
     }
 
+    // Build customer info
+    $customerInfo = "お名前: {$custName}\n";
+    $customerInfo .= "メール: {$custEmail}\n";
+    if (!empty($custPhone)) $customerInfo .= "電話番号: {$custPhone}\n";
+    if (!empty($custZip)) $customerInfo .= "郵便番号: {$custZip}\n";
+    if (!empty($custAddress)) $customerInfo .= "ご住所: {$custAddress}\n";
+
     mb_language("Japanese");
     mb_internal_encoding("UTF-8");
 
     // Admin email
     $admin_subject = "【技巧 -Giko-】新規注文受信 ({$orderId})";
-    $admin_body = "新規の注文が入りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n名前: {$custName}\nEmail: {$custEmail}\n\n【注文商品】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\nPAY.JP管理画面で決済状況を確認してください。";
+    $admin_body = "新規の注文が入りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n名前: {$custName}\nEmail: {$custEmail}\n電話番号: {$custPhone}\n郵便番号: {$custZip}\n住所: {$custAddress}\n\n【注文商品】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\nPAY.JP管理画面で決済状況を確認してください。";
     $admin_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$custEmail}\r\nCc: {$ADMIN_CC}\r\n";
     mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
 
     // User email
     if ($custEmail && filter_var($custEmail, FILTER_VALIDATE_EMAIL)) {
         $user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
-        $user_body = "{$custName} 様\n\nこの度は「技巧 -Giko-」にてご注文いただき、誠にありがとうございます。\n以下の内容で承りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【ご注文内容】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\n商品の発送準備が整い次第、改めてご連絡させていただきます。\n万が一、ご注文内容に誤りがある場合は、本メールへ返信にてお知らせください。\n\n--------------------------------------------------\n技巧 -Giko-\nhttps://giko-official.com\n--------------------------------------------------";
+        $user_body = "{$custName} 様\n\nこの度は「技巧 -Giko-」にてご注文いただき、誠にありがとうございます。\n以下の内容で承りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n--------------------------------------------------\n{$customerInfo}--------------------------------------------------\n\n【ご注文内容】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\n商品の発送準備が整い次第、改めてご連絡させていただきます。\n万が一、ご注文内容に誤りがある場合は、以下のメールにてご連絡ください。\n{$CONTACT_EMAIL}\n\n--------------------------------------------------\n技巧 -Giko-\nhttps://giko-official.com\n--------------------------------------------------";
         $user_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$ADMIN_EMAIL}\r\n";
         mb_send_mail($custEmail, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
     }

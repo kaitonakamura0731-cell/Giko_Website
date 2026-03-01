@@ -127,6 +127,8 @@ if (empty($_SESSION['csrf_token'])) {
     <input type="hidden" id="data-name" value="<?php echo $name; ?>">
     <input type="hidden" id="data-email" value="<?php echo $email; ?>">
     <input type="hidden" id="data-phone" value="<?php echo $phone; ?>">
+    <input type="hidden" id="data-zip" value="<?php echo $zip; ?>">
+    <input type="hidden" id="data-address" value="<?php echo $address; ?>">
     <input type="hidden" id="data-amount" value="<?php echo $amount; ?>">
     <input type="hidden" id="data-items" value="<?php echo htmlspecialchars($cart_items, ENT_QUOTES, 'UTF-8'); ?>">
 
@@ -210,6 +212,8 @@ if (empty($_SESSION['csrf_token'])) {
                             name: document.getElementById('data-name').value,
                             email: document.getElementById('data-email').value,
                             phone: document.getElementById('data-phone').value,
+                            zip: document.getElementById('data-zip').value,
+                            address: document.getElementById('data-address').value,
                             amount: amount,
                             cart_items: document.getElementById('data-items').value
                         }
@@ -244,6 +248,9 @@ if (empty($_SESSION['csrf_token'])) {
                     body: JSON.stringify({
                         name: document.getElementById('data-name').value,
                         email: document.getElementById('data-email').value,
+                        phone: document.getElementById('data-phone').value,
+                        zip: document.getElementById('data-zip').value,
+                        address: document.getElementById('data-address').value,
                         orderId: orderId,
                         amount: '¥' + parseInt(document.getElementById('data-amount').value).toLocaleString(),
                         paymentMethod: 'CREDIT CARD',
