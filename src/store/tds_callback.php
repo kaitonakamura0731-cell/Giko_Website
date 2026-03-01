@@ -29,22 +29,24 @@ if (!$chargeId) {
 }
 
 // ---------------------------------------------------------
-// 2. Retrieve charge from PAY.JP API to check 3DS status
+// 2. Finalize 3DS authentication (tds_finish)
 // ---------------------------------------------------------
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://api.pay.jp/v1/charges/' . $chargeId);
+curl_setopt($ch, CURLOPT_URL, 'https://api.pay.jp/v1/charges/' . $chargeId . '/tds_finish');
 curl_setopt($ch, CURLOPT_USERPWD, $PAYJP_SECRET_KEY . ':');
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, '');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
 $response = curl_exec($ch);
 $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlError = curl_error($ch);
 curl_close($ch);
 
-if ($curlError || $httpStatus !== 200) {
-    header('Location: checkout.php?error=' . urlencode('決済状態の確認に失敗しました。お問い合わせください。'));
+if ($curlError || $httpStatus < 200 || $httpStatus >= 300) {
+    header('Location: checkout.php?error=' . urlencode('決済の完了処理に失敗しました。お問い合わせください。'));
     exit;
 }
 
