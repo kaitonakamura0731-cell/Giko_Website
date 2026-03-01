@@ -14,8 +14,17 @@ if (empty($_SESSION['pending_order'])) {
 // Configuration
 $ADMIN_EMAIL = 'kaitonakamura0731@gmail.com';
 $ADMIN_CC = 'info@giko-official.com';
-$SERVER_DOMAIN = 'giko-official.com'; 
+$SERVER_DOMAIN = 'giko-official.com';
 $NOREPLY_EMAIL = "noreply@{$SERVER_DOMAIN}";
+
+// 銀行振込先情報（order_complete.html と合わせて更新してください）
+$BANK_INFO = [
+    'bank_name'    => 'テスト銀行',
+    'branch_name'  => 'サンプル支店（999）',
+    'account_type' => '普通',
+    'account_no'   => '1234567',
+    'account_holder' => 'カ）テストカイシャ',
+];
 
 // Headers helpers
 function clean_header($str) {
@@ -100,6 +109,27 @@ if (!empty($phone)) $customerInfo .= "電話番号: {$phone}\n";
 if (!empty($zip)) $customerInfo .= "郵便番号: {$zip}\n";
 if (!empty($address)) $customerInfo .= "ご住所: {$address}\n";
 
+// 銀行振込の場合は振込先情報ブロックを生成
+$bankInfoBlock = '';
+if (strtoupper($paymentMethod) === 'BANK TRANSFER') {
+    $bankInfoBlock = <<<BANK
+
+【お振込先】
+--------------------------------------------------
+銀行名:   {$BANK_INFO['bank_name']}
+支店名:   {$BANK_INFO['branch_name']}
+口座種別: {$BANK_INFO['account_type']}
+口座番号: {$BANK_INFO['account_no']}
+口座名義: {$BANK_INFO['account_holder']}
+--------------------------------------------------
+
+※7日以内にお振込みをお願いいたします。
+※振込手数料はお客様のご負担となります。
+※ご注文者様と異なる名義でお振込みの場合は、事前にご連絡ください。
+※ご入金確認後、発送手続きを開始いたします。
+BANK;
+}
+
 $user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
 $user_body = <<<EOT
 {$name} 様
@@ -118,7 +148,7 @@ $user_body = <<<EOT
 【ご注文内容】
 --------------------------------------------------
 {$itemsText}--------------------------------------------------
-
+{$bankInfoBlock}
 商品の発送準備が整い次第、改めてご連絡させていただきます。
 万が一、ご注文内容に誤りがある場合は、以下のメールにてご連絡ください。
 {$CONTACT_EMAIL}
