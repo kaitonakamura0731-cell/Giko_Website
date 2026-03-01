@@ -75,15 +75,49 @@ try {
         }
     }
 
-    // 6. Create Charge with 3D Secure
+    // 6. Create Customer in PAY.JP
+    $customerEmail = $data['order_data']['email'] ?? null;
+    $customerName = $data['order_data']['name'] ?? null;
+
+    $customerId = null;
+    if ($customerEmail) {
+        $customerFields = ['card' => $token];
+        if ($customerEmail) $customerFields['email'] = $customerEmail;
+        if ($customerName) $customerFields['description'] = $customerName;
+
+        $custCh = curl_init();
+        curl_setopt($custCh, CURLOPT_URL, 'https://api.pay.jp/v1/customers');
+        curl_setopt($custCh, CURLOPT_USERPWD, $PAYJP_SECRET_KEY . ':');
+        curl_setopt($custCh, CURLOPT_POST, true);
+        curl_setopt($custCh, CURLOPT_POSTFIELDS, http_build_query($customerFields));
+        curl_setopt($custCh, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($custCh, CURLOPT_TIMEOUT, 15);
+        $custResponse = curl_exec($custCh);
+        $custHttpStatus = curl_getinfo($custCh, CURLINFO_HTTP_CODE);
+        curl_close($custCh);
+
+        if ($custHttpStatus >= 200 && $custHttpStatus < 300) {
+            $custResult = json_decode($custResponse, true);
+            $customerId = $custResult['id'] ?? null;
+        }
+        // 顧客作成失敗しても決済は続行（トークン直接利用にフォールバック）
+    }
+
+    // 7. Create Charge with 3D Secure
     $url = 'https://api.pay.jp/v1/charges';
     $fields = [
         'amount' => $amount,
         'currency' => 'jpy',
-        'card' => $token,
         'capture' => 'true',
         'three_d_secure' => 'true'
     ];
+
+    // 顧客IDがあればcustomerで決済、なければカードトークンで決済
+    if ($customerId) {
+        $fields['customer'] = $customerId;
+    } else {
+        $fields['card'] = $token;
+    }
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
