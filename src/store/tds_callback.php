@@ -19,11 +19,6 @@ $PAYJP_SECRET_KEY = PAYJP_SECRET_KEY;
 $chargeId = $_SESSION['pending_charge_id'] ?? null;
 
 if (!$chargeId) {
-    // Fallback: try to get from URL query
-    $chargeId = $_GET['payjp_charge_id'] ?? null;
-}
-
-if (!$chargeId) {
     header('Location: checkout.php?error=' . urlencode('決済情報が見つかりません。もう一度お試しください。'));
     exit;
 }
@@ -83,7 +78,7 @@ if ($orderData) {
     $NOREPLY_EMAIL = "noreply@{$SERVER_DOMAIN}";
 
     $custName = $orderData['name'] ?? '';
-    $custEmail = $orderData['email'] ?? '';
+    $custEmail = str_replace(["\r", "\n"], '', $orderData['email'] ?? '');
     $custPhone = $orderData['phone'] ?? '';
     $custZip = $orderData['zip'] ?? '';
     $custAddress = $orderData['address'] ?? '';

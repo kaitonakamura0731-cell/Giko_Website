@@ -194,8 +194,6 @@ if (empty($_SESSION['csrf_token'])) {
                     }
                 });
 
-                console.log("PAY.JP Result:", result);
-
                 if (result.error) {
                     throw new Error(result.error.message);
                 }

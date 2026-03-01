@@ -60,12 +60,18 @@ try {
         throw new Exception('Invalid parameters: Token or Amount (Min 50 JPY) is missing/invalid.', 400);
     }
 
+    // 3b. Validate amount against session (prevent client-side tampering)
+    $sessionAmount = $_SESSION['pending_order']['amount'] ?? null;
+    if ($sessionAmount !== null && (int)$sessionAmount !== $amount) {
+        throw new Exception('金額が一致しません。もう一度お試しください。', 400);
+    }
+
     // 4. Store order data in session for 3DS callback
     if (!empty($data['order_data'])) {
         $_SESSION['pending_order'] = $data['order_data'];
     }
 
-    // 5. Prepare Idempotency Key
+    // 5. Prepare Idempotency Key (generate server-side if not provided)
     $idempotencyKey = null;
     $headers = getallheaders();
     foreach ($headers as $key => $value) {
@@ -73,6 +79,9 @@ try {
             $idempotencyKey = $value;
             break;
         }
+    }
+    if (!$idempotencyKey) {
+        $idempotencyKey = 'srv_' . bin2hex(random_bytes(16));
     }
 
     // 6. Create Customer in PAY.JP
@@ -127,11 +136,9 @@ try {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
-    if ($idempotencyKey) {
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Idempotency-Key: ' . $idempotencyKey
-        ]);
-    }
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Idempotency-Key: ' . $idempotencyKey
+    ]);
 
     $response = curl_exec($ch);
     $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
