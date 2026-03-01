@@ -176,10 +176,10 @@ $csrf_token = $_SESSION['csrf_token'];
                                 <div>
                                     <h3 class="font-bold text-white mb-2">取り外した部品の返送</h3>
                                     <div class="space-y-3">
-                                        <div class="bg-black/40 border border-primary/30 p-4 rounded-sm">
+                                        <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
                                             <div class="flex items-center gap-2 mb-1">
-                                                <i class="fas fa-exchange-alt text-primary text-sm"></i>
-                                                <span class="font-bold text-sm text-primary">技巧に買取を依頼する場合（追加費用なし）</span>
+                                                <i class="fas fa-exchange-alt text-gray-400 text-sm"></i>
+                                                <span class="font-bold text-sm text-white">技巧に買取を依頼する場合（追加費用なし）</span>
                                             </div>
                                             <p class="text-xs text-gray-400 ml-6">取り外した旧パーツを技巧へご返送いただければ、追加費用はかかりません。</p>
                                         </div>

@@ -135,13 +135,18 @@ try {
         $_SESSION['pending_charge_id'] = $chargeId;
 
         // Build 3DS redirect URL
-        $backUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
-                   . '://' . $_SERVER['HTTP_HOST']
-                   . dirname($_SERVER['REQUEST_URI']) . '/tds_callback.php';
+        // back_urlはJWS (HS256) で署名が必要（PAY.JP仕様）
+        $rawBackUrl = 'https://giko-official.com/store/tds_callback.php';
+
+        // JWS署名を生成
+        $jwsHeader = rtrim(strtr(base64_encode(json_encode(['alg' => 'HS256', 'typ' => 'JWT'])), '+/', '-_'), '=');
+        $jwsPayload = rtrim(strtr(base64_encode(json_encode(['url' => $rawBackUrl])), '+/', '-_'), '=');
+        $jwsSignature = rtrim(strtr(base64_encode(hash_hmac('sha256', "$jwsHeader.$jwsPayload", $PAYJP_SECRET_KEY, true)), '+/', '-_'), '=');
+        $jwsBackUrl = "$jwsHeader.$jwsPayload.$jwsSignature";
 
         $tdsUrl = 'https://api.pay.jp/v1/tds/' . $chargeId . '/start'
                 . '?publickey=' . urlencode(PAYJP_PUBLIC_KEY)
-                . '&back_url=' . urlencode($backUrl);
+                . '&back_url=' . urlencode($jwsBackUrl);
 
         sendResponse(true, [
             'id' => $chargeId,
