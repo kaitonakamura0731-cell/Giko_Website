@@ -403,10 +403,6 @@ try {
             }
         }
     }
-    // アルファードタグを強制追加（ユーザー要望）
-    if (!in_array('Alphard', $allTags)) {
-        array_unshift($allTags, 'Alphard');
-    }
     sort($allTags);
     
     // 画像を取得するヘルパー関数
@@ -458,19 +454,14 @@ try {
                         </div>
                     </a>
                     
-                    <?php foreach ($allTags as $tag): 
+                    <?php foreach ($allTags as $tag):
                         // このタグに対応する最初の商品画像を取得
                         $tagImage = '';
-                        // アルファードの場合は固定画像
-                        if (strtolower($tag) === 'alphard' || $tag === 'アルファード') {
-                            $tagImage = './assets/images/alphard.jpg';
-                        } else {
-                            foreach ($latest_products as $p) {
-                                $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
-                                if (in_array($tag, $pTags)) {
-                                    $tagImage = getProductImage($p['images']);
-                                    break;
-                                }
+                        foreach ($latest_products as $p) {
+                            $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
+                            if (in_array($tag, $pTags)) {
+                                $tagImage = getProductImage($p['images']);
+                                break;
                             }
                         }
                     ?>
