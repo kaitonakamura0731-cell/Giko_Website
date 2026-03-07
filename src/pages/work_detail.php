@@ -244,14 +244,14 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                 <!-- PREV -->
                 <?php if ($prev): ?>
                     <a href="work_detail.php?id=<?php echo $prev['id']; ?>"
-                        class="group flex items-center gap-3 hover:opacity-80 transition-all duration-300">
+                        class="group flex items-center gap-2 md:gap-3 hover:opacity-80 transition-all duration-300">
                         <i class="fas fa-chevron-left text-xs text-gray-500 group-hover:text-primary transition-colors flex-shrink-0"></i>
-                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-sm overflow-hidden flex-shrink-0 border border-white/10">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-sm overflow-hidden flex-shrink-0 border border-white/10">
                             <img src="../<?php echo htmlspecialchars($prev['main_image']); ?>" alt="" class="w-full h-full object-cover">
                         </div>
-                        <div class="hidden md:block min-w-0">
+                        <div class="min-w-0">
                             <span class="block text-[10px] font-bold text-gray-500 font-en tracking-widest mb-0.5">PREV</span>
-                            <div class="text-sm font-bold text-white group-hover:text-primary transition-colors truncate"><?php echo htmlspecialchars($prev['title']); ?></div>
+                            <div class="text-xs md:text-sm font-bold text-white group-hover:text-primary transition-colors truncate max-w-[80px] md:max-w-none"><?php echo htmlspecialchars($prev['title']); ?></div>
                         </div>
                     </a>
                 <?php else: ?>
@@ -271,12 +271,12 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
                 <!-- NEXT -->
                 <?php if ($next): ?>
                     <a href="work_detail.php?id=<?php echo $next['id']; ?>"
-                        class="group flex items-center gap-3 justify-end hover:opacity-80 transition-all duration-300">
-                        <div class="hidden md:block min-w-0 text-right">
+                        class="group flex items-center gap-2 md:gap-3 justify-end hover:opacity-80 transition-all duration-300">
+                        <div class="min-w-0 text-right">
                             <span class="block text-[10px] font-bold text-gray-500 font-en tracking-widest mb-0.5">NEXT</span>
-                            <div class="text-sm font-bold text-white group-hover:text-primary transition-colors truncate"><?php echo htmlspecialchars($next['title']); ?></div>
+                            <div class="text-xs md:text-sm font-bold text-white group-hover:text-primary transition-colors truncate max-w-[80px] md:max-w-none"><?php echo htmlspecialchars($next['title']); ?></div>
                         </div>
-                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-sm overflow-hidden flex-shrink-0 border border-white/10">
+                        <div class="w-10 h-10 md:w-16 md:h-16 rounded-sm overflow-hidden flex-shrink-0 border border-white/10">
                             <img src="../<?php echo htmlspecialchars($next['main_image']); ?>" alt="" class="w-full h-full object-cover">
                         </div>
                         <i class="fas fa-chevron-right text-xs text-gray-500 group-hover:text-primary transition-colors flex-shrink-0"></i>
