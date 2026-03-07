@@ -20,7 +20,8 @@ loadEnv(__DIR__ . '/../.env');
 
 // Settings
 $payjpSecretKey = $_ENV['PAYJP_SECRET_KEY'] ?? '';
-$adminEmail = 'info@giko-official.com'; // Change to actual admin email
+$adminEmail = 'kaitonakamura0731@gmail.com';
+$adminCc = 'info@giko-official.com';
 $emailFrom = 'noreply@giko-official.com';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -134,15 +135,18 @@ E-mail: info@giko-official.com
 --------------------------------------------------
 EOD;
 
-$headers = "From: {$emailFrom}";
-
 // Send to User
-@mb_send_mail($email, $subject, $body, $headers);
+$userHeaders = "From: {$emailFrom}\r\n";
+$userHeaders .= "Reply-To: {$adminEmail}, {$adminCc}\r\n";
+@mb_send_mail($email, $subject, $body, $userHeaders, "-f{$emailFrom}");
 
 // Send to Admin
 $adminSubject = "【新規注文】{$name}様より注文が入りました";
 $adminBody = "新規注文がありました。\n\n" . $body;
-@mb_send_mail($adminEmail, $adminSubject, $adminBody, $headers);
+$adminHeaders = "From: {$emailFrom}\r\n";
+$adminHeaders .= "Reply-To: {$email}\r\n";
+$adminHeaders .= "Cc: {$adminCc}\r\n";
+@mb_send_mail($adminEmail, $adminSubject, $adminBody, $adminHeaders, "-f{$emailFrom}");
 
 // 4. Redirect to Success
 header('Location: ../order_complete.html?tid=' . $paymentId);

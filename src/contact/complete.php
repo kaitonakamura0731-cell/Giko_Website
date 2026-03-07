@@ -140,7 +140,7 @@ if ($mail_sent) {
 
 【今後のご連絡先】
 ご質問やご相談がございましたら、下記までお気軽にご連絡ください。
-Email: {$ADMIN_EMAIL}
+Email: {$ADMIN_CC}
 
 --------------------------------------------------
 技巧 -Giko-
@@ -149,7 +149,7 @@ https://giko-official.com
 EOT;
 
     $user_headers = "From: {$noreply_email}\r\n";
-    $user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
+    $user_headers .= "Reply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
     $user_headers .= "X-Mailer: PHP/" . phpversion();
 
     @mb_send_mail($email_safe, $user_subject, $user_body, $user_headers, "-f{$noreply_email}");

@@ -170,7 +170,7 @@ $admin_headers .= "Cc: {$ADMIN_CC}\r\n";
 
 // User headers
 $user_headers = "From: {$NOREPLY_EMAIL}\r\n";
-$user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
+$user_headers .= "Reply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
 
 // Send to Admin
 $mail_admin = mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");

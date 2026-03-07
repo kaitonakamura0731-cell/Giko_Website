@@ -206,7 +206,7 @@ https://giko-official.com
 EOT;
 
 $user_headers = "From: {$NOREPLY_EMAIL}\r\n";
-$user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
+$user_headers .= "Reply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
 mb_send_mail($cleanEmail, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
 
 // ---------------------------------------------------------
