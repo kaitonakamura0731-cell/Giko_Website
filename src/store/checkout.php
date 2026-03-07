@@ -324,7 +324,8 @@ $csrf_token = $_SESSION['csrf_token'];
                         <input type="hidden" name="amount" id="form-amount" value="">
                         <input type="hidden" name="cart_items" id="cart-items-input" value="">
 
-                        <div class="mt-8">
+                        <!-- スマホ: 下部固定バーがあるのでボタン非表示 / PC: 通常表示 -->
+                        <div class="mt-8 hidden lg:block">
                             <!-- Card Payment -->
                             <div id="payment-card" class="block space-y-6">
                                 <div class="bg-white/5 border border-white/10 p-4 rounded-sm">
@@ -358,6 +359,12 @@ $csrf_token = $_SESSION['csrf_token'];
                                     注文確定後、振込先をご案内します
                                 </p>
                             </div>
+                        </div>
+                        <!-- スマホ用: サマリー内にはボタンの代わりに案内テキストのみ -->
+                        <div class="mt-6 lg:hidden">
+                            <p class="text-xs text-gray-400 text-center">
+                                <i class="fas fa-arrow-down mr-1"></i> 下の入力フォームを記入後、画面下部のボタンから決済へ進めます
+                            </p>
                         </div>
                     </div>
 
@@ -433,7 +440,7 @@ $csrf_token = $_SESSION['csrf_token'];
     </div>
 
     <!-- Mobile Sticky Bottom Bar -->
-    <div id="mobile-pay-bar" class="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 translate-y-full transition-transform duration-300">
+    <div id="mobile-pay-bar" class="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 transition-transform duration-300">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-shrink-0">
                 <p class="text-[10px] text-gray-400 font-en tracking-widest">TOTAL</p>
@@ -694,28 +701,20 @@ $csrf_token = $_SESSION['csrf_token'];
             }
         }
 
-        // Mobile sticky bar: show when scrolled past the desktop payment button
+        // Mobile sticky bar: スマホでは常時表示（サマリー内にボタンがないため）
         (function() {
             const mobileBar = document.getElementById('mobile-pay-bar');
             if (!mobileBar) return;
-            const orderSummary = document.querySelector('.lg\\:col-span-5');
-            if (!orderSummary) return;
 
-            function checkScroll() {
+            function checkVisibility() {
                 if (window.innerWidth >= 1024) {
                     mobileBar.classList.add('translate-y-full');
-                    return;
-                }
-                const rect = orderSummary.getBoundingClientRect();
-                if (rect.bottom < 0) {
-                    mobileBar.classList.remove('translate-y-full');
                 } else {
-                    mobileBar.classList.add('translate-y-full');
+                    mobileBar.classList.remove('translate-y-full');
                 }
             }
-            window.addEventListener('scroll', checkScroll, { passive: true });
-            window.addEventListener('resize', checkScroll);
-            checkScroll();
+            window.addEventListener('resize', checkVisibility);
+            checkVisibility();
         })();
 
         // Mobile pay button triggers the correct payment method
