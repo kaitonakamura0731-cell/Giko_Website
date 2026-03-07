@@ -93,6 +93,55 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
             </nav>
             <a href="../contact/index.php"
                 class="hidden lg:inline-flex items-center justify-center px-8 py-2.5 border border-white/20 text-xs font-bold tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300 font-en">CONTACT</a>
+            <!-- Language Switcher Desktop -->
+            <button id="lang-toggle-desktop"
+                class="hidden lg:flex ml-6 items-center gap-2 text-xs font-bold font-en tracking-widest opacity-80 hover:opacity-100 transition-opacity">
+                <span class="text-primary">JP</span>
+                <span class="text-white/30">/</span>
+                <span class="text-white">EN</span>
+            </button>
+            <!-- Cart Icon Desktop -->
+            <a href="../store/cart.html" class="hidden lg:flex ml-6 relative group">
+                <i class="fas fa-shopping-cart text-white text-lg group-hover:text-primary transition-colors"></i>
+                <span id="cart-badge-desktop"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </a>
+            <button class="lg:hidden text-white focus:outline-none ml-4 relative" id="mobile-menu-btn">
+                <div class="space-y-2">
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                    <span class="block w-8 h-0.5 bg-white"></span>
+                </div>
+                <span id="cart-badge-mobile-btn"
+                    class="cart-badge absolute -top-2 -right-2 bg-primary text-black text-[10px] font-bold px-1.5 rounded-full hidden">0</span>
+            </button>
+        </div>
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-[calc(100vh-5rem)] overflow-y-auto"
+            id="mobile-menu">
+            <nav class="flex flex-col p-10 pb-24 space-y-8 text-center text-lg">
+                <a href="../store/cart.html"
+                    class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
+                        class="cart-badge bg-primary text-black text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+                </a>
+                <a href="../index.php#concept" class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
+                <a href="../pages/works.php" class="text-primary font-en tracking-widest">WORKS</a>
+                <a href="../store/index.php" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
+                <a href="../pages/before_after.html"
+                    class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                    AFTER</a>
+                <a href="../index.php#material"
+                    class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
+                <a href="../index.php#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
+                <a href="../index.php#company" class="text-white hover:text-primary font-en tracking-widest">COMPANY</a>
+                <a href="../contact/index.php" class="text-primary font-bold font-en tracking-widest mt-8">CONTACT</a>
+                <button id="lang-toggle-mobile"
+                    class="mt-8 flex items-center justify-center gap-4 text-sm font-bold font-en tracking-widest">
+                    <span class="text-primary">JP</span>
+                    <span class="text-white/30">/</span>
+                    <span class="text-white">EN</span>
+                </button>
+            </nav>
         </div>
     </header>
 
