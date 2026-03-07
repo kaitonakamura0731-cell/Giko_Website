@@ -341,6 +341,10 @@ $csrf_token = $_SESSION['csrf_token'];
                                 <p class="text-[10px] text-gray-500 text-center">
                                     <i class="fas fa-lock mr-1"></i> SSL通信と3Dセキュア認証で安全に保護されます
                                 </p>
+                                <details class="mt-2 text-[10px] text-gray-500 text-center">
+                                    <summary class="cursor-pointer hover:text-gray-400"><i class="fas fa-info-circle mr-1"></i>デビットカードをご利用の方へ</summary>
+                                    <p class="mt-1 leading-relaxed">カード有効性確認のため11円の少額認証が行われます。後日自動的に返金されます。</p>
+                                </details>
                             </div>
 
                             <!-- Transfer Payment -->
