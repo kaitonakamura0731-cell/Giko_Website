@@ -72,65 +72,33 @@ try {
     // DB検証済みのセッション金額を決済に使用（クライアント金額は信用しない）
     $amount = $sessionAmount;
 
+    // 3c. 二重課金防止：既にこのセッションで決済処理中の場合はブロック
+    if (!empty($_SESSION['payment_processing'])) {
+        throw new Exception('決済処理中です。画面を閉じずにお待ちください。', 409);
+    }
+    $_SESSION['payment_processing'] = true;
+
     // 4. セッションの order_data はクライアントからの上書きを許可しない
     //    card_entry.php で検証・設定済みのデータのみ使用する
 
-    // 5. Prepare Idempotency Key (generate server-side if not provided)
-    $idempotencyKey = null;
-    $headers = getallheaders();
-    foreach ($headers as $key => $value) {
-        if (strtolower($key) === 'x-idempotency-key') {
-            $idempotencyKey = $value;
-            break;
-        }
+    // 5. Prepare Idempotency Key（セッション単位で固定し、リトライでも同一キーを使用）
+    if (empty($_SESSION['payment_idempotency_key'])) {
+        $_SESSION['payment_idempotency_key'] = 'order_' . bin2hex(random_bytes(16));
     }
-    if (!$idempotencyKey) {
-        $idempotencyKey = 'srv_' . bin2hex(random_bytes(16));
-    }
+    $idempotencyKey = $_SESSION['payment_idempotency_key'];
 
-    // 6. Create Customer in PAY.JP（セッションの検証済みデータを使用）
-    $customerEmail = $_SESSION['pending_order']['email'] ?? null;
-    $customerName = $_SESSION['pending_order']['name'] ?? null;
+    // 6. Customer作成は削除（一回限りの購入にはCustomer不要）
+    //    トークンで直接Chargeを作成する（不要なAPIコールと¥11謎課金の原因排除）
 
-    $customerId = null;
-    if ($customerEmail) {
-        $customerFields = ['card' => $token];
-        if ($customerEmail) $customerFields['email'] = $customerEmail;
-        if ($customerName) $customerFields['description'] = $customerName;
-
-        $custCh = curl_init();
-        curl_setopt($custCh, CURLOPT_URL, 'https://api.pay.jp/v1/customers');
-        curl_setopt($custCh, CURLOPT_USERPWD, $PAYJP_SECRET_KEY . ':');
-        curl_setopt($custCh, CURLOPT_POST, true);
-        curl_setopt($custCh, CURLOPT_POSTFIELDS, http_build_query($customerFields));
-        curl_setopt($custCh, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($custCh, CURLOPT_TIMEOUT, 15);
-        $custResponse = curl_exec($custCh);
-        $custHttpStatus = curl_getinfo($custCh, CURLINFO_HTTP_CODE);
-        curl_close($custCh);
-
-        if ($custHttpStatus >= 200 && $custHttpStatus < 300) {
-            $custResult = json_decode($custResponse, true);
-            $customerId = $custResult['id'] ?? null;
-        }
-        // 顧客作成失敗しても決済は続行（トークン直接利用にフォールバック）
-    }
-
-    // 7. Create Charge with 3D Secure
+    // 7. Create Charge with 3D Secure（トークン直接利用）
     $url = 'https://api.pay.jp/v1/charges';
     $fields = [
         'amount' => $amount,
         'currency' => 'jpy',
         'capture' => 'true',
-        'three_d_secure' => 'true'
+        'three_d_secure' => 'true',
+        'card' => $token
     ];
-
-    // 顧客IDがあればcustomerで決済、なければカードトークンで決済
-    if ($customerId) {
-        $fields['customer'] = $customerId;
-    } else {
-        $fields['card'] = $token;
-    }
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -201,6 +169,10 @@ try {
     }
 
 } catch (Exception $e) {
+    // 決済失敗時はフラグをリセット（再試行を許可）
+    unset($_SESSION['payment_processing']);
+    unset($_SESSION['payment_idempotency_key']);
+
     if ($e->getCode() === 405) {
         sendResponse(false, ['error' => $e->getMessage()], 405);
     } else {
