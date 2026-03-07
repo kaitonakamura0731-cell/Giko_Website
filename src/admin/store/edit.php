@@ -134,8 +134,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 商品名が空の場合はデータ消失の可能性が高い（保護）
-    if (empty(trim($_POST['name'] ?? ''))) {
+    $raw_name = trim($_POST['product_name'] ?? $_POST['name'] ?? '');
+    if (empty($raw_name)) {
         $error = "エラー: 商品名が空です。データが正しく送信されていない可能性があります。ページを再読み込みして再度お試しください。";
+        if ($id) {
+            $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+            $stmt->execute([$id]);
+            $product = $stmt->fetch();
+        }
+        goto render_form;
+    }
+
+    // 商品名がファイル名パターンの場合は拒否（画像アップロード時の誤上書き防止）
+    if (preg_match('/\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i', $raw_name)) {
+        $error = "エラー: 商品名が画像ファイル名になっています。正しい商品名を入力してください。";
         if ($id) {
             $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
             $stmt->execute([$id]);
@@ -146,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ===== END POST データ検証 =====
 
     // Basic Sanitation
-    $name = trim($_POST['name'] ?? '');
+    $name = $raw_name;
     $price = (int) ($_POST['price'] ?? 0);
     $shipping_fee = (int) ($_POST['shipping_fee'] ?? 0);
     $short_description = $_POST['short_description'] ?? '';
@@ -396,7 +408,8 @@ require_once '../includes/header.php';
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="form-group">
                         <label class="form-label">商品名 (Name)</label>
-                        <input type="text" name="name" id="product-name-input" class="form-input product-name-field"
+                        <input type="text" name="product_name" id="product-name-input" class="form-input product-name-field"
+                            autocomplete="off"
                             value="<?php echo htmlspecialchars($product['name']); ?>" required>
                     </div>
                     <div class="form-group">
@@ -891,124 +904,42 @@ require_once '../includes/header.php';
                     document.addEventListener('DOMContentLoaded', renderOptions);
                 </script>
 
-                <!-- 商品名フィールド保護スクリプト（最優先で実行） -->
+                <!-- 商品名フィールド保護: ファイル選択時に商品名が上書きされるのを防止 -->
                 <script>
                     (function() {
                         'use strict';
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const nameField = document.getElementById('product-name-input');
+                            if (!nameField) return;
+                            let lastUserValue = nameField.value;
 
-                        // 商品名フィールドの保護
-                        let productNameOriginalValue = '';
-                        let isInitialized = false;
-
-                        function initProductNameProtection() {
-                            const productNameField = document.getElementById('product-name-input');
-                            if (!productNameField) {
-                                setTimeout(initProductNameProtection, 100);
-                                return;
-                            }
-
-                            if (isInitialized) return;
-                            isInitialized = true;
-
-                            // 初期値を保存
-                            productNameOriginalValue = productNameField.value;
-
-                            console.log('[商品名保護] 初期化完了。初期値:', productNameOriginalValue);
-
-                            // Method 1: Input event listener (ユーザーの入力のみ許可)
-                            let lastUserValue = productNameOriginalValue;
-                            let isUserInput = false;
-
-                            productNameField.addEventListener('input', function(e) {
-                                isUserInput = true;
+                            // ユーザー入力を追跡
+                            nameField.addEventListener('input', function() {
                                 lastUserValue = this.value;
-                                console.log('[商品名保護] ユーザー入力を検知:', lastUserValue);
-                            }, true);
-
-                            productNameField.addEventListener('focus', function() {
-                                isUserInput = true;
                             });
 
-                            productNameField.addEventListener('blur', function() {
-                                setTimeout(() => { isUserInput = false; }, 100);
-                            });
-
-                            // Method 2: MutationObserver (DOM変更を監視)
-                            const observer = new MutationObserver(function(mutations) {
-                                mutations.forEach(function(mutation) {
-                                    if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
-                                        const currentValue = productNameField.value;
-                                        if (!isUserInput && currentValue !== lastUserValue) {
-                                            console.warn('[商品名保護] 不正な変更を検知。復元します:', lastUserValue);
-                                            productNameField.value = lastUserValue;
-                                        }
-                                    }
-                                });
-                            });
-
-                            observer.observe(productNameField, {
-                                attributes: true,
-                                attributeFilter: ['value']
-                            });
-
-                            // Method 3: Periodic check (定期チェック)
-                            setInterval(function() {
-                                const currentValue = productNameField.value;
-                                if (!isUserInput && currentValue !== lastUserValue) {
-                                    // ファイル名のパターンをチェック（.jpg, .png, .gif等）
-                                    const fileNamePattern = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i;
-                                    if (fileNamePattern.test(currentValue)) {
-                                        console.error('[商品名保護] ファイル名が商品名に設定されました！ 復元します。');
-                                        productNameField.value = lastUserValue;
-                                        alert('エラー: 画像ファイル名が商品名に設定されました。元の値に復元しました。');
-                                    }
-                                }
-                            }, 200);
-
-                            // Method 4: Global file input change listener
+                            // ファイル選択後に商品名が変わったら復元
                             document.addEventListener('change', function(e) {
                                 if (e.target.type === 'file') {
-                                    // ファイル選択後、商品名フィールドをチェック
                                     setTimeout(function() {
-                                        const currentValue = productNameField.value;
-                                        if (currentValue !== lastUserValue) {
-                                            console.error('[商品名保護] ファイル選択後に商品名が変更されました。復元します。');
-                                            productNameField.value = lastUserValue;
+                                        if (nameField.value !== lastUserValue) {
+                                            nameField.value = lastUserValue;
                                         }
                                     }, 50);
                                 }
                             }, true);
 
-                            // Method 5: Object.defineProperty (値の直接設定を監視)
-                            const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
-                            const originalSet = descriptor.set;
-
-                            Object.defineProperty(productNameField, 'value', {
-                                get: function() {
-                                    return descriptor.get.call(this);
-                                },
-                                set: function(val) {
-                                    if (this === productNameField && !isUserInput) {
-                                        const fileNamePattern = /\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i;
-                                        if (fileNamePattern.test(val)) {
-                                            console.error('[商品名保護] ファイル名の直接設定をブロックしました:', val);
-                                            return; // ブロック
-                                        }
-                                    }
-                                    originalSet.call(this, val);
-                                },
-                                configurable: true
+                            // フォーム送信時にファイル名パターンをブロック
+                            nameField.closest('form').addEventListener('submit', function(e) {
+                                const val = nameField.value;
+                                if (/\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i.test(val)) {
+                                    e.preventDefault();
+                                    alert('エラー: 商品名が画像ファイル名になっています。正しい商品名を入力してください。');
+                                    nameField.value = lastUserValue;
+                                    nameField.focus();
+                                }
                             });
-
-                            console.log('[商品名保護] 全ての保護メカニズムが有効化されました。');
-                        }
-
-                        // ページロード後すぐに初期化
-                        if (document.readyState === 'loading') {
-                            document.addEventListener('DOMContentLoaded', initProductNameProtection);
-                        } else {
-                            initProductNameProtection();
-                        }
+                        });
                     })();
                 </script>
 
