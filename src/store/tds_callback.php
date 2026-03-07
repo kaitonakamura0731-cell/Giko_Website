@@ -128,6 +128,8 @@ if ($orderData) {
 
 unset($_SESSION['pending_charge_id']);
 unset($_SESSION['pending_order']);
+unset($_SESSION['payment_processing']);
+unset($_SESSION['payment_idempotency_key']);
 
 header('Location: order_complete.html?order_id=' . urlencode($orderId) . '&payment_method=card');
 exit;

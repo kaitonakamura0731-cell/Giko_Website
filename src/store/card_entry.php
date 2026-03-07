@@ -57,6 +57,11 @@ try {
     exit;
 }
 
+// 新しい注文開始時に前回の決済フラグをクリア（二重課金防止）
+unset($_SESSION['payment_processing']);
+unset($_SESSION['payment_idempotency_key']);
+unset($_SESSION['pending_charge_id']);
+
 // Store order data in session for 3DS callback（検証済みの金額を使用）
 $_SESSION['pending_order'] = [
     'name' => $name,
@@ -197,22 +202,31 @@ if (empty($_SESSION['csrf_token'])) {
             cardElement.mount('#card-element');
         });
 
+        let isPaymentProcessing = false; // 二重実行防止フラグ
+
         async function handlePayment() {
+            // 二重クリック・二重実行を完全防止
+            if (isPaymentProcessing) return;
+            isPaymentProcessing = true;
+
             const loading = document.getElementById('loading-overlay');
             const btn = document.getElementById('submit-button');
             const cardholderName = document.getElementById('cardholder-name').value.trim().toUpperCase();
-            
+
             if (!cardholderName || cardholderName.length < 2) {
+                isPaymentProcessing = false;
                 showError("カード名義人を入力してください");
                 return;
             }
             if (!/^[A-Za-z\s.\-]+$/.test(cardholderName)) {
+                isPaymentProcessing = false;
                 showError("カード名義人は半角英字で入力してください（例: TARO YAMADA）");
                 return;
             }
 
             loading.classList.remove('hidden');
             btn.disabled = true;
+            btn.removeAttribute('onclick'); // クリックハンドラも除去
             hideError();
 
             try {
@@ -270,6 +284,8 @@ if (empty($_SESSION['csrf_token'])) {
             } catch (error) {
                 loading.classList.add('hidden');
                 btn.disabled = false;
+                btn.setAttribute('onclick', 'handlePayment()'); // エラー時は再試行可能に
+                isPaymentProcessing = false;
                 showError(error.message);
             }
         }
