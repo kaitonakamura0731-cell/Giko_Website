@@ -109,8 +109,9 @@ if ($orderData) {
     // Admin email
     $admin_subject = "【技巧 -Giko-】新規注文受信 ({$orderId})";
     $admin_body = "新規の注文が入りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n名前: {$custName}\nEmail: {$custEmail}\n電話番号: {$custPhone}\n郵便番号: {$custZip}\n住所: {$custAddress}\n\n【注文商品】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\nPAY.JP管理画面で決済状況を確認してください。";
-    $admin_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$custEmail}\r\nCc: {$ADMIN_CC}\r\n";
-    mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
+    $admin_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$custEmail}\r\n";
+    $admin_to = "{$ADMIN_EMAIL}, {$ADMIN_CC}";
+    mb_send_mail($admin_to, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
 
     // User email
     if ($custEmail && filter_var($custEmail, FILTER_VALIDATE_EMAIL)) {

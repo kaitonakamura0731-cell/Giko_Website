@@ -166,14 +166,14 @@ mb_internal_encoding("UTF-8");
 // Admin headers (mb_send_mailがContent-Typeを自動設定)
 $admin_headers = "From: {$NOREPLY_EMAIL}\r\n";
 $admin_headers .= "Reply-To: {$email}\r\n";
-$admin_headers .= "Cc: {$ADMIN_CC}\r\n";
 
 // User headers
 $user_headers = "From: {$NOREPLY_EMAIL}\r\n";
 $user_headers .= "Reply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
 
-// Send to Admin
-$mail_admin = mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
+// Send to Admin (both addresses as TO)
+$admin_to = "{$ADMIN_EMAIL}, {$ADMIN_CC}";
+$mail_admin = mb_send_mail($admin_to, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
 
 // Send to User
 $mail_user = mb_send_mail($email, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");

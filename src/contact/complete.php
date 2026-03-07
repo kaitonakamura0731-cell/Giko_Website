@@ -108,11 +108,11 @@ EOT;
 // Safer: From: noreply@server, Reply-To: user@email
 $admin_headers = "From: {$noreply_email}\r\n";
 $admin_headers .= "Reply-To: {$email_safe}\r\n";
-$admin_headers .= "Cc: {$ADMIN_CC}\r\n";
 $admin_headers .= "X-Mailer: PHP/" . phpversion();
 
-// Try sending
-$mail_sent = mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$noreply_email}");
+// Try sending (both addresses as TO)
+$admin_to = "{$ADMIN_EMAIL}, {$ADMIN_CC}";
+$mail_sent = mb_send_mail($admin_to, $admin_subject, $admin_body, $admin_headers, "-f{$noreply_email}");
 
 // Debugging: If failed, check error
 if (!$mail_sent) {

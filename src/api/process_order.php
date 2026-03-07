@@ -145,8 +145,8 @@ $adminSubject = "【新規注文】{$name}様より注文が入りました";
 $adminBody = "新規注文がありました。\n\n" . $body;
 $adminHeaders = "From: {$emailFrom}\r\n";
 $adminHeaders .= "Reply-To: {$email}\r\n";
-$adminHeaders .= "Cc: {$adminCc}\r\n";
-@mb_send_mail($adminEmail, $adminSubject, $adminBody, $adminHeaders, "-f{$emailFrom}");
+$adminTo = "{$adminEmail}, {$adminCc}";
+@mb_send_mail($adminTo, $adminSubject, $adminBody, $adminHeaders, "-f{$emailFrom}");
 
 // 4. Redirect to Success
 header('Location: ../order_complete.html?tid=' . $paymentId);
