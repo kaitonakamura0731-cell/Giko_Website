@@ -163,9 +163,9 @@ try {
         </div>
 
         <!-- Mobile Menu -->
-        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-screen"
+        <div class="lg:hidden hidden bg-secondary border-t border-white/10 absolute w-full top-20 left-0 h-[calc(100vh-5rem)] overflow-y-auto"
             id="mobile-menu">
-            <nav class="flex flex-col p-10 space-y-8 text-center text-lg">
+            <nav class="flex flex-col p-10 pb-24 space-y-8 text-center text-lg">
                 <a href="store/cart.html"
                     class="text-white hover:text-primary font-en tracking-widest flex items-center justify-center gap-2">
                     <i class="fas fa-shopping-cart"></i> CART <span id="cart-badge-menu"
@@ -233,7 +233,7 @@ try {
 
         <!-- Scroll Indicator -->
         <div
-            class="absolute bottom-10 left-0 right-0 z-20 flex flex-col items-center gap-2 animate-bounce opacity-50">
+            class="absolute bottom-10 left-0 right-0 z-10 hidden md:flex flex-col items-center gap-2 animate-bounce opacity-50">
             <span class="text-[10px] tracking-widest font-en">SCROLL</span>
             <div class="w-px h-12 bg-white"></div>
         </div>
