@@ -148,6 +148,11 @@ if (empty($_SESSION['csrf_token'])) {
                 <p class="text-[10px] text-gray-500 text-center mt-4">
                     <i class="fas fa-lock mr-1"></i> SSL通信と3Dセキュア認証で安全に保護されます
                 </p>
+                <p class="text-[10px] text-gray-500 text-center mt-2 leading-relaxed">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    カードの有効性確認のため、決済サービスにより11円の少額認証が行われます。<br>
+                    クレジットカードの場合は引き落としされません。デビットカード・プリペイドカードの場合は一時的に引き落とされますが、後日自動的に返金されます。
+                </p>
             </form>
         </div>
 
