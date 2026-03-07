@@ -21,3 +21,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./src/
           server-dir: /public_html/giko-official.com/
+          exclude: |
+            assets/images/uploads/**
+            config/api_keys.php
+            admin/db/database.sqlite
