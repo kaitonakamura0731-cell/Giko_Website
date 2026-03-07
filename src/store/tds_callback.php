@@ -116,7 +116,7 @@ if ($orderData) {
     if ($custEmail && filter_var($custEmail, FILTER_VALIDATE_EMAIL)) {
         $user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
         $user_body = "{$custName} 様\n\nこの度は「技巧 -Giko-」にてご注文いただき、誠にありがとうございます。\n以下の内容で承りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n--------------------------------------------------\n{$customerInfo}--------------------------------------------------\n\n【ご注文内容】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\n商品の発送準備が整い次第、改めてご連絡させていただきます。\n万が一、ご注文内容に誤りがある場合は、以下のメールにてご連絡ください。\n{$CONTACT_EMAIL}\n\n--------------------------------------------------\n技巧 -Giko-\nhttps://giko-official.com\n--------------------------------------------------";
-        $user_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$ADMIN_EMAIL}\r\n";
+        $user_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
         mb_send_mail($custEmail, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
     }
 }

@@ -19,11 +19,11 @@ $NOREPLY_EMAIL = "noreply@{$SERVER_DOMAIN}";
 
 // 銀行振込先情報（order_complete.html と合わせて更新してください）
 $BANK_INFO = [
-    'bank_name'    => 'テスト銀行',
-    'branch_name'  => 'サンプル支店（999）',
+    'bank_name'    => '住信SBIネット銀行',
+    'branch_name'  => '法人第一支店',
     'account_type' => '普通',
-    'account_no'   => '1234567',
-    'account_holder' => 'カ）テストカイシャ',
+    'account_no'   => '2802643',
+    'account_holder' => 'ギコウサンゼロナナ（ド',
 ];
 
 // Headers helpers
@@ -170,7 +170,7 @@ $admin_headers .= "Cc: {$ADMIN_CC}\r\n";
 
 // User headers
 $user_headers = "From: {$NOREPLY_EMAIL}\r\n";
-$user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
+$user_headers .= "Reply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
 
 // Send to Admin
 $mail_admin = mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");

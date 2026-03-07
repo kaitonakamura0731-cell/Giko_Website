@@ -102,11 +102,11 @@ $CONTACT_EMAIL = 'info@giko-official.com';
 
 // 銀行振込先情報（order_complete.html / mail_order.php と合わせて更新してください）
 $BANK_INFO = [
-    'bank_name'      => 'テスト銀行',
-    'branch_name'    => 'サンプル支店（999）',
+    'bank_name'      => '住信SBIネット銀行',
+    'branch_name'    => '法人第一支店',
     'account_type'   => '普通',
-    'account_no'     => '1234567',
-    'account_holder' => 'カ）テストカイシャ',
+    'account_no'     => '2802643',
+    'account_holder' => 'ギコウサンゼロナナ（ド',
 ];
 
 // 商品一覧テキスト
@@ -206,7 +206,7 @@ https://giko-official.com
 EOT;
 
 $user_headers = "From: {$NOREPLY_EMAIL}\r\n";
-$user_headers .= "Reply-To: {$ADMIN_EMAIL}\r\n";
+$user_headers .= "Reply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
 mb_send_mail($cleanEmail, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
 
 // ---------------------------------------------------------
