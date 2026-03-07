@@ -20,12 +20,12 @@ try {
         exit;
     }
 
-    // Get Next/Prev（プリペアドステートメント使用）
-    $prev_stmt = $pdo->prepare("SELECT id FROM works WHERE id < ? ORDER BY id DESC LIMIT 1");
+    // Get Next/Prev（プリペアドステートメント使用、サムネイル・タイトル含む）
+    $prev_stmt = $pdo->prepare("SELECT id, title, main_image FROM works WHERE id < ? ORDER BY id DESC LIMIT 1");
     $prev_stmt->execute([$id]);
     $prev = $prev_stmt->fetch();
-    
-    $next_stmt = $pdo->prepare("SELECT id FROM works WHERE id > ? ORDER BY id ASC LIMIT 1");
+
+    $next_stmt = $pdo->prepare("SELECT id, title, main_image FROM works WHERE id > ? ORDER BY id ASC LIMIT 1");
     $next_stmt->execute([$id]);
     $next = $next_stmt->fetch();
 
@@ -238,46 +238,51 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
     </section>
 
     <!-- Next/Prev Navigation -->
-    <section class="py-20 bg-black border-t border-white/5">
+    <section class="py-12 md:py-20 bg-black border-t border-white/5">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-stretch gap-8 md:gap-0">
+            <div class="grid grid-cols-3 items-center gap-4">
                 <!-- PREV -->
                 <?php if ($prev): ?>
                     <a href="work_detail.php?id=<?php echo $prev['id']; ?>"
-                        class="group flex-1 md:py-8 md:pr-4 md:border-r border-white/10 hover:bg-white/5 transition-all duration-500 flex items-center justify-start gap-6 md:pl-10">
-                        <div class="text-left">
-                            <span class="block text-[10px] font-bold text-primary font-en tracking-widest mb-1">PREV</span>
-                            <div class="text-xl font-bold font-en text-white group-hover:text-primary transition-colors">
-                                PREV WORK</div>
+                        class="group flex items-center gap-3 hover:opacity-80 transition-all duration-300">
+                        <i class="fas fa-chevron-left text-xs text-gray-500 group-hover:text-primary transition-colors flex-shrink-0"></i>
+                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-sm overflow-hidden flex-shrink-0 border border-white/10">
+                            <img src="../<?php echo htmlspecialchars($prev['main_image']); ?>" alt="" class="w-full h-full object-cover">
+                        </div>
+                        <div class="hidden md:block min-w-0">
+                            <span class="block text-[10px] font-bold text-gray-500 font-en tracking-widest mb-0.5">PREV</span>
+                            <div class="text-sm font-bold text-white group-hover:text-primary transition-colors truncate"><?php echo htmlspecialchars($prev['title']); ?></div>
                         </div>
                     </a>
                 <?php else: ?>
-                    <div class="flex-1"></div>
+                    <div></div>
                 <?php endif; ?>
 
                 <!-- ALL -->
                 <a href="works.php"
-                    class="flex-none px-12 py-8 flex items-center justify-center hover:bg-white/5 transition-all group">
-                    <div class="w-2 h-2 bg-primary rounded-full group-hover:scale-150 transition-transform"></div>
-                    <div
-                        class="w-2 h-2 bg-primary rounded-full mx-2 group-hover:scale-150 transition-transform delay-75">
-                    </div>
-                    <div class="w-2 h-2 bg-primary rounded-full group-hover:scale-150 transition-transform delay-150">
+                    class="flex items-center justify-center py-4 hover:bg-white/5 rounded-sm transition-all group">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1.5 h-1.5 bg-primary rounded-full group-hover:scale-150 transition-transform"></div>
+                        <div class="w-1.5 h-1.5 bg-primary rounded-full group-hover:scale-150 transition-transform delay-75"></div>
+                        <div class="w-1.5 h-1.5 bg-primary rounded-full group-hover:scale-150 transition-transform delay-150"></div>
                     </div>
                 </a>
 
                 <!-- NEXT -->
                 <?php if ($next): ?>
                     <a href="work_detail.php?id=<?php echo $next['id']; ?>"
-                        class="group flex-1 md:py-8 md:pl-4 md:border-l border-white/10 hover:bg-white/5 transition-all duration-500 flex items-center justify-end gap-6 md:pr-10">
-                        <div class="text-right">
-                            <span class="block text-[10px] font-bold text-primary font-en tracking-widest mb-1">NEXT</span>
-                            <div class="text-xl font-bold font-en text-white group-hover:text-primary transition-colors">
-                                NEXT WORK</div>
+                        class="group flex items-center gap-3 justify-end hover:opacity-80 transition-all duration-300">
+                        <div class="hidden md:block min-w-0 text-right">
+                            <span class="block text-[10px] font-bold text-gray-500 font-en tracking-widest mb-0.5">NEXT</span>
+                            <div class="text-sm font-bold text-white group-hover:text-primary transition-colors truncate"><?php echo htmlspecialchars($next['title']); ?></div>
                         </div>
+                        <div class="w-12 h-12 md:w-16 md:h-16 rounded-sm overflow-hidden flex-shrink-0 border border-white/10">
+                            <img src="../<?php echo htmlspecialchars($next['main_image']); ?>" alt="" class="w-full h-full object-cover">
+                        </div>
+                        <i class="fas fa-chevron-right text-xs text-gray-500 group-hover:text-primary transition-colors flex-shrink-0"></i>
                     </a>
                 <?php else: ?>
-                    <div class="flex-1"></div>
+                    <div></div>
                 <?php endif; ?>
             </div>
         </div>

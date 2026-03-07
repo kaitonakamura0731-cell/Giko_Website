@@ -58,7 +58,7 @@ $csrf_token = $_SESSION['csrf_token'];
         </div>
     </section>
 
-    <main class="container mx-auto px-6 py-12 max-w-6xl">
+    <main class="container mx-auto px-6 py-12 pb-28 lg:pb-12 max-w-6xl">
 
         <!-- Error Message Display -->
         <div id="error-message"
@@ -93,16 +93,16 @@ $csrf_token = $_SESSION['csrf_token'];
                                     <label
                                         class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">NAME
                                         <span class="text-primary">*</span></label>
-                                    <input type="text" name="name" required
-                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-white placeholder-gray-700"
+                                    <input type="text" name="name" required autocomplete="name"
+                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-300 text-white placeholder-gray-700"
                                         placeholder="山田 太郎">
                                 </div>
                                 <div>
                                     <label
                                         class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">EMAIL
                                         <span class="text-primary">*</span></label>
-                                    <input type="email" name="email" required
-                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-white placeholder-gray-700"
+                                    <input type="email" name="email" required autocomplete="email"
+                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-300 text-white placeholder-gray-700"
                                         placeholder="example@giko.jp">
                                 </div>
                             </div>
@@ -110,8 +110,8 @@ $csrf_token = $_SESSION['csrf_token'];
                             <div>
                                 <label class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">PHONE
                                     <span class="text-primary">*</span></label>
-                                <input type="tel" name="phone" required
-                                    class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-white placeholder-gray-700"
+                                <input type="tel" name="phone" required autocomplete="tel"
+                                    class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-300 text-white placeholder-gray-700"
                                     placeholder="090-1234-5678">
                             </div>
 
@@ -120,16 +120,16 @@ $csrf_token = $_SESSION['csrf_token'];
                                     <label
                                         class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">POSTAL
                                         CODE <span class="text-primary">*</span></label>
-                                    <input type="text" name="zip" required
-                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-white placeholder-gray-700"
+                                    <input type="text" name="zip" required autocomplete="postal-code"
+                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-300 text-white placeholder-gray-700"
                                         placeholder="123-4567">
                                 </div>
                                 <div class="col-span-8">
                                     <label
                                         class="block text-xs font-bold font-en tracking-widest mb-2 text-gray-400">ADDRESS
                                         <span class="text-primary">*</span></label>
-                                    <input type="text" name="address" required
-                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300 text-white placeholder-gray-700"
+                                    <input type="text" name="address" required autocomplete="street-address"
+                                        class="w-full bg-black border border-white/10 px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-300 text-white placeholder-gray-700"
                                         placeholder="都道府県 市区町村 番地">
                                 </div>
                             </div>
@@ -203,13 +203,13 @@ $csrf_token = $_SESSION['csrf_token'];
                                 <h4 class="text-sm font-bold text-yellow-400 mb-3"><i class="fas fa-exclamation-triangle mr-1"></i> 注意事項</h4>
                                 <p class="text-sm text-gray-300 mb-4">取り外した部品を返送する場合は、商品到着後 <span class="text-primary font-bold">2週間以内</span> にご返送をお願いいたします。</p>
 
-                                <label class="flex items-start gap-3 cursor-pointer group" id="confirm-flow-label">
+                                <label class="flex items-start gap-3 cursor-pointer group min-h-[44px] py-1" id="confirm-flow-label">
                                     <input type="checkbox" id="confirm-flow-checkbox"
-                                        class="mt-1 w-5 h-5 rounded border-2 border-white/30 bg-transparent accent-primary cursor-pointer flex-shrink-0"
+                                        class="mt-0.5 w-6 h-6 min-w-[24px] rounded border-2 border-white/30 bg-transparent accent-primary cursor-pointer flex-shrink-0"
                                         onchange="togglePaymentButtons()">
                                     <span class="text-sm text-gray-300 group-hover:text-white transition-colors">
                                         上記の購入後フローおよび注意事項を確認しました。<br>
-                                        <span class="text-[11px] text-gray-500">※取り外した部品がない場合・返送しない場合もチェックしてください</span>
+                                        <span class="text-xs text-gray-500">※取り外した部品がない場合・返送しない場合もチェックしてください</span>
                                     </span>
                                 </label>
                                 <p id="checkbox-warning" class="text-xs text-red-400 mt-2 ml-8 hidden">
@@ -243,7 +243,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                             class="indicator-icon fas fa-credit-card text-2xl text-gray-400 transition-colors"></i>
                                     </div>
                                     <div class="font-bold tracking-wide mb-1">クレジットカード</div>
-                                    <p class="text-[10px] text-gray-400 font-en">VISA, Master, JCB, AMEX, Diners</p>
+                                    <p class="text-xs text-gray-400 font-en">VISA, Master, JCB, AMEX, Diners</p>
                                 </div>
                             </label>
 
@@ -273,7 +273,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                             class="indicator-icon fas fa-university text-2xl text-gray-400 transition-colors"></i>
                                     </div>
                                     <div class="font-bold tracking-wide mb-1">銀行振込</div>
-                                    <p class="text-[10px] text-gray-400">銀行振込（前払い）</p>
+                                    <p class="text-xs text-gray-400">銀行振込（前払い）</p>
                                     <p class="text-xs text-primary font-bold mt-2">
                                         <i class="fas fa-truck-fast mr-1"></i> 送料無料対象
                                     </p>
@@ -293,7 +293,7 @@ $csrf_token = $_SESSION['csrf_token'];
                             ご注文内容</h2>
 
                         <div id="checkout-items"
-                            class="space-y-6 mb-8 max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
+                            class="space-y-6 mb-8 max-h-[200px] lg:max-h-[400px] overflow-y-auto pr-2 scrollbar-hide">
                             <!-- Items injected via JS -->
                         </div>
 
@@ -339,10 +339,10 @@ $csrf_token = $_SESSION['csrf_token'];
                                     disabled>
                                     決済へ進む
                                 </button>
-                                <p class="text-[10px] text-gray-500 text-center">
+                                <p class="text-xs text-gray-500 text-center">
                                     <i class="fas fa-lock mr-1"></i> SSL通信と3Dセキュア認証で安全に保護されます
                                 </p>
-                                <details class="mt-2 text-[10px] text-gray-500 text-center">
+                                <details class="mt-2 text-xs text-gray-500 text-center">
                                     <summary class="cursor-pointer hover:text-gray-400"><i class="fas fa-info-circle mr-1"></i>デビットカードをご利用の方へ</summary>
                                     <p class="mt-1 leading-relaxed">カード有効性確認のため11円の少額認証が行われます。後日自動的に返金されます。</p>
                                 </details>
@@ -355,7 +355,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                     disabled>
                                     注文を確定する
                                 </button>
-                                <p class="text-[10px] text-gray-500 mt-4 text-center">
+                                <p class="text-xs text-gray-500 mt-4 text-center">
                                     注文確定後、振込先をご案内します
                                 </p>
                             </div>
@@ -368,7 +368,7 @@ $csrf_token = $_SESSION['csrf_token'];
                         </div>
                     </div>
 
-                    <div class="mt-8 text-center text-[10px] text-gray-600">
+                    <div class="mt-8 text-center text-xs text-gray-600">
                         <a href="../legal/tokusho.html" target="_blank"
                             class="hover:text-gray-400 underline decoration-gray-600">特定商取引法に基づく表記</a>
                         <span class="mx-2">|</span>
@@ -443,7 +443,7 @@ $csrf_token = $_SESSION['csrf_token'];
     <div id="mobile-pay-bar" class="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 transition-transform duration-300">
         <div class="flex items-center justify-between gap-4">
             <div class="flex-shrink-0">
-                <p class="text-[10px] text-gray-400 font-en tracking-widest">TOTAL</p>
+                <p class="text-xs text-gray-400 font-en tracking-widest">TOTAL</p>
                 <span id="mobile-total" class="text-xl font-bold text-primary font-en">¥0</span>
             </div>
             <button type="button" id="btn-mobile-pay"
@@ -468,11 +468,11 @@ $csrf_token = $_SESSION['csrf_token'];
     <div id="confirmation-modal"
         class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div
-            class="bg-gray-900 border border-gold-500/30 rounded-lg max-w-2xl w-full shadow-2xl overflow-hidden transform transition-all scale-100">
+            class="bg-gray-900 border border-gold-500/30 rounded-lg max-w-2xl w-full shadow-2xl overflow-hidden transform transition-all scale-100 max-h-[95vh] flex flex-col">
             <!-- Modal Header -->
             <div
-                class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gold-500/30 p-6 flex justify-between items-center">
-                <h3 class="text-2xl font-serif text-white tracking-wider"><span class="text-gold-400">❖</span> 注文内容の確認
+                class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gold-500/30 p-4 md:p-6 flex justify-between items-center flex-shrink-0">
+                <h3 class="text-lg md:text-2xl font-serif text-white tracking-wider"><span class="text-gold-400">❖</span> 注文内容の確認
                 </h3>
                 <button type="button" onclick="closeConfirmationModal()"
                     class="text-gray-400 hover:text-white transition-colors">
@@ -481,7 +481,7 @@ $csrf_token = $_SESSION['csrf_token'];
             </div>
 
             <!-- Modal Body -->
-            <div class="p-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
+            <div class="p-4 md:p-6 overflow-y-auto custom-scrollbar flex-1 min-h-0">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                         <h4 class="text-gold-400 font-serif mb-4 border-b border-gray-700 pb-2">お届け先情報</h4>
@@ -513,7 +513,7 @@ $csrf_token = $_SESSION['csrf_token'];
             </div>
 
             <!-- Modal Footer -->
-            <div class="bg-gray-900 p-6 border-t border-gold-500/30 flex justify-end gap-4">
+            <div class="bg-gray-900 p-4 md:p-6 border-t border-gold-500/30 flex justify-end gap-3 md:gap-4 flex-shrink-0">
                 <button type="button" onclick="closeConfirmationModal()"
                     class="px-6 py-3 rounded border border-gray-600 text-gray-400 hover:text-white hover:border-gray-400 transition-all font-serif">
                     修正する
