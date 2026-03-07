@@ -155,8 +155,8 @@ EOT;
 
 $admin_headers = "From: {$NOREPLY_EMAIL}\r\n";
 $admin_headers .= "Reply-To: {$cleanEmail}\r\n";
-$admin_headers .= "Cc: {$ADMIN_CC}\r\n";
-mb_send_mail($ADMIN_EMAIL, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
+$admin_to = "{$ADMIN_EMAIL}, {$ADMIN_CC}";
+mb_send_mail($admin_to, $admin_subject, $admin_body, $admin_headers, "-f{$NOREPLY_EMAIL}");
 
 // --- お客様向けメール（振込先情報付き） ---
 $bankInfoBlock = <<<BANK
