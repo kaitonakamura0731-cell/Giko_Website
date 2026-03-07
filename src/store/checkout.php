@@ -428,6 +428,21 @@ $csrf_token = $_SESSION['csrf_token'];
         </div>
     </div>
 
+    <!-- Mobile Sticky Bottom Bar -->
+    <div id="mobile-pay-bar" class="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-black/95 backdrop-blur-md border-t border-white/10 px-4 py-3 translate-y-full transition-transform duration-300">
+        <div class="flex items-center justify-between gap-4">
+            <div class="flex-shrink-0">
+                <p class="text-[10px] text-gray-400 font-en tracking-widest">TOTAL</p>
+                <span id="mobile-total" class="text-xl font-bold text-primary font-en">¥0</span>
+            </div>
+            <button type="button" id="btn-mobile-pay"
+                class="flex-1 bg-[#C0A062] text-black font-bold py-3 rounded-sm tracking-widest font-en text-sm shadow-xl uppercase disabled:opacity-30 disabled:cursor-not-allowed"
+                disabled onclick="handleMobilePayment()">
+                決済へ進む
+            </button>
+        </div>
+    </div>
+
     <div id="loading-overlay"
         class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center">
         <div class="text-center">
@@ -619,19 +634,23 @@ $csrf_token = $_SESSION['csrf_token'];
             // 合計表示
             document.getElementById('checkout-total').innerText = '¥' + total.toLocaleString();
             document.getElementById('form-amount').value = total;
+            if (typeof updateMobileTotal === 'function') updateMobileTotal();
         }
 
         function togglePayment(method) {
             currentPaymentMethod = method;
             const cardDiv = document.getElementById('payment-card');
             const transferDiv = document.getElementById('payment-transfer');
+            const btnMobile = document.getElementById('btn-mobile-pay');
 
             if (method === 'card') {
                 cardDiv.classList.remove('hidden');
                 transferDiv.classList.add('hidden');
+                if (btnMobile) btnMobile.textContent = '決済へ進む';
             } else {
                 cardDiv.classList.add('hidden');
                 transferDiv.classList.remove('hidden');
+                if (btnMobile) btnMobile.textContent = '注文を確定する';
             }
 
             // 送料・合計を再計算
@@ -646,6 +665,7 @@ $csrf_token = $_SESSION['csrf_token'];
             const paymentLabels = document.querySelectorAll('.payment-option-label');
             const btnCard = document.getElementById('btn-card-pay');
             const btnTransfer = document.getElementById('btn-transfer-pay');
+            const btnMobile = document.getElementById('btn-mobile-pay');
 
             if (isChecked) {
                 // 決済ボタンを有効化
@@ -655,6 +675,7 @@ $csrf_token = $_SESSION['csrf_token'];
                 });
                 if (btnCard) btnCard.disabled = false;
                 if (btnTransfer) btnTransfer.disabled = false;
+                if (btnMobile) btnMobile.disabled = false;
                 if (warning) warning.classList.add('hidden');
             } else {
                 // 決済ボタンを無効化
@@ -664,7 +685,51 @@ $csrf_token = $_SESSION['csrf_token'];
                 });
                 if (btnCard) btnCard.disabled = true;
                 if (btnTransfer) btnTransfer.disabled = true;
+                if (btnMobile) btnMobile.disabled = true;
                 if (warning) warning.classList.remove('hidden');
+            }
+        }
+
+        // Mobile sticky bar: show when scrolled past the desktop payment button
+        (function() {
+            const mobileBar = document.getElementById('mobile-pay-bar');
+            if (!mobileBar) return;
+            const orderSummary = document.querySelector('.lg\\:col-span-5');
+            if (!orderSummary) return;
+
+            function checkScroll() {
+                if (window.innerWidth >= 1024) {
+                    mobileBar.classList.add('translate-y-full');
+                    return;
+                }
+                const rect = orderSummary.getBoundingClientRect();
+                if (rect.bottom < 0) {
+                    mobileBar.classList.remove('translate-y-full');
+                } else {
+                    mobileBar.classList.add('translate-y-full');
+                }
+            }
+            window.addEventListener('scroll', checkScroll, { passive: true });
+            window.addEventListener('resize', checkScroll);
+            checkScroll();
+        })();
+
+        // Mobile pay button triggers the correct payment method
+        function handleMobilePayment() {
+            const cardSelected = document.querySelector('input[name="payment_method"][value="card"]');
+            if (cardSelected && cardSelected.checked) {
+                handleCardPayment();
+            } else {
+                handleBankTransfer();
+            }
+        }
+
+        // Sync mobile total with main total
+        function updateMobileTotal() {
+            const mainTotal = document.getElementById('checkout-total');
+            const mobileTotal = document.getElementById('mobile-total');
+            if (mainTotal && mobileTotal) {
+                mobileTotal.textContent = mainTotal.textContent;
             }
         }
 
