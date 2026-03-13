@@ -8,11 +8,8 @@ require_once '../includes/db.php';
 
 header('Content-Type: application/json');
 
-// 認証チェック
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+// 認証チェック（auth.php で session_start() 済み）
+if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
     echo json_encode(['error' => 'Unauthorized']);
     exit;
