@@ -36,11 +36,11 @@ try {
 // Fetch works（カテゴリでフィルタリング）
 try {
     if ($activeCategory !== 'all' && $activeCategory !== '') {
-        $stmt = $pdo->prepare("SELECT * FROM works WHERE category = :category ORDER BY created_at DESC");
+        $stmt = $pdo->prepare("SELECT * FROM works WHERE category = :category ORDER BY sort_order ASC, created_at DESC");
         $stmt->bindParam(':category', $activeCategory, PDO::PARAM_STR);
         $stmt->execute();
     } else {
-        $stmt = $pdo->query("SELECT * FROM works ORDER BY created_at DESC");
+        $stmt = $pdo->query("SELECT * FROM works ORDER BY sort_order ASC, created_at DESC");
     }
     $works = $stmt->fetchAll();
 } catch (PDOException $e) {
@@ -63,9 +63,10 @@ $categoryBadges = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WORKS | 技巧 -Giko-</title>
+    <link rel="icon" href="../assets/images/favicon.ico">
+    <title>WORKS | 技巧 -GIKO-</title>
     <!-- OGP -->
-    <meta property="og:title" content="WORKS | 技巧 -Giko-">
+    <meta property="og:title" content="WORKS | 技巧 -GIKO-">
     <meta property="og:description" content="施工実績一覧。最高級の技術で仕上げた作品をご覧ください。">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://giko-official.com/pages/works.php">
@@ -307,13 +308,13 @@ $categoryBadges = [
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <div>
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
-                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">確かな技術と高品質な素材で、唯一無二の内装を。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
                         <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
                     </div>
                 </div>
                 <div>

@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label class="form-label">サイトタイトル (Site Title)</label>
                     <input type="text" name="site_title" class="form-input"
-                        value="<?php echo htmlspecialchars(get_setting('site_title')); ?>" placeholder="技巧 -Giko-">
+                        value="<?php echo htmlspecialchars(get_setting('site_title')); ?>" placeholder="技巧 -GIKO-">
                 </div>
                 <div class="form-group">
                     <label class="form-label">サイト説明 (Description)</label>

@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
             hero_sub: 'Beyond the Genuine Quality',
             concept_main: '「純正超え」の<br>感動品質を。',
             concept_text:
-                '量産車にはない「あなただけ」の理想を叶える。<br>私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を提供します。<br>最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>それが、技巧 -GIKO- の流儀です。',
+                '量産車にはない「あなただけ」の理想を叶える。<br>私たちは、素材選びからステッチひとつに至るまで、細部までこだわり抜いた職人技で理想の空間を提供します。<br>最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>それが、技巧 -GIKO- の流儀です。',
             ba_desc:
-                '長年の使用で劣化したシートも、技巧-Giko-の手にかかれば新品以上の輝きを取り戻します。<br>スライダーを動かして、その変化をご覧ください。',
+                '長年の使用で劣化したシートも、技巧-GIKO-の手にかかれば純正以上の輝きを取り戻します。<br>スライダーを動かして、その変化をご覧ください。',
             ba_before_title: 'BEFORE STATE',
             ba_before_text:
                 '経年劣化によるひび割れ、色褪せ、ウレタンのへたりが見られる状態。\n革本来のツヤは失われ、表面のコーティングも剥がれています。',
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             ba_page_main_title: '劇的な変化を、その目で。',
             ba_page_main_desc:
-                '長年の使用で劣化したシートも、技巧-Giko-の手にかかれば新品以上の輝きを取り戻します。<br>スライダーを動かして、その変化をご覧ください。',
+                '長年の使用で劣化したシートも、技巧-GIKO-の手にかかれば純正以上の輝きを取り戻します。<br>スライダーを動かして、その変化をご覧ください。',
             ba_page_before_desc:
                 '経年劣化によるひび割れ、色褪せ、ウレタンのへたりが見られる状態。<br>革本来のツヤは失われ、表面のコーティングも剥がれています。',
             ba_page_after_desc:
@@ -101,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
             hero_sub: 'Beyond the Genuine Quality',
             concept_main: 'Quality Beyond<br>the Genuine.',
             concept_text:
-                'A special feeling that mass-produced cars cannot offer.<br>We realize your ideal space with uncompromising craftsmanship, from material selection to every single stitch.<br>Incorporating the latest European trends, finished with Japanese craftsmanship.<br>That is the Giko style.',
+                'A special feeling that mass-produced cars cannot offer.<br>We realize your ideal space with uncompromising craftsmanship, from material selection to every single stitch.<br>Incorporating the latest European trends, finished with Japanese craftsmanship.<br>That is the GIKO style.',
             ba_desc:
-                'Even seats deteriorated over years of use regain a shine better than new in the hands of Giko.<br>Move the slider to see the transformation.',
+                'Even seats deteriorated over years of use regain a shine better than new in the hands of GIKO.<br>Move the slider to see the transformation.',
             ba_before_title: 'BEFORE STATE',
             ba_before_text:
                 'State showing cracking, fading, and urethane collapse due to aging.\nThe original leather sheen is lost, and the surface coating is peeling.',
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             ba_page_main_title: 'Witness the dramatic transformation.',
             ba_page_main_desc:
-                'Even seats deteriorated from years of use regain a shine better than new in the hands of Giko.<br>Move the slider to see the transformation.',
+                'Even seats deteriorated from years of use regain a shine better than new in the hands of GIKO.<br>Move the slider to see the transformation.',
             ba_page_before_desc:
                 'A state showing cracking, fading, and urethane collapse due to aging.<br>The original leather sheen is lost, and the surface coating is peeling.',
             ba_page_after_desc:

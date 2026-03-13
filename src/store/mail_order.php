@@ -76,7 +76,7 @@ foreach ($items as $item) {
 }
 
 // 5. Admin Email Content
-$admin_subject = "【技巧 -Giko-】新規注文受信 ({$orderId})";
+$admin_subject = "【技巧 -GIKO-】新規注文受信 ({$orderId})";
 $admin_body = <<<EOT
 新規の注文が入りました。
 
@@ -130,11 +130,11 @@ if (strtoupper($paymentMethod) === 'BANK TRANSFER') {
 BANK;
 }
 
-$user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
+$user_subject = "【技巧 -GIKO-】ご注文ありがとうございます ({$orderId})";
 $user_body = <<<EOT
 {$name} 様
 
-この度は「技巧 -Giko-」にてご注文いただき、誠にありがとうございます。
+この度は「技巧 -GIKO-」にてご注文いただき、誠にありがとうございます。
 以下の内容で承りました。
 
 【注文ID】 {$orderId}
@@ -156,7 +156,7 @@ $user_body = <<<EOT
 ※デビットカード・プリペイドカードをご利用の場合、カード有効性確認のため11円の少額認証が一時的に発生しますが、後日自動的に返金されます。
 
 --------------------------------------------------
-技巧 -Giko-
+技巧 -GIKO-
 https://giko-official.com
 --------------------------------------------------
 EOT;
