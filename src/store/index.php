@@ -9,11 +9,11 @@ $tiktok_url = get_setting('social_tiktok', 'https://www.tiktok.com/@giko_artisan
 $line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
 
 try {
-    $stmt = $pdo->query("SELECT * FROM products WHERE stock_status = 1 ORDER BY sort_order ASC, id ASC");
+    $stmt = $pdo->query("SELECT * FROM products WHERE stock_status = 1 ORDER BY sort_order ASC, id DESC");
     $products = $stmt->fetchAll();
 } catch (PDOException $e) {
     // sort_order カラムが無い場合はフォールバック
-    $stmt = $pdo->query("SELECT * FROM products WHERE stock_status = 1 ORDER BY id ASC");
+    $stmt = $pdo->query("SELECT * FROM products WHERE stock_status = 1 ORDER BY id DESC");
     $products = $stmt->fetchAll();
 }
 
