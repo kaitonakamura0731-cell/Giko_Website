@@ -383,7 +383,7 @@ try {
     <?php
     // 商品データを取得（タグ抽出のため全件取得）
     try {
-        $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY sort_order ASC, id ASC");
+        $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY sort_order ASC, id DESC");
         $products_stmt->execute();
         $latest_products = $products_stmt->fetchAll();
     } catch (PDOException $e) {
