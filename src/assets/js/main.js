@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             material_main: '手に触れる全てに、<br>最高級の悦びを。',
             material_sub1_title: '厳選された本革',
             material_sub1_text:
-                '欧州の高級車にも採用されるナッパレザーをはじめ、耐久性と質感に優れた最高ランクの原皮のみを厳選。\n時を経るごとに馴染み、深みを増す本物の質感をお楽しみください。',
+                '厳選された本革、または本革に限りなく近い質感と高い耐久性を持つマイクロファイバー合皮を採用しています。',
             material_sub2_title: '多種多様なマテリアル',
             material_sub2_text:
                 'アルカンターラ、パンチングレザー、カーボンレザーなど、デザイン性と機能性を両立する多彩な素材をご用意。\nステッチの糸一本の色に至るまで、数千通りの組み合わせが可能です。',
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             material_main: 'Premium Joy in<br>Everything You Touch.',
             material_sub1_title: 'Carefully Selected Leather',
             material_sub1_text:
-                'We select only the highest rank raw hides with excellent durability and texture, including Nappa leather used in European luxury cars.\nEnjoy the genuine texture that adapts and gains depth over time.',
+                'We use carefully selected genuine leather, or microfiber synthetic leather with a texture and durability closely resembling real leather.',
             material_sub2_title: 'Diverse Materials',
             material_sub2_text:
                 'We offer a variety of materials that balance design and functionality, such as Alcantara, punched leather, and carbon leather.\nThousands of combinations are possible, down to the color of a single stitch thread.',
