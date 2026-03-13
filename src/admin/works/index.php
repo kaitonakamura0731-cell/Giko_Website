@@ -8,7 +8,9 @@ try {
     $stmt = $pdo->query("SELECT * FROM works ORDER BY sort_order ASC, created_at DESC");
     $works = $stmt->fetchAll();
 } catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
+    // sort_order カラムが無い場合はフォールバック
+    $stmt = $pdo->query("SELECT * FROM works ORDER BY created_at DESC");
+    $works = $stmt->fetchAll();
 }
 
 // カテゴリ日本語マッピング

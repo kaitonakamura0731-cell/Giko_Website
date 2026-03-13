@@ -44,7 +44,19 @@ try {
     }
     $works = $stmt->fetchAll();
 } catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
+    // sort_order カラムが無い場合はフォールバック
+    try {
+        if ($activeCategory !== 'all' && $activeCategory !== '') {
+            $stmt = $pdo->prepare("SELECT * FROM works WHERE category = :category ORDER BY created_at DESC");
+            $stmt->bindParam(':category', $activeCategory, PDO::PARAM_STR);
+            $stmt->execute();
+        } else {
+            $stmt = $pdo->query("SELECT * FROM works ORDER BY created_at DESC");
+        }
+        $works = $stmt->fetchAll();
+    } catch (PDOException $e2) {
+        $works = [];
+    }
 }
 
 // カテゴリバッジ設定

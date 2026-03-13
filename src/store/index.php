@@ -12,7 +12,9 @@ try {
     $stmt = $pdo->query("SELECT * FROM products WHERE stock_status = 1 ORDER BY sort_order ASC, id ASC");
     $products = $stmt->fetchAll();
 } catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
+    // sort_order カラムが無い場合はフォールバック
+    $stmt = $pdo->query("SELECT * FROM products WHERE stock_status = 1 ORDER BY id ASC");
+    $products = $stmt->fetchAll();
 }
 
 // 車種タグのユニークリストを取得

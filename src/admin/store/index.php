@@ -7,7 +7,9 @@ try {
     $stmt = $pdo->query("SELECT * FROM products ORDER BY sort_order ASC, id DESC");
     $products = $stmt->fetchAll();
 } catch (PDOException $e) {
-    $error = "DB Error: " . $e->getMessage();
+    // sort_order カラムが無い場合はフォールバック
+    $stmt = $pdo->query("SELECT * FROM products ORDER BY id DESC");
+    $products = $stmt->fetchAll();
 }
 
 require_once '../includes/header.php';
