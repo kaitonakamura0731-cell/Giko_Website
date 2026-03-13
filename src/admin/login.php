@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Giko Admin</title>
+    <title>Login - GIKO Admin</title>
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <div class="text-center mt-6 text-gray-500 text-xs">
-            &copy; <?php echo date('Y'); ?> Giko Website. All rights reserved.
+            &copy; <?php echo date('Y'); ?> GIKO Website. All rights reserved.
         </div>
     </div>
 

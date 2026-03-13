@@ -24,7 +24,7 @@ try {
 
 // Fetch Works
 try {
-    $works_stmt = $pdo->prepare("SELECT * FROM works ORDER BY created_at DESC LIMIT 3");
+    $works_stmt = $pdo->prepare("SELECT * FROM works ORDER BY sort_order ASC, created_at DESC LIMIT 3");
     $works_stmt->execute();
     $latest_works = $works_stmt->fetchAll();
 } catch (PDOException $e) {
@@ -33,7 +33,7 @@ try {
 
 // Fetch Products (Latest 3)
 try {
-    $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY created_at DESC LIMIT 3");
+    $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY sort_order ASC, created_at DESC LIMIT 3");
     $products_stmt->execute();
     $latest_products = $products_stmt->fetchAll();
 } catch (PDOException $e) {
@@ -46,20 +46,20 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars(get_setting('site_title', '技巧 -Giko- | Automotive Interior Specialist')); ?>
+    <title><?php echo htmlspecialchars(get_setting('site_title', '技巧 -GIKO- | Automotive Interior Specialist')); ?>
     </title>
     <meta name="description"
         content="<?php echo htmlspecialchars(get_setting('site_description', '職人の手による最高級本革シート張り替え。愛車に感動と喜びを。')); ?>">
     <!-- OGP -->
     <meta property="og:title"
-        content="<?php echo htmlspecialchars(get_setting('site_title', '技巧 -Giko- | Automotive Interior Specialist')); ?>">
+        content="<?php echo htmlspecialchars(get_setting('site_title', '技巧 -GIKO- | Automotive Interior Specialist')); ?>">
     <meta property="og:description"
         content="<?php echo htmlspecialchars(get_setting('site_description', '職人の手による最高級本革シート張り替え。愛車に感動と喜びを。')); ?>">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://giko-official.com/">
     <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <!-- <link rel="icon" href="./assets/images/favicon.ico"> -->
+    <link rel="icon" href="./assets/images/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="./tailwind_config.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,11 +127,11 @@ try {
 
             <!-- SNS Icons Desktop -->
             <div class="hidden lg:flex ml-4 items-center gap-4">
-                <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-tiktok"></i></a>
-                <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-x-twitter"></i></a>
-                <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-youtube"></i></a>
-                <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-instagram"></i></a>
                 <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-[#06C755] transition-colors text-lg"><i class="fab fa-line"></i></a>
+                <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-instagram"></i></a>
+                <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-tiktok"></i></a>
+                <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-youtube"></i></a>
+                <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-5 flex items-center justify-center text-white/60 hover:text-primary transition-colors text-lg"><i class="fab fa-x-twitter"></i></a>
             </div>
 
             <!-- Language Switcher Desktop -->
@@ -174,7 +174,7 @@ try {
                 <a href="#concept" class="text-white hover:text-primary font-en tracking-widest">CONCEPT</a>
                 <a href="pages/works.php" class="text-white hover:text-primary font-en tracking-widest">WORKS</a>
                 <a href="store/index.php" class="text-white hover:text-primary font-en tracking-widest">STORE</a>
-                <a href="pages/before_after.php" class="text-white hover:text-primary font-en tracking-widest">BEFORE &
+                <a href="pages/before_after.html" class="text-white hover:text-primary font-en tracking-widest">BEFORE &
                     AFTER</a>
                 <a href="#material" class="text-white hover:text-primary font-en tracking-widest">MATERIAL</a>
                 <a href="#flow" class="text-white hover:text-primary font-en tracking-widest">FLOW</a>
@@ -281,7 +281,7 @@ try {
                         </h2>
                         <p class="text-gray-400 leading-loose mb-8 text-justify" data-i18n="concept_text">
                             量産車にはない「あなただけ」の理想を叶える。<br>
-                            私たちは、素材選びからステッチひとつに至るまで、妥協なきクラフトマンシップで理想の空間を提供します。<br>
+                            私たちは、素材選びからステッチひとつに至るまで、細部までこだわり抜いた職人技で理想の空間を提供します。<br>
                             最新の欧州車に見られるトレンドを取り入れつつ、日本の職人技で仕上げる。<br>
                             それが、技巧 -GIKO- の流儀です。
                         </p>
@@ -346,7 +346,7 @@ try {
                     <div class="works-tile-bg absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-700" style="background-image: url('./assets/images/tile_ambient.jpg');"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                     <div class="relative z-10 text-center">
-                        <span class="text-lg md:text-xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">アンビエントライト</span>
+                        <span class="text-xl md:text-2xl font-bold tracking-wider group-hover:text-primary transition-colors duration-300">アンビエントライト</span>
                     </div>
                 </a>
 
@@ -383,7 +383,7 @@ try {
     <?php
     // 商品データを取得（タグ抽出のため全件取得）
     try {
-        $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY id ASC");
+        $products_stmt = $pdo->prepare("SELECT * FROM products WHERE stock_status = 1 ORDER BY sort_order ASC, id ASC");
         $products_stmt->execute();
         $latest_products = $products_stmt->fetchAll();
     } catch (PDOException $e) {
@@ -557,8 +557,7 @@ try {
                             <h3 class="text-primary font-bold tracking-widest font-en mb-2 text-sm"
                                 data-i18n="material_sub1_title">厳選された本革</h3>
                             <p class="text-sm text-gray-400 leading-loose" data-i18n="material_sub1_text">
-                                欧州の高級車にも採用されるナッパレザーをはじめ、耐久性と質感に優れた最高ランクの原皮のみを厳選。<br>
-                                時を経るごとに馴染み、深みを増す本物の質感をお楽しみください。
+                                厳選された本革、または本革に限りなく近い質感と高い耐久性を持つマイクロファイバー合皮を採用しています。
                             </p>
                         </div>
                         <div>
@@ -665,7 +664,7 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BUSINESS</div>
-                    <div class="md:w-2/3 py-2" data-i18n="company_business">自動車内装のカスタム/補修リペア<br>シート/ステアリング/天井張替え<br>車種専用インテリアパーツ販売</div>
+                    <div class="md:w-2/3 py-2" data-i18n="company_business">自動車全内装張替え / 部分内装張替え / 補修リペア / スターライト / アンビエントライト<br>車種専用内装張替えパーツ販売</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">TEL</div>
@@ -700,13 +699,13 @@ try {
                 <!-- Col 1: Logo & SNS -->
                 <div>
                     <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
-                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">確かな技術と高品質な素材で、唯一無二の内装を。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
                         <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
                     </div>
                 </div>
                 <!-- Col 2: Menu -->

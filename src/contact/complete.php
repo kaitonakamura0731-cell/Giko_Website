@@ -89,7 +89,7 @@ mb_language('Japanese');
 mb_internal_encoding('UTF-8');
 
 // A. Notification to Admin
-$admin_subject = "【技巧 -Giko-】お問い合わせ: " . mb_substr($subject_txt, 0, 20);
+$admin_subject = "【技巧 -GIKO-】お問い合わせ: " . mb_substr($subject_txt, 0, 20);
 $admin_body = <<<EOT
 ウェブサイトからお問い合わせがありました。
 
@@ -123,11 +123,11 @@ if (!$mail_sent) {
 
 // B. Auto-Reply to User
 if ($mail_sent) {
-    $user_subject = "【技巧 -Giko-】お問い合わせありがとうございます";
+    $user_subject = "【技巧 -GIKO-】お問い合わせありがとうございます";
     $user_body = <<<EOT
 {$name_txt} 様
 
-この度は「技巧 -Giko-」へお問い合わせいただき、誠にありがとうございます。
+この度は「技巧 -GIKO-」へお問い合わせいただき、誠にありがとうございます。
 以下の内容で受け付けいたしました。
 
 【件名】 {$subject_txt}
@@ -143,7 +143,7 @@ if ($mail_sent) {
 Email: {$ADMIN_CC}
 
 --------------------------------------------------
-技巧 -Giko-
+技巧 -GIKO-
 https://giko-official.com
 --------------------------------------------------
 EOT;
@@ -168,7 +168,8 @@ EOT;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENT | 技巧 -Giko-</title>
+    <link rel="icon" href="../assets/images/favicon.ico">
+    <title>SENT | 技巧 -GIKO-</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
     <link
@@ -218,13 +219,13 @@ EOT;
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <div>
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
-                    <p class="text-xs text-gray-500 leading-loose mb-6">最高級の素材と技術で、カーライフに彩りを。</p>
+                    <p class="text-xs text-gray-500 leading-loose mb-6">確かな技術と高品質な素材で、唯一無二の内装を。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
                         <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
                     </div>
                 </div>
                 <div>

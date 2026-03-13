@@ -131,7 +131,7 @@ mb_language("Japanese");
 mb_internal_encoding("UTF-8");
 
 // --- 管理者向けメール ---
-$admin_subject = "【技巧 -Giko-】新規注文受信（銀行振込） ({$orderId})";
+$admin_subject = "【技巧 -GIKO-】新規注文受信（銀行振込） ({$orderId})";
 $admin_body = <<<EOT
 新規の注文が入りました（銀行振込）。
 
@@ -176,11 +176,11 @@ $bankInfoBlock = <<<BANK
 ※ご入金確認後、発送手続きを開始いたします。
 BANK;
 
-$user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
+$user_subject = "【技巧 -GIKO-】ご注文ありがとうございます ({$orderId})";
 $user_body = <<<EOT
 {$name} 様
 
-この度は「技巧 -Giko-」にてご注文いただき、誠にありがとうございます。
+この度は「技巧 -GIKO-」にてご注文いただき、誠にありがとうございます。
 以下の内容で承りました。
 
 【注文ID】 {$orderId}
@@ -200,7 +200,7 @@ $user_body = <<<EOT
 {$CONTACT_EMAIL}
 
 --------------------------------------------------
-技巧 -Giko-
+技巧 -GIKO-
 https://giko-official.com
 --------------------------------------------------
 EOT;

@@ -5,7 +5,7 @@ checkAuth();
 
 // Fetch works
 try {
-    $stmt = $pdo->query("SELECT * FROM works ORDER BY created_at DESC");
+    $stmt = $pdo->query("SELECT * FROM works ORDER BY sort_order ASC, created_at DESC");
     $works = $stmt->fetchAll();
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
@@ -26,17 +26,23 @@ require_once '../includes/header.php';
 
 <div class="mb-6 flex justify-between items-center">
     <h1 class="text-2xl font-bold font-en tracking-widest text-white">WORKS 管理</h1>
-    <a href="edit.php"
-        class="bg-primary hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition-colors tracking-widest font-en text-sm">
-        <i class="fas fa-plus mr-2"></i> 新規追加
-    </a>
+    <div class="flex items-center gap-4">
+        <span id="sort-status" class="text-xs text-gray-500 hidden"><i class="fas fa-check text-green-400 mr-1"></i>保存済み</span>
+        <a href="edit.php"
+            class="bg-primary hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition-colors tracking-widest font-en text-sm">
+            <i class="fas fa-plus mr-2"></i> 新規追加
+        </a>
+    </div>
 </div>
+
+<p class="text-xs text-gray-500 mb-4"><i class="fas fa-grip-vertical mr-1"></i> ドラッグ&ドロップで並び替えできます。変更は自動保存されます。</p>
 
 <div class="admin-card">
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-gray-700 text-gray-400 text-xs uppercase tracking-wider">
+                    <th class="p-4 font-bold border-b border-gray-600 w-10"></th>
                     <th class="p-4 font-bold border-b border-gray-600">ID</th>
                     <th class="p-4 font-bold border-b border-gray-600">画像</th>
                     <th class="p-4 font-bold border-b border-gray-600">タイトル / サブタイトル</th>
@@ -45,10 +51,11 @@ require_once '../includes/header.php';
                     <th class="p-4 font-bold border-b border-gray-600 text-right">操作</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-700">
+            <tbody id="sortable-list" class="divide-y divide-gray-700">
                 <?php if (count($works) > 0): ?>
                     <?php foreach ($works as $work): ?>
-                        <tr class="hover:bg-gray-750 transition-colors">
+                        <tr class="hover:bg-gray-750 transition-colors sortable-row cursor-grab active:cursor-grabbing" data-id="<?php echo $work['id']; ?>">
+                            <td class="p-4 text-gray-500 drag-handle"><i class="fas fa-grip-vertical"></i></td>
                             <td class="p-4 text-gray-300">#<?php echo $work['id']; ?></td>
                             <td class="p-4">
                                 <?php if ($work['main_image']): ?>
@@ -85,7 +92,7 @@ require_once '../includes/header.php';
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" class="p-8 text-center text-gray-500">
+                        <td colspan="7" class="p-8 text-center text-gray-500">
                             登録された実績はありません。<br><a href="edit.php" class="text-primary hover:underline">新規追加する</a>
                         </td>
                     </tr>
@@ -94,5 +101,46 @@ require_once '../includes/header.php';
         </table>
     </div>
 </div>
+
+<!-- SortableJS -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const el = document.getElementById('sortable-list');
+    if (!el) return;
+
+    Sortable.create(el, {
+        handle: '.drag-handle',
+        animation: 200,
+        ghostClass: 'bg-gray-700',
+        onEnd: function() {
+            const rows = el.querySelectorAll('.sortable-row');
+            const order = Array.from(rows).map(row => row.dataset.id);
+
+            const status = document.getElementById('sort-status');
+            status.classList.remove('hidden');
+            status.innerHTML = '<i class="fas fa-spinner fa-spin mr-1 text-yellow-400"></i>保存中...';
+
+            fetch('/admin/api/update_sort.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ table: 'works', order: order })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    status.innerHTML = '<i class="fas fa-check text-green-400 mr-1"></i>保存済み';
+                    setTimeout(() => status.classList.add('hidden'), 2000);
+                } else {
+                    status.innerHTML = '<i class="fas fa-times text-red-400 mr-1"></i>エラー';
+                }
+            })
+            .catch(() => {
+                status.innerHTML = '<i class="fas fa-times text-red-400 mr-1"></i>通信エラー';
+            });
+        }
+    });
+});
+</script>
 
 <?php require_once '../includes/footer.php'; ?>

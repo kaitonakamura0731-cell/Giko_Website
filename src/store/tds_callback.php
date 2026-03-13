@@ -107,7 +107,7 @@ if ($orderData) {
     mb_internal_encoding("UTF-8");
 
     // Admin email
-    $admin_subject = "【技巧 -Giko-】新規注文受信 ({$orderId})";
+    $admin_subject = "【技巧 -GIKO-】新規注文受信 ({$orderId})";
     $admin_body = "新規の注文が入りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n名前: {$custName}\nEmail: {$custEmail}\n電話番号: {$custPhone}\n郵便番号: {$custZip}\n住所: {$custAddress}\n\n【注文商品】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\nPAY.JP管理画面で決済状況を確認してください。";
     $admin_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$custEmail}\r\n";
     $admin_to = "{$ADMIN_EMAIL}, {$ADMIN_CC}";
@@ -115,8 +115,8 @@ if ($orderData) {
 
     // User email
     if ($custEmail && filter_var($custEmail, FILTER_VALIDATE_EMAIL)) {
-        $user_subject = "【技巧 -Giko-】ご注文ありがとうございます ({$orderId})";
-        $user_body = "{$custName} 様\n\nこの度は「技巧 -Giko-」にてご注文いただき、誠にありがとうございます。\n以下の内容で承りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n--------------------------------------------------\n{$customerInfo}--------------------------------------------------\n\n【ご注文内容】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\n商品の発送準備が整い次第、改めてご連絡させていただきます。\n万が一、ご注文内容に誤りがある場合は、以下のメールにてご連絡ください。\n{$CONTACT_EMAIL}\n\n※デビットカード・プリペイドカードをご利用の場合、カード有効性確認のため11円の少額認証が一時的に発生しますが、後日自動的に返金されます。\n\n--------------------------------------------------\n技巧 -Giko-\nhttps://giko-official.com\n--------------------------------------------------";
+        $user_subject = "【技巧 -GIKO-】ご注文ありがとうございます ({$orderId})";
+        $user_body = "{$custName} 様\n\nこの度は「技巧 -GIKO-」にてご注文いただき、誠にありがとうございます。\n以下の内容で承りました。\n\n【注文ID】 {$orderId}\n【決済方法】 {$payMethod}\n【合計金額】 {$orderAmount}\n\n【お客様情報】\n--------------------------------------------------\n{$customerInfo}--------------------------------------------------\n\n【ご注文内容】\n--------------------------------------------------\n{$itemsText}--------------------------------------------------\n\n商品の発送準備が整い次第、改めてご連絡させていただきます。\n万が一、ご注文内容に誤りがある場合は、以下のメールにてご連絡ください。\n{$CONTACT_EMAIL}\n\n※デビットカード・プリペイドカードをご利用の場合、カード有効性確認のため11円の少額認証が一時的に発生しますが、後日自動的に返金されます。\n\n--------------------------------------------------\n技巧 -GIKO-\nhttps://giko-official.com\n--------------------------------------------------";
         $user_headers = "From: {$NOREPLY_EMAIL}\r\nReply-To: {$ADMIN_EMAIL}, {$ADMIN_CC}\r\n";
         mb_send_mail($custEmail, $user_subject, $user_body, $user_headers, "-f{$NOREPLY_EMAIL}");
     }

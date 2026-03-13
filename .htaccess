@@ -1,13 +1,13 @@
 # .htaccess
 
-# 1. SSL強制 (一旦無効化中 - ループ対策)
-# <IfModule mod_rewrite.c>
-# RewriteEngine On
-# # ロードバランサ/プロキシ経由のSSL判定 (ConoHa等で有効)
-# RewriteCond %{HTTP:X-Forwarded-Proto} !https [OR]
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-# </IfModule>
+# 1. SSL強制 (HTTPS リダイレクト)
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# ロードバランサ/プロキシ経由のSSL判定 (ConoHa等で有効)
+RewriteCond %{HTTP:X-Forwarded-Proto} !https [OR]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
 
 # 2. ディレクトリの中身を表示しない (セキュリティ)
 Options -Indexes
@@ -18,18 +18,64 @@ Options -Indexes
     Deny from all
 </FilesMatch>
 
-# 4. ブラウザキャッシュの設定 (高速化)
+# 4. SQL/ZIPなど機密ファイルへの直接アクセスを禁止
+<FilesMatch "\.(sql|zip|bak|log|ini)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# 5. db_config.php への直接アクセスを禁止
+<Files "db_config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# 6. セキュリティヘッダー
+<IfModule mod_headers.c>
+    # クリックジャッキング防止
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # MIMEタイプスニッフィング防止
+    Header always set X-Content-Type-Options "nosniff"
+    # XSS フィルター有効化
+    Header always set X-XSS-Protection "1; mode=block"
+    # リファラー制御
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # HTTPS 強制 (HSTS) - maxage=1年
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    # iframe埋め込み等の権限制御
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# 7. ブラウザキャッシュの設定 (高速化)
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType image/jpg "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/pdf "access plus 1 month"
     ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType application/x-javascript "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
-    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
 </IfModule>
-lポ；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；；ｌｌ
+
+# 8. Gzip 圧縮 (高速化)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE application/font-woff2
+</IfModule>
+
+# 9. カスタムエラーページ
+ErrorDocument 404 /404.html

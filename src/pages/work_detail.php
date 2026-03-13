@@ -53,9 +53,10 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($work['title']); ?> | Custom Works | 技巧 -Giko-</title>
+    <link rel="icon" href="../assets/images/favicon.ico">
+    <title><?php echo htmlspecialchars($work['title']); ?> | Custom Works | 技巧 -GIKO-</title>
     <!-- OGP -->
-    <meta property="og:title" content="<?php echo htmlspecialchars($work['title']); ?> | Custom Works | 技巧 -Giko-">
+    <meta property="og:title" content="<?php echo htmlspecialchars($work['title']); ?> | Custom Works | 技巧 -GIKO-">
     <meta property="og:description" content="<?php echo htmlspecialchars($work['description']); ?>">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://giko-official.com/pages/work_detail.php?id=<?php echo $id; ?>">

@@ -1,0 +1,18 @@
+# robots.txt - 技巧 -GIKO-
+# https://giko-official.com
+
+User-agent: *
+Allow: /
+
+# 管理画面・API・設定ファイルをブロック
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /store/payment.php
+Disallow: /store/process_transfer.php
+Disallow: /store/validate_cart.php
+Disallow: /store/tds_callback.php
+Disallow: /store/card_entry.php
+
+# サイトマップ
+Sitemap: https://giko-official.com/sitemap.xml
