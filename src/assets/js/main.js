@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Company
             company_sub: '会社概要',
             company_address: '〒483-8013 愛知県江南市般若町南山307',
-            company_business: '自動車内装のカスタム/補修リペア<br>シート/ステアリング/天井張替え<br>車種専用インテリアパーツ販売',
+            company_business: '自動車全内装張替え / 部分内装張替え / 補修リペア / スターライト / アンビエントライト<br>車種専用内装張替えパーツ販売',
             company_open: '10:00 - 20:00<br><span class="text-red-400">定休日：不定休　※ご来店時は事前にご連絡願います</span>',
             contact_intro:
                 'お見積もりのご依頼、施工に関するご相談など、お気軽にお問い合わせください。<br>内容を確認次第、担当者よりご連絡させていただきます。',
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Company
             company_sub: 'Company Overview',
             company_address: '307 Minamiyama, Hannya-cho, Konan City, Aichi 483-8013, Japan',
-            company_business: 'Automotive Interior Custom / Repair<br>Seat / Steering / Headliner Reupholstery<br>Vehicle-Specific Interior Parts Sales',
+            company_business: 'Full Interior Reupholstery / Partial Interior Reupholstery / Repair / Starlight / Ambient Lighting<br>Vehicle-Specific Interior Reupholstery Parts Sales',
             company_open: '10:00 - 20:00<br><span class="text-red-400">Irregular holidays. Please contact us before visiting.</span>',
             contact_intro:
                 'Please feel free to contact us for quote requests or consultation regarding construction.<br>Our representative will contact you as soon as we check the content.',
