@@ -154,7 +154,7 @@ $csrf_token = $_SESSION['csrf_token'];
                                 </div>
                                 <div>
                                     <h3 class="font-bold text-white mb-1">購入後、商品送信</h3>
-                                    <p class="text-sm text-gray-400">ご購入確定後、技巧より商品をお客様のご住所へ発送いたします。</p>
+                                    <p class="text-sm text-gray-400">ご購入確定後、GIKOより商品をお客様のご住所へ発送いたします。</p>
                                 </div>
                             </div>
 
@@ -184,9 +184,9 @@ $csrf_token = $_SESSION['csrf_token'];
                                         <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
                                             <div class="flex items-center gap-2 mb-1">
                                                 <i class="fas fa-exchange-alt text-gray-400 text-sm"></i>
-                                                <span class="font-bold text-sm text-white">技巧に買取を依頼する場合（追加費用なし）</span>
+                                                <span class="font-bold text-sm text-white">GIKOに買取を依頼する場合（追加費用なし）</span>
                                             </div>
-                                            <p class="text-xs text-gray-400 ml-6">取り外した旧パーツを技巧へご返送いただければ、追加費用はかかりません。</p>
+                                            <p class="text-xs text-gray-400 ml-6">取り外した旧パーツをGIKOへご返送いただければ、追加費用はかかりません。</p>
                                         </div>
                                         <div class="bg-black/40 border border-white/10 p-4 rounded-sm">
                                             <div class="flex items-center gap-2 mb-1">
@@ -399,7 +399,7 @@ $csrf_token = $_SESSION['csrf_token'];
             <!-- モーダル内容 -->
             <div class="p-8 space-y-6">
                 <p class="text-sm text-gray-300 leading-relaxed">
-                    脱着作業をご自身で行うことが難しい場合、技巧にて作業を承ります。<br>
+                    脱着作業をご自身で行うことが難しい場合、GIKOにて作業を承ります。<br>
                     以下の連絡先までお問い合わせください。
                 </p>
 

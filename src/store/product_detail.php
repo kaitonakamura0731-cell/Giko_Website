@@ -340,7 +340,7 @@ $default_swatch = '../assets/images/no_image.png';
                                 <div class="space-y-2">
                                     <label class="flex items-center gap-3 cursor-pointer p-3 rounded-sm border border-primary/50 bg-primary/10 hover:bg-primary/20 transition-colors">
                                         <input type="radio" name="option_trade_in" data-label="下取り交換" value="あり" class="accent-primary w-4 h-4" checked>
-                                        <span class="text-sm font-bold text-white">技巧に買取を依頼する</span>
+                                        <span class="text-sm font-bold text-white">GIKOに買取を依頼する</span>
                                         <span class="ml-auto text-xs text-green-400 font-bold">追加費用なし</span>
                                     </label>
                                     <label class="flex items-center gap-3 cursor-pointer p-3 rounded-sm border border-white/10 hover:border-white/30 transition-colors">

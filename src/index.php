@@ -656,7 +656,7 @@ try {
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">BRAND</div>
-                    <div class="md:w-2/3 py-2">技巧　-GIKO-</div>
+                    <div class="md:w-2/3 py-2">技巧 -GIKO-</div>
                 </div>
                 <div class="flex flex-col md:flex-row py-6 border-b border-white/10">
                     <div class="md:w-1/3 text-gray-400 font-bold text-sm tracking-widest py-2">ADDRESS</div>
