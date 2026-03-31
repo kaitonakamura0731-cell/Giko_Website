@@ -164,8 +164,7 @@ try {
     }
     </script>
     <link rel="icon" href="./assets/images/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="./tailwind_config.js"></script>
+    <link rel="stylesheet" href="./css/tailwind.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link

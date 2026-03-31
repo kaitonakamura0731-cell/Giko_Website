@@ -178,8 +178,7 @@ EOT;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/images/favicon.ico">
     <title>SENT | 技巧 -GIKO-</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../tailwind_config.js"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">

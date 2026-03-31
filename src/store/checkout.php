@@ -36,8 +36,7 @@ $csrf_token = $_SESSION['csrf_token'];
     <meta name="twitter:card" content="summary_large_image">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#000000">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../tailwind_config.js"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

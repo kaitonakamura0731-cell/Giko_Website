@@ -77,8 +77,7 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
     <meta name="description" content="<?php echo htmlspecialchars(mb_substr($work['description'], 0, 120)); ?>">
     <link rel="canonical" href="https://giko-official.com/pages/work_detail.php?id=<?php echo $id; ?>">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../tailwind_config.js"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
     <script src="../assets/js/cart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">

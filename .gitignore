@@ -13,3 +13,6 @@ assets/images/40ヴェルファイア_ステアリング/40ヴェルファイア
 src/config/api_keys.php
 src/db_config.php
 .claude/
+
+# Tailwind CLI binary
+tailwindcss

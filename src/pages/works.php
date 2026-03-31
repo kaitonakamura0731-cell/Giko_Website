@@ -98,8 +98,7 @@ $categoryBadges = [
     <meta property="og:locale" content="ja_JP">
     <meta name="theme-color" content="#000000">
     <link rel="canonical" href="https://giko-official.com/pages/works.php">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../tailwind_config.js"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
     <script src="../assets/js/cart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -11,9 +11,8 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - GIKO Website</title>
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/tailwind_config.js"></script>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="../../css/tailwind.css">
 
     <!-- Admin Custom CSS -->
     <link rel="stylesheet" href="/css/admin/style.css">
