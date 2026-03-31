@@ -20,6 +20,14 @@ $csrf_token = $_SESSION['csrf_token'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/images/favicon.ico">
     <title>CHECKOUT | 技巧 -GIKO-</title>
+    <meta name="description" content="技巧 -GIKO- オンラインストア決済ページ。配送情報の入力とお支払い手続き。">
+    <meta property="og:title" content="CHECKOUT | 技巧 -GIKO-">
+    <meta property="og:description" content="技巧 -GIKO- オンラインストア決済ページ。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#000000">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

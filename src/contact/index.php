@@ -31,6 +31,7 @@ $line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONTACT | 技巧 -GIKO-</title>
+    <meta name="description" content="お問い合わせ。お見積もりやご相談はこちらから。">
     <!-- OGP -->
     <meta property="og:title" content="CONTACT | 技巧 -GIKO-">
     <meta property="og:description" content="お問い合わせ。お見積もりやご相談はこちらから。">
@@ -38,6 +39,11 @@ $line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
     <meta property="og:url" content="https://giko-official.com/contact.php">
     <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta property="og:site_name" content="技巧 -GIKO-">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="theme-color" content="#000000">
+    <link rel="canonical" href="https://giko-official.com/contact/">
     <link rel="icon" href="../assets/images/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
@@ -49,6 +55,16 @@ $line_url = get_setting('social_line', 'https://lin.ee/hmaVDuG');
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://giko-official.com/"},
+            {"@type": "ListItem", "position": 2, "name": "お問い合わせ"}
+        ]
+    }
+    </script>
 </head>
 
 <body class="bg-black text-white antialiased">

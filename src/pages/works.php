@@ -77,6 +77,7 @@ $categoryBadges = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/images/favicon.ico">
     <title>WORKS | 技巧 -GIKO-</title>
+    <meta name="description" content="施工実績一覧。最高級の技術で仕上げた作品をご覧ください。">
     <!-- OGP -->
     <meta property="og:title" content="WORKS | 技巧 -GIKO-">
     <meta property="og:description" content="施工実績一覧。最高級の技術で仕上げた作品をご覧ください。">
@@ -84,6 +85,11 @@ $categoryBadges = [
     <meta property="og:url" content="https://giko-official.com/pages/works.php">
     <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta property="og:site_name" content="技巧 -GIKO-">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="theme-color" content="#000000">
+    <link rel="canonical" href="https://giko-official.com/pages/works.php">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
     <script src="../assets/js/cart.js"></script>

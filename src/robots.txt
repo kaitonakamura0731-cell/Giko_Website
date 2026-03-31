@@ -14,5 +14,54 @@ Disallow: /store/validate_cart.php
 Disallow: /store/tds_callback.php
 Disallow: /store/card_entry.php
 
+# --- AI検索ボット（許可） ---
+# 検索結果に表示するためのAIボットはクロールを許可
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# --- AIトレーニング専用ボット（ブロック） ---
+# 学習データ収集のみを目的とするボットはブロック
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
 # サイトマップ
 Sitemap: https://giko-official.com/sitemap.xml
+
+# LLM向け情報
+# https://llmstxt.org/
+Llms-txt: https://giko-official.com/llms.txt

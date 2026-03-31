@@ -46,6 +46,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="nObpR_mZtNlV4pB4lE82x0dFfRsn986sEPaDrbGsggQ" />
     <title><?php echo htmlspecialchars(get_setting('site_title', '技巧 -GIKO- | Automotive Interior Specialist')); ?>
     </title>
     <meta name="description"
@@ -59,6 +60,101 @@ try {
     <meta property="og:url" content="https://giko-official.com/">
     <meta property="og:image" content="https://giko-official.com/assets/images/ogp.jpg">
     <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:site_name" content="技巧 -GIKO-">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:image:alt" content="技巧 -GIKO- 自動車内装カスタム専門店">
+    <link rel="canonical" href="https://giko-official.com/">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="theme-color" content="#000000">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <!-- JSON-LD 構造化データ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AutoRepair",
+        "@id": "https://giko-official.com/#organization",
+        "name": "技巧 -GIKO-",
+        "alternateName": "GIKO307合同会社",
+        "url": "https://giko-official.com",
+        "logo": "https://giko-official.com/assets/images/ogp.jpg",
+        "image": "https://giko-official.com/assets/images/ogp.jpg",
+        "description": "愛知県江南市の自動車内装カスタム専門店。職人の手による最高級本革シート張り替え・レストア・カスタムインテリア。純正を超える品質と感動をお届けします。",
+        "telephone": "080-8887-2116",
+        "email": "info@giko-official.com",
+        "priceRange": "$$$$",
+        "currenciesAccepted": "JPY",
+        "paymentAccepted": "現金, クレジットカード, 銀行振込",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "般若町南山307",
+            "addressLocality": "江南市",
+            "addressRegion": "愛知県",
+            "postalCode": "483-8013",
+            "addressCountry": "JP"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 35.3314,
+            "longitude": 136.8700
+        },
+        "areaServed": {
+            "@type": "GeoCircle",
+            "geoMidpoint": {
+                "@type": "GeoCoordinates",
+                "latitude": 35.3314,
+                "longitude": 136.8700
+            },
+            "geoRadius": "100000"
+        },
+        "sameAs": [
+            "<?php echo htmlspecialchars($instagram_url); ?>",
+            "<?php echo htmlspecialchars($twitter_url); ?>",
+            "<?php echo htmlspecialchars($youtube_url); ?>",
+            "<?php echo htmlspecialchars($tiktok_url); ?>"
+        ],
+        "knowsAbout": [
+            "本革シート張り替え",
+            "自動車内装カスタム",
+            "レザーインテリア",
+            "ステアリングカスタム",
+            "車内装レストア",
+            "automotive leather upholstery",
+            "car interior customization"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "技巧 -GIKO- サービス",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "本革シート張り替え",
+                        "description": "最高級本革を使用したシート張り替え。フルオーダーメイドで車種別に対応。"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "インテリアカスタム",
+                        "description": "ダッシュボード、ドアトリム、コンソールなど車内装全般のカスタム。"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "レストア・リペア",
+                        "description": "経年劣化した内装の修復・補修。純正を超える仕上がり。"
+                    }
+                }
+            ]
+        }
+    }
+    </script>
     <link rel="icon" href="./assets/images/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="./tailwind_config.js"></script>

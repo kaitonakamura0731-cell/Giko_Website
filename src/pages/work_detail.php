@@ -60,7 +60,14 @@ $hero_image = $work['hero_image'] ?: $work['main_image']; // Fallback
     <meta property="og:description" content="<?php echo htmlspecialchars($work['description']); ?>">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://giko-official.com/pages/work_detail.php?id=<?php echo $id; ?>">
-    <meta property="og:image" content="<?php echo '../' . htmlspecialchars($work['main_image']); ?>">
+    <meta property="og:image" content="https://giko-official.com/<?php echo htmlspecialchars($work['main_image']); ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta property="og:site_name" content="技巧 -GIKO-">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="<?php echo htmlspecialchars(mb_substr($work['description'], 0, 120)); ?>">
+    <link rel="canonical" href="https://giko-official.com/pages/work_detail.php?id=<?php echo $id; ?>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>

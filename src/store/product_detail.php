@@ -53,6 +53,19 @@ $default_swatch = '../assets/images/no_image.png';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($product['name']); ?> | 技巧 -GIKO-</title>
+    <meta name="description" content="<?php echo htmlspecialchars(mb_substr($product['lead_text'] ?? $product['name'] . ' - 技巧 -GIKO- 公式オンラインストア', 0, 120)); ?>">
+    <!-- OGP -->
+    <meta property="og:title" content="<?php echo htmlspecialchars($product['name']); ?> | 技巧 -GIKO-">
+    <meta property="og:description" content="<?php echo htmlspecialchars(mb_substr($product['lead_text'] ?? $product['name'] . ' - 技巧 -GIKO- 公式オンラインストア', 0, 120)); ?>">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://giko-official.com/store/product_detail.php?id=<?php echo htmlspecialchars($_GET['id'] ?? ''); ?>">
+    <meta property="og:image" content="<?php echo 'https://giko-official.com/' . ltrim($main_image, './'); ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta property="og:site_name" content="技巧 -GIKO-">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="theme-color" content="#000000">
+    <link rel="canonical" href="https://giko-official.com/store/product_detail.php?id=<?php echo htmlspecialchars($_GET['id'] ?? ''); ?>">
     <link rel="icon" href="../assets/images/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../tailwind_config.js"></script>
