@@ -151,3 +151,67 @@ body {
   border-color: #3b82f6;
   /* blue-500 */
 }
+
+/* ============================================
+   Admin Options Builder - Missing Tailwind classes
+   (admin is excluded from Tailwind build, so
+    JS-generated HTML classes must be defined here)
+   ============================================ */
+
+/* Grid: 12-column layout for choice rows */
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.col-span-1 {
+  grid-column: span 1 / span 1;
+}
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+.col-span-5 {
+  grid-column: span 5 / span 5;
+}
+@media (min-width: 768px) {
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Backgrounds with opacity */
+.bg-black\/40 {
+  background-color: rgb(0 0 0 / 0.4);
+}
+.bg-black\/20 {
+  background-color: rgb(0 0 0 / 0.2);
+}
+.bg-gray-800\/50 {
+  background-color: rgb(31 41 55 / 0.5);
+}
+
+/* Arbitrary text size */
+.text-\[10px\] {
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+/* File input pseudo-element styles */
+.file\:py-0::file-selector-button {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.file\:px-2::file-selector-button {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.file\:rounded::file-selector-button {
+  border-radius: 0.25rem;
+}
+.file\:bg-gray-700::file-selector-button {
+  background-color: #374151;
+}
+.file\:text-gray-200::file-selector-button {
+  color: #e5e7eb;
+}

@@ -107,6 +107,12 @@ try {
             "latitude": 35.3314,
             "longitude": 136.8700
         },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "10:00",
+            "closes": "20:00"
+        },
         "areaServed": {
             "@type": "GeoCircle",
             "geoMidpoint": {
@@ -163,6 +169,68 @@ try {
         }
     }
     </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "本革シート張り替えの費用はどのくらいですか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "車種やシートの数、素材の種類により異なります。フロント2脚で20万円台〜が目安です。詳しくはお見積もりをご依頼ください。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "シート張り替えの納期はどのくらいかかりますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "通常2〜4週間程度です。車種や施工内容、繁忙状況により前後する場合があります。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "どんな車種に対応していますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "国産車・輸入車問わず幅広く対応しています。セダン、ミニバン、SUV、スポーツカー、クラシックカーなど車種を問いません。まずはお気軽にご相談ください。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "遠方からの依頼は可能ですか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい、全国から対応可能です。シートの取り外し・発送による対応も承っております。詳細はお問い合わせください。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "レザーの色やデザインは自由に選べますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい、豊富なカラーサンプルからお選びいただけます。ツートン配色、パンチング加工、ステッチカラーの指定など、ご希望に合わせた完全オーダーメイドが可能です。"
+                }
+            }
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "技巧 -GIKO-",
+        "url": "https://giko-official.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://giko-official.com/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <link rel="preload" as="image" href="./assets/images/hero.jpg">
     <link rel="icon" href="./assets/images/favicon.ico">
     <link rel="stylesheet" href="./css/tailwind.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -182,7 +250,7 @@ try {
         id="header">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             <a href="index.php" class="flex items-center group">
-                <img src="./assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity">
+                <img src="./assets/images/logo_new.png" alt="GIKO" class="h-10 group-hover:opacity-80 transition-opacity" decoding="async">
             </a>
 
             <nav class="hidden lg:flex space-x-10 text-xs font-bold tracking-widest">
@@ -305,7 +373,7 @@ try {
     <!-- Hero -->
     <section class="relative h-[70vh] md:h-screen min-h-[500px] md:min-h-[700px] flex items-center justify-center overflow-hidden group">
         <div class="absolute inset-0 z-0 overflow-hidden">
-            <img src="./assets/images/hero.jpg" alt="Hero"
+            <img src="./assets/images/hero.jpg" alt="Hero" loading="eager" fetchpriority="high" decoding="async"
                 class="w-full h-full object-cover opacity-60 scale-100 group-hover:scale-110 transition-transform duration-[10s] ease-out">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50"></div>
             <div class="absolute inset-0 bg-black/20"></div>
@@ -394,7 +462,7 @@ try {
                     </div>
                 </div>
                 <div class="lg:w-1/2 relative lg:-mb-20 fade-in" style="transition-delay: 0.2s;">
-                    <img src="./assets/images/alphard.jpg" alt="Craftsmanship"
+                    <img src="./assets/images/alphard.jpg" alt="Craftsmanship" loading="lazy" decoding="async"
                         class="w-full h-auto rounded-sm shadow-2xl filter brightness-75 hover:brightness-100 transition-all duration-700">
                 </div>
             </div>
@@ -507,7 +575,8 @@ try {
         }
     }
     sort($allTags);
-    
+    $vehicleTagImages = json_decode(get_setting('vehicle_tag_images', '{}'), true) ?: [];
+
     // 画像を取得するヘルパー関数
     // 画像を取得するヘルパー関数
     function getProductImage($json) {
@@ -558,13 +627,22 @@ try {
                     </a>
                     
                     <?php foreach ($allTags as $tag):
-                        // このタグに対応する最初の商品画像を取得
+                        // 設定画像があればそちらを優先、なければ最初の商品画像
                         $tagImage = '';
-                        foreach ($latest_products as $p) {
-                            $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
-                            if (in_array($tag, $pTags)) {
-                                $tagImage = getProductImage($p['images']);
-                                break;
+                        if (!empty($vehicleTagImages[$tag])) {
+                            // トップページ用にパス調整: ../assets -> ./assets
+                            $ti = $vehicleTagImages[$tag];
+                            if (strpos($ti, '../') === 0) {
+                                $ti = substr($ti, 1);
+                            }
+                            $tagImage = $ti;
+                        } else {
+                            foreach ($latest_products as $p) {
+                                $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
+                                if (in_array($tag, $pTags)) {
+                                    $tagImage = getProductImage($p['images']);
+                                    break;
+                                }
                             }
                         }
                     ?>
@@ -644,8 +722,8 @@ try {
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex flex-col lg:flex-row gap-16 items-center">
                 <div class="lg:w-1/2 fade-in">
-                    <img src="./assets/images/material_leather.jpg"
-                        class="w-full h-auto rounded-sm shadow-2xl">
+                    <img src="./assets/images/material_leather.jpg" loading="lazy" decoding="async"
+                        alt="最高級本革素材 - イタリアンレザー" class="w-full h-auto rounded-sm shadow-2xl">
                 </div>
                 <div class="lg:w-1/2 fade-in">
                     <h2
@@ -693,8 +771,8 @@ try {
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         01</div>
                     <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
-                        <img src="./assets/images/flow_inquiry.png"
-                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
+                        <img src="./assets/images/flow_inquiry.png" loading="lazy" decoding="async"
+                            alt="お問い合わせ - ご相談・お見積もり" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step1_title">お問い合わせ</h3>
                     <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step1_text">お問い合わせフォームまたはお電話にて、ご希望の内容をお知らせください。車種・施工箇所・イメージなど、お決まりの範囲で構いません。
@@ -707,8 +785,8 @@ try {
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         02</div>
                     <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
-                        <img src="./assets/images/flow_planning.png"
-                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
+                        <img src="./assets/images/flow_planning.png" loading="lazy" decoding="async"
+                            alt="打ち合わせ - デザイン・素材の選定" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step2_title">打ち合わせ</h3>
                     <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step2_text">素材サンプルをご覧いただきながら、デザイン・仕様・ステッチの色などを決定。お見積もりをご提示いたします。</p>
@@ -720,8 +798,8 @@ try {
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         03</div>
                     <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
-                        <img src="./assets/images/flow_construction.png"
-                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
+                        <img src="./assets/images/flow_construction.png" loading="lazy" decoding="async"
+                            alt="施工 - 職人による丁寧な作業" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step3_title">製作</h3>
                     <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step3_text">熟練の職人が一つひとつ丁寧に製作。製作期間は内容により1日〜2ヶ月程度です。</p>
@@ -733,8 +811,8 @@ try {
                         class="text-4xl font-bold font-en text-white/5 mb-4 group-hover:text-primary/20 transition-colors">
                         04</div>
                     <div class="mb-6 aspect-[4/3] overflow-hidden rounded-sm">
-                        <img src="./assets/images/flow_delivery.png"
-                            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
+                        <img src="./assets/images/flow_delivery.png" loading="lazy" decoding="async"
+                            alt="納品 - 完成品のお届け" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity">
                     </div>
                     <h3 class="text-lg font-bold tracking-widest mb-4" data-i18n="flow_step4_title">納車</h3>
                     <p class="text-xs text-gray-400 leading-relaxed" data-i18n="flow_step4_text">仕上がりをご確認いただき、お引き渡し。アフターフォローもご説明いたします。
@@ -801,7 +879,7 @@ try {
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <!-- Col 1: Logo & SNS -->
                 <div>
-                    <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
+                    <img src="./assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6" loading="lazy" decoding="async">
                     <p class="text-xs text-gray-500 leading-loose mb-6">確かな技術と高品質な素材で、唯一無二の内装を。</p>
                     <div class="flex space-x-3">
                         <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>

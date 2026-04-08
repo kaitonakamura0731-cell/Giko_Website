@@ -2,12 +2,37 @@
 require_once '../includes/auth.php';
 require_once '../includes/header.php';
 require_once '../includes/settings_helper.php';
+require_once '../includes/upload_helper.php';
 require_once '../includes/db.php'; // Required for password update
 
 $success_msg = '';
 $error_msg = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // --- 0. Vehicle Tag Images Upload ---
+    if (isset($_FILES['tag_images'])) {
+        $existing = json_decode(get_setting('vehicle_tag_images', '{}'), true) ?: [];
+        foreach ($_FILES['tag_images']['name'] as $tagName => $fileName) {
+            if ($_FILES['tag_images']['error'][$tagName] === UPLOAD_ERR_OK && $fileName) {
+                $tmpName = $_FILES['tag_images']['tmp_name'][$tagName];
+                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+                $newName = time() . '_' . uniqid() . '.' . $ext;
+                $targetDir = '../../assets/images/uploads/';
+                $targetPath = $targetDir . $newName;
+                if (move_uploaded_file($tmpName, $targetPath)) {
+                    $existing[$tagName] = '../assets/images/uploads/' . $newName;
+                }
+            }
+        }
+        // Handle delete requests
+        $deleteTags = $_POST['delete_tag_image'] ?? [];
+        foreach ($deleteTags as $tagName => $val) {
+            unset($existing[$tagName]);
+        }
+        update_setting('vehicle_tag_images', json_encode($existing, JSON_UNESCAPED_UNICODE));
+        $success_msg = "車種タグ画像を更新しました。";
+    }
 
     // --- 1. Password Update Logic ---
     if (!empty($_POST['new_password'])) {
@@ -101,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 <?php endif; ?>
 
-<form method="POST" class="admin-card">
+<form method="POST" class="admin-card" enctype="multipart/form-data">
     <div class="admin-card-body space-y-10">
 
         <!-- General Settings -->
@@ -183,6 +208,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         value="<?php echo htmlspecialchars(get_setting('social_line')); ?>">
                 </div>
             </div>
+        </div>
+
+        <!-- Vehicle Tag Images -->
+        <div>
+            <h3 class="text-lg font-bold text-primary mb-4 border-b border-gray-700 pb-2">車種タグ画像 (Vehicle Tag Images)</h3>
+            <p class="text-xs text-gray-500 mb-4">※ストアのフィルターボタンに表示される背景画像を車種タグごとに設定できます。未設定の場合は商品画像が自動で使用されます。</p>
+            <?php
+            // Fetch all unique vehicle tags from products
+            $tagStmt = $pdo->query("SELECT vehicle_tags FROM products WHERE vehicle_tags IS NOT NULL AND vehicle_tags != ''");
+            $tagRows = $tagStmt->fetchAll();
+            $uniqueTags = [];
+            foreach ($tagRows as $row) {
+                foreach (explode(',', $row['vehicle_tags']) as $t) {
+                    $t = trim($t);
+                    if ($t && !in_array($t, $uniqueTags)) $uniqueTags[] = $t;
+                }
+            }
+            sort($uniqueTags);
+            $tagImages = json_decode(get_setting('vehicle_tag_images', '{}'), true) ?: [];
+            ?>
+            <?php if (empty($uniqueTags)): ?>
+                <p class="text-gray-500 text-sm">商品に車種タグが設定されていません。</p>
+            <?php else: ?>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <?php foreach ($uniqueTags as $tag):
+                    $currentImg = $tagImages[$tag] ?? '';
+                    $displayImg = $currentImg;
+                    if ($currentImg && strpos($currentImg, '../assets') === 0) {
+                        $displayImg = '../../assets' . substr($currentImg, strlen('../assets'));
+                    }
+                ?>
+                    <div class="bg-gray-900 p-4 rounded border border-gray-700">
+                        <div class="flex items-center gap-4">
+                            <?php if ($currentImg && file_exists(__DIR__ . '/' . $displayImg)): ?>
+                                <div class="relative group flex-shrink-0">
+                                    <img src="<?php echo htmlspecialchars($displayImg); ?>"
+                                        class="h-20 w-28 rounded border border-gray-600 object-cover"
+                                        onerror="this.parentElement.innerHTML='<div class=\'h-20 w-28 bg-red-900/20 rounded border border-red-700 flex items-center justify-center text-red-400 text-xs\'>読込失敗</div>'">
+                                </div>
+                            <?php else: ?>
+                                <div class="h-20 w-28 bg-gray-800 rounded border border-gray-700 flex items-center justify-center text-gray-500 text-xs flex-shrink-0">
+                                    <div class="text-center">
+                                        <i class="fas fa-car text-lg mb-1"></i>
+                                        <p class="text-[10px]">未設定</p>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-bold text-sm mb-2"><?php echo htmlspecialchars($tag); ?></p>
+                                <input type="file" name="tag_images[<?php echo htmlspecialchars($tag); ?>]"
+                                    class="form-input text-xs py-1" accept="image/*">
+                                <?php if ($currentImg): ?>
+                                    <label class="flex items-center gap-2 mt-2 text-xs text-red-400 cursor-pointer">
+                                        <input type="checkbox" name="delete_tag_image[<?php echo htmlspecialchars($tag); ?>]" value="1">
+                                        画像を削除
+                                    </label>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
 
         <!-- Account Settings -->

@@ -31,6 +31,7 @@ foreach ($products as $p) {
     }
 }
 sort($allTags);
+$vehicleTagImages = json_decode(get_setting('vehicle_tag_images', '{}'), true) ?: [];
 
 function getFirstImage($json)
 {
@@ -102,6 +103,16 @@ function getFirstImage($json)
         #store-filter-carousel::-webkit-scrollbar { display: none; }
         #store-filter-carousel { scrollbar-width: none; -ms-overflow-style: none; }
     </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://giko-official.com/"},
+            {"@type": "ListItem", "position": 2, "name": "オンラインストア"}
+        ]
+    }
+    </script>
 </head>
 
 <body class="bg-black text-white antialiased selection:bg-primary selection:text-white">
@@ -220,13 +231,17 @@ function getFirstImage($json)
                         </div>
                     </button>
                     <?php foreach ($allTags as $tag):
-                        // このタグに対応する最初の商品画像を取得
+                        // 設定画像があればそちらを優先、なければ最初の商品画像
                         $tagImage = '';
-                        foreach ($products as $p) {
-                            $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
-                            if (in_array($tag, $pTags)) {
-                                $tagImage = getFirstImage($p['images']);
-                                break;
+                        if (!empty($vehicleTagImages[$tag])) {
+                            $tagImage = $vehicleTagImages[$tag];
+                        } else {
+                            foreach ($products as $p) {
+                                $pTags = array_map('trim', explode(',', $p['vehicle_tags'] ?? ''));
+                                if (in_array($tag, $pTags)) {
+                                    $tagImage = getFirstImage($p['images']);
+                                    break;
+                                }
                             }
                         }
                     ?>
@@ -326,11 +341,11 @@ function getFirstImage($json)
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">確かな技術と高品質な素材で、唯一無二の内装を。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
                     </div>
                 </div>
                 <div>
