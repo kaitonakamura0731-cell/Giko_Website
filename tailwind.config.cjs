@@ -4,7 +4,6 @@ module.exports = {
     './src/**/*.html',
     './src/**/*.php',
     './src/**/*.js',
-    '!./src/admin/**',
   ],
   darkMode: 'class',
   theme: {
