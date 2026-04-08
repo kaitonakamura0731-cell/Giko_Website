@@ -44,61 +44,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/admin/style.css">
 </head>
 
-<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+<body style="background-color:#111827;color:#fff;margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;">
 
-    <div class="w-full max-w-sm">
-        <div class="bg-gray-800 rounded-lg shadow-lg border border-gray-700 overflow-hidden">
-            <div class="px-6 py-8 border-b border-gray-700 bg-black/20">
-                <div class="text-center">
-                    <div class="text-3xl font-bold font-en tracking-widest text-primary mb-2">GIKO</div>
-                    <div class="text-gray-400 text-sm tracking-wider">ADMINISTRATION</div>
-                </div>
+    <div style="width:100%;max-width:340px;padding:0 1rem;">
+        <div style="background-color:#1f2937;border-radius:0.5rem;border:1px solid #374151;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.3);">
+            <div style="padding:2rem 1.5rem;border-bottom:1px solid #374151;background:rgba(0,0,0,0.2);text-align:center;">
+                <div style="font-size:1.75rem;font-weight:700;letter-spacing:0.15em;color:#0055FF;margin-bottom:0.25rem;font-family:'Montserrat',sans-serif;">GIKO</div>
+                <div style="color:#9ca3af;font-size:0.75rem;letter-spacing:0.1em;">ADMINISTRATION</div>
             </div>
 
-            <form method="POST" action="" class="p-8">
+            <form method="POST" action="" style="padding:1.5rem;">
                 <?php if ($error): ?>
-                    <div class="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded mb-6 text-sm">
-                        <i class="fas fa-exclamation-circle mr-2"></i> <?php echo htmlspecialchars($error); ?>
+                    <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.5);color:#ef4444;padding:0.5rem 0.75rem;border-radius:0.25rem;margin-bottom:1rem;font-size:0.8rem;">
+                        <i class="fas fa-exclamation-circle" style="margin-right:0.5rem;"></i><?php echo htmlspecialchars($error); ?>
                     </div>
                 <?php endif; ?>
 
-                <div class="mb-6">
-                    <label class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2" for="username">
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block;color:#9ca3af;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;" for="username">
                         Username
                     </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    <div style="position:relative;">
+                        <span style="position:absolute;top:50%;left:0.75rem;transform:translateY(-50%);color:#6b7280;">
                             <i class="fas fa-user"></i>
                         </span>
                         <input
-                            class="w-full bg-gray-700 border border-gray-600 text-white rounded py-3 pl-10 pr-3 focus:outline-none focus:border-primary transition-colors"
-                            id="username" name="username" type="text" placeholder="Enter username" required autofocus>
+                            style="width:100%;background-color:#374151;border:1px solid #4b5563;color:#fff;border-radius:0.25rem;padding:0.6rem 0.75rem 0.6rem 2.25rem;font-size:0.875rem;outline:none;box-sizing:border-box;"
+                            id="username" name="username" type="text" placeholder="Enter username" required autofocus
+                            onfocus="this.style.borderColor='#0055FF'" onblur="this.style.borderColor='#4b5563'">
                     </div>
                 </div>
 
-                <div class="mb-8">
-                    <label class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2" for="password">
+                <div style="margin-bottom:1.25rem;">
+                    <label style="display:block;color:#9ca3af;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;" for="password">
                         Password
                     </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    <div style="position:relative;">
+                        <span style="position:absolute;top:50%;left:0.75rem;transform:translateY(-50%);color:#6b7280;">
                             <i class="fas fa-lock"></i>
                         </span>
                         <input
-                            class="w-full bg-gray-700 border border-gray-600 text-white rounded py-3 pl-10 pr-3 focus:outline-none focus:border-primary transition-colors"
-                            id="password" name="password" type="password" placeholder="Enter password" required>
+                            style="width:100%;background-color:#374151;border:1px solid #4b5563;color:#fff;border-radius:0.25rem;padding:0.6rem 0.75rem 0.6rem 2.25rem;font-size:0.875rem;outline:none;box-sizing:border-box;"
+                            id="password" name="password" type="password" placeholder="Enter password" required
+                            onfocus="this.style.borderColor='#0055FF'" onblur="this.style.borderColor='#4b5563'">
                     </div>
                 </div>
 
                 <button
-                    class="w-full bg-primary hover:bg-yellow-500 text-black font-bold py-3 px-4 rounded transition-colors tracking-widest font-en"
-                    type="submit">
+                    style="width:100%;background-color:#0055FF;color:#fff;font-weight:700;padding:0.6rem 1rem;border-radius:0.25rem;border:none;cursor:pointer;letter-spacing:0.1em;font-family:'Montserrat',sans-serif;font-size:0.875rem;transition:background-color 0.2s;"
+                    type="submit"
+                    onmouseover="this.style.backgroundColor='#0044cc'" onmouseout="this.style.backgroundColor='#0055FF'">
                     LOGIN
                 </button>
             </form>
         </div>
 
-        <div class="text-center mt-6 text-gray-500 text-xs">
+        <div style="text-align:center;margin-top:1.5rem;color:#6b7280;font-size:0.7rem;">
             &copy; <?php echo date('Y'); ?> GIKO Website. All rights reserved.
         </div>
     </div>
