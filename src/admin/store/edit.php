@@ -815,34 +815,34 @@ require_once '../includes/header.php';
                         // Use timestamp + random to create unique choice ID
                         const cId = Date.now() + Math.floor(Math.random() * 10000);
                         const row = document.createElement('div');
-                        row.className = 'choice-row grid grid-cols-12 gap-2 items-center bg-black/20 p-2 rounded border border-gray-700';
+                        row.className = 'choice-row bg-black/20 p-3 rounded border border-gray-700 relative';
                         row.dataset.choiceId = cId;
 
                         row.innerHTML = `
-                            <div class="col-span-3">
-                                <label class="text-[10px] text-gray-500 block">表示名 (Label)</label>
-                                <input type="text" name="options[${groupId}][choices][${cId}][label]"
-                                       class="choice-label-input form-input text-xs py-1" value="${escapeHtml(safeChoice.label)}" placeholder="表示名">
+                            <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-300" onclick="removeChoice(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.5rem;">
+                                <div>
+                                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:2px;">表示名</label>
+                                    <input type="text" name="options[${groupId}][choices][${cId}][label]"
+                                           class="choice-label-input form-input text-sm py-1" value="${escapeHtml(safeChoice.label)}" placeholder="表示名">
+                                </div>
+                                <div>
+                                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:2px;">値</label>
+                                    <input type="text" name="options[${groupId}][choices][${cId}][value]"
+                                           class="choice-value-input form-input text-sm py-1" value="${escapeHtml(safeChoice.value)}" placeholder="値 (空白なら表示名)">
+                                </div>
                             </div>
-                            <div class="col-span-3">
-                                <label class="text-[10px] text-gray-500 block">値 (Value)</label>
-                                <input type="text" name="options[${groupId}][choices][${cId}][value]"
-                                       class="choice-value-input form-input text-xs py-1" value="${escapeHtml(safeChoice.value)}" placeholder="値 (空白なら表示名)">
-                            </div>
-                            <div class="col-span-5">
-                                <label class="text-[10px] text-gray-500 block">画像 (Image)</label>
+                            <div>
+                                <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:2px;">画像</label>
                                 <div class="flex items-center gap-2">
-                                    <div class="choice-image-preview" style="display: ${safeChoice.image ? 'block' : 'none'}">
+                                    <div class="choice-image-preview" style="display: ${safeChoice.image ? 'block' : 'none'}; flex-shrink:0;">
                                         ${safeChoice.image ? `<img src="${safeChoice.image.startsWith('../assets') ? '../../assets' + safeChoice.image.substring('../assets'.length) : safeChoice.image}" class="h-8 w-8 object-cover rounded border border-gray-600" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2732%27 height=%2732%27%3E%3Crect fill=%27%23333%27 width=%2732%27 height=%2732%27/%3E%3Ctext x=%2716%27 y=%2716%27 text-anchor=%27middle%27 dominant-baseline=%27middle%27 fill=%27%23999%27 font-size=%2710%27%3E?%3C/text%3E%3C/svg%3E'">` : ''}
                                     </div>
                                     <input type="hidden" name="options[${groupId}][choices][${cId}][image_current]" class="choice-image-current" value="${escapeHtml(safeChoice.image)}">
-                                    <input type="file" name="options[${groupId}][choices][${cId}][image_file]" class="choice-image-input text-gray-400 text-[10px] w-full file:py-0 file:px-2 file:rounded file:bg-gray-700 file:text-gray-200" accept="image/*">
+                                    <input type="file" name="options[${groupId}][choices][${cId}][image_file]" class="choice-image-input text-gray-400 text-xs w-full" accept="image/*" style="min-width:0;">
                                 </div>
-                            </div>
-                            <div class="col-span-1 text-right">
-                                <button type="button" class="text-red-500 hover:text-red-300" onclick="removeChoice(this)">
-                                    <i class="fas fa-times"></i>
-                                </button>
                             </div>
                         `;
                         container.appendChild(row);
