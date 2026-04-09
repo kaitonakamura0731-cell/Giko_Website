@@ -61,12 +61,12 @@ try {
 
 // カテゴリバッジ設定
 $categoryBadges = [
-    'partial' => ['label' => 'Partial Interior', 'color' => 'bg-blue-600/90'],
-    'full' => ['label' => 'Full Interior', 'color' => 'bg-primary/90'],
-    'package' => ['label' => 'Package', 'color' => 'bg-purple-600/90'],
-    'ambient' => ['label' => 'Ambient Light', 'color' => 'bg-green-600/90'],
-    'starlight' => ['label' => 'Starlight', 'color' => 'bg-indigo-500/90'],
-    'newbiz' => ['label' => 'New Business', 'color' => 'bg-red-600/90'],
+    'partial' => ['label' => '部分張替え', 'color' => 'bg-blue-600/90'],
+    'full' => ['label' => '全内装張替え', 'color' => 'bg-primary/90'],
+    'package' => ['label' => '補修/リペア', 'color' => 'bg-purple-600/90'],
+    'ambient' => ['label' => 'アンビエントライト', 'color' => 'bg-green-600/90'],
+    'starlight' => ['label' => 'スターライト', 'color' => 'bg-indigo-500/90'],
+    'newbiz' => ['label' => '新ブランド', 'color' => 'bg-red-600/90'],
 ];
 ?>
 <!DOCTYPE html>
@@ -107,6 +107,16 @@ $categoryBadges = [
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://giko-official.com/"},
+            {"@type": "ListItem", "position": 2, "name": "施工実績"}
+        ]
+    }
+    </script>
     <style>
         /* カルーセルスクロールバー非表示 */
         #filter-carousel::-webkit-scrollbar { display: none; }
@@ -335,11 +345,11 @@ $categoryBadges = [
                     <img src="../assets/images/logo_new.png" alt="GIKO" class="h-8 mb-6">
                     <p class="text-xs text-gray-500 leading-loose mb-6">確かな技術と高品質な素材で、唯一無二の内装を。</p>
                     <div class="flex space-x-3">
-                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
-                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
-                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
-                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
-                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
+                        <a href="<?php echo htmlspecialchars($line_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#06C755] transition-colors text-base"><i class="fab fa-line"></i></a>
+                        <a href="<?php echo htmlspecialchars($instagram_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-instagram"></i></a>
+                        <a href="<?php echo htmlspecialchars($tiktok_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-tiktok"></i></a>
+                        <a href="<?php echo htmlspecialchars($youtube_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-youtube"></i></a>
+                        <a href="<?php echo htmlspecialchars($twitter_url); ?>" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors text-base"><i class="fab fa-x-twitter"></i></a>
                     </div>
                 </div>
                 <div>
