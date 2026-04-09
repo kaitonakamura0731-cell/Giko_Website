@@ -47,7 +47,6 @@ $default_product = [
     'name' => '',
     'price' => 0,
     'shipping_fee' => 1000,
-    'short_description' => '',
     'lead_text' => '',
     'product_summary_json' => '[]',
     'compatible_models' => '',
@@ -161,8 +160,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $raw_name;
     $price = (int) ($_POST['price'] ?? 0);
     $shipping_fee = (int) ($_POST['shipping_fee'] ?? 0);
-    $short_description = $_POST['short_description'] ?? '';
-
     // New Extended Fields
     $lead_text = $_POST['lead_text'] ?? '';
     $compatible_models = $_POST['compatible_models'] ?? '';
@@ -313,15 +310,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($id) {
             // Update
-            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, short_description=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=?, trade_in_discount=? WHERE id=?";
+            $sql = "UPDATE products SET name=?, price=?, shipping_fee=?, lead_text=?, product_summary_json=?, compatible_models=?, model_code=?, vehicle_type=?, detail_image_path=?, images=?, options=?, option_detail_image=?, stock_status=?, vehicle_tags=?, trade_in_discount=? WHERE id=?";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount, $id]);
+            $stmt->execute([$name, $price, $shipping_fee, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount, $id]);
             $success = "商品情報を更新しました。";
         } else {
             // Insert
-            $sql = "INSERT INTO products (name, price, shipping_fee, short_description, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags, trade_in_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO products (name, price, shipping_fee, lead_text, product_summary_json, compatible_models, model_code, vehicle_type, detail_image_path, images, options, option_detail_image, stock_status, vehicle_tags, trade_in_discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $price, $shipping_fee, $short_description, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount]);
+            $stmt->execute([$name, $price, $shipping_fee, $lead_text, $product_summary_json, $compatible_models, $model_code, $vehicle_type, $detail_image_path, $images_json, $options_json, $option_detail_image, $stock_status, $vehicle_tags, $trade_in_discount]);
             $id = $pdo->lastInsertId();
             $success = "商品を新規作成しました。";
             header("Location: edit.php?id=" . $id . "&created=1");
@@ -340,7 +337,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'name' => $name,
             'price' => $price,
             'shipping_fee' => $shipping_fee,
-            'short_description' => $short_description,
             'lead_text' => $lead_text,
             'product_summary_json' => $product_summary_json,
             'compatible_models' => $compatible_models,
@@ -443,12 +439,6 @@ require_once '../includes/header.php';
             <div>
                 <h3 class="text-lg font-bold text-primary mb-4 border-b border-gray-700 pb-2">商品詳細情報</h3>
                 <div class="space-y-6">
-                    <div class="form-group">
-                        <label class="form-label">一覧用説明文 (List Short Description)</label>
-                        <textarea name="short_description" class="form-input h-20"
-                            placeholder="一覧ページに表示される短い説明文"><?php echo htmlspecialchars($product['short_description'] ?? ''); ?></textarea>
-                    </div>
-
                     <!-- PRODUCT DETAILS Section -->
                     <div class="bg-gray-900 p-6 rounded border border-gray-700">
                         <h4 class="text-sm font-bold text-primary mb-4 font-en tracking-widest">PRODUCT DETAILS</h4>
