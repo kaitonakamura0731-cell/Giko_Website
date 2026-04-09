@@ -39,6 +39,10 @@ require_once 'includes/header.php';
                     class="w-full text-center border border-gray-600 hover:border-primary hover:text-primary text-white py-2 rounded transition-colors text-sm font-bold">
                     商品一覧を表示
                 </a>
+                <a href="tags/index.php"
+                    class="w-full text-center border border-gray-600 hover:border-primary hover:text-primary text-white py-2 rounded transition-colors text-sm font-bold">
+                    <i class="fas fa-tags mr-1"></i> 車種タグ編集
+                </a>
             </div>
         </div>
     </div>

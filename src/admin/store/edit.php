@@ -200,7 +200,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $option_detail_image = str_replace('../../assets', '../assets', $uploaded_opt_img);
     }
     $stock_status = (int) ($_POST['stock_status'] ?? 1);
-    $vehicle_tags = trim($_POST['vehicle_tags'] ?? '');
+    if (isset($_POST['vehicle_tags_arr']) && is_array($_POST['vehicle_tags_arr'])) {
+        $vehicle_tags = implode(', ', $_POST['vehicle_tags_arr']);
+    } else {
+        $vehicle_tags = trim($_POST['vehicle_tags'] ?? '');
+    }
     $trade_in_discount = (int) ($_POST['trade_in_discount'] ?? 10000);
 
     // Images (Lines to JSON)
@@ -259,12 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($opt['choices']) && is_array($opt['choices'])) {
                 foreach ($opt['choices'] as $j => $choice) {
                     $c_label = trim($choice['label'] ?? '');
-                    $c_value = trim($choice['value'] ?? '');
-                    // If value is empty, use label
-                    if ($c_value === '')
-                        $c_value = $c_label;
-
-                    if ($c_label === '' && $c_value === '')
+                    if ($c_label === '')
                         continue;
 
                     $image_path = $choice['image_current'] ?? '';
@@ -296,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $choices[] = [
                         'label' => $c_label,
-                        'value' => $c_value,
+                        'value' => $c_label,
                         'image' => $image_path
                     ];
                 }
@@ -501,10 +500,30 @@ require_once '../includes/header.php';
                             </div>
                             <div class="form-group md:col-span-2">
                                 <label class="form-label">車種タグ (Vehicle Tags)</label>
-                                <input type="text" name="vehicle_tags" class="form-input"
-                                    value="<?php echo htmlspecialchars($product['vehicle_tags'] ?? ''); ?>"
-                                    placeholder="例: アルファード, ヴェルファイア, プリウス">
-                                <p class="text-xs text-gray-500 mt-1">※カンマ区切りで複数の車種を入力できます。ストアのフィルターに使用されます。</p>
+                                <?php
+                                $currentTags = array_map('trim', explode(',', $product['vehicle_tags'] ?? ''));
+                                $allVehicleTags = [];
+                                try {
+                                    $allVehicleTags = $pdo->query("SELECT name FROM vehicle_tags ORDER BY sort_order ASC, id ASC")->fetchAll(PDO::FETCH_COLUMN);
+                                } catch (PDOException $e) {}
+                                ?>
+                                <?php if (!empty($allVehicleTags)): ?>
+                                    <div class="flex flex-wrap gap-3 mt-1">
+                                        <?php foreach ($allVehicleTags as $vt): ?>
+                                            <label class="flex items-center gap-2 cursor-pointer bg-gray-800 border border-gray-600 rounded px-3 py-2 hover:border-primary transition-colors text-sm">
+                                                <input type="checkbox" name="vehicle_tags_arr[]"
+                                                    value="<?php echo htmlspecialchars($vt); ?>"
+                                                    <?php echo in_array($vt, $currentTags) ? 'checked' : ''; ?>
+                                                    class="accent-primary w-4 h-4">
+                                                <span class="text-gray-200"><?php echo htmlspecialchars($vt); ?></span>
+                                            </label>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-2">※タグの追加・編集は <a href="../tags/index.php" class="text-primary hover:underline">車種タグ管理</a> から行えます。</p>
+                                <?php else: ?>
+                                    <p class="text-gray-500 text-sm mt-1">タグが登録されていません。<a href="../tags/index.php" class="text-primary hover:underline">車種タグ管理</a> から追加してください。</p>
+                                    <input type="hidden" name="vehicle_tags" value="<?php echo htmlspecialchars($product['vehicle_tags'] ?? ''); ?>">
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -822,17 +841,10 @@ require_once '../includes/header.php';
                             <button type="button" class="absolute top-2 right-2 text-red-500 hover:text-red-300" onclick="removeChoice(this)">
                                 <i class="fas fa-times"></i>
                             </button>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:0.5rem;">
-                                <div>
-                                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:2px;">表示名</label>
-                                    <input type="text" name="options[${groupId}][choices][${cId}][label]"
-                                           class="choice-label-input form-input text-sm py-1" value="${escapeHtml(safeChoice.label)}" placeholder="表示名">
-                                </div>
-                                <div>
-                                    <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:2px;">値</label>
-                                    <input type="text" name="options[${groupId}][choices][${cId}][value]"
-                                           class="choice-value-input form-input text-sm py-1" value="${escapeHtml(safeChoice.value)}" placeholder="値 (空白なら表示名)">
-                                </div>
+                            <div style="margin-bottom:0.5rem;">
+                                <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:2px;">表示名</label>
+                                <input type="text" name="options[${groupId}][choices][${cId}][label]"
+                                       class="choice-label-input form-input text-sm py-1" value="${escapeHtml(safeChoice.label)}" placeholder="表示名">
                             </div>
                             <div>
                                 <label style="font-size:11px;color:#6b7280;display:block;margin-bottom:2px;">画像</label>
